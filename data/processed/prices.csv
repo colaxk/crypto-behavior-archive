@@ -1,0 +1,56 @@
+timestamp,asset,price,source,note
+2026-06-23T12:00:00+08:00,WLD,3.25,demo,
+2026-06-23T13:00:00+08:00,WLD,3.31,demo,
+2026-06-23T16:00:00+08:00,WLD,3.44,demo,
+2026-06-23T23:59:00+08:00,WLD,3.38,demo,
+2026-06-30T12:00:00+08:00,WLD,3.72,demo,
+2026-06-24T12:00:00+08:00,WLD,3.38,demo,
+2026-06-26T12:00:00+08:00,WLD,3.12,demo,
+2026-06-23T17:00:00+08:00,BTC,62386.0,binance:BTCUSDT:1h,Kline close price
+2026-06-23T18:00:00+08:00,BTC,62440.38,binance:BTCUSDT:1h,Kline close price
+2026-06-22T19:00:00+08:00,BTC,64657.22,binance:BTCUSDT:1h,Kline close price
+2026-06-22T20:00:00+08:00,BTC,65149.57,binance:BTCUSDT:1h,Kline close price
+2026-06-22T21:00:00+08:00,BTC,65578.0,binance:BTCUSDT:1h,Kline close price
+2026-06-22T22:00:00+08:00,BTC,64980.39,binance:BTCUSDT:1h,Kline close price
+2026-06-22T23:00:00+08:00,BTC,64836.95,binance:BTCUSDT:1h,Kline close price
+2026-06-23T00:00:00+08:00,BTC,64719.77,binance:BTCUSDT:1h,Kline close price
+2026-06-23T01:00:00+08:00,BTC,64602.0,binance:BTCUSDT:1h,Kline close price
+2026-06-23T02:00:00+08:00,BTC,64334.01,binance:BTCUSDT:1h,Kline close price
+2026-06-23T03:00:00+08:00,BTC,64472.0,binance:BTCUSDT:1h,Kline close price
+2026-06-23T04:00:00+08:00,BTC,64433.8,binance:BTCUSDT:1h,Kline close price
+2026-06-23T05:00:00+08:00,BTC,64320.57,binance:BTCUSDT:1h,Kline close price
+2026-06-23T06:00:00+08:00,BTC,63971.12,binance:BTCUSDT:1h,Kline close price
+2026-06-23T07:00:00+08:00,BTC,64020.01,binance:BTCUSDT:1h,Kline close price
+2026-06-23T08:00:00+08:00,BTC,64154.99,binance:BTCUSDT:1h,Kline close price
+2026-06-23T09:00:00+08:00,BTC,64156.0,binance:BTCUSDT:1h,Kline close price
+2026-06-23T10:00:00+08:00,BTC,64204.01,binance:BTCUSDT:1h,Kline close price
+2026-06-23T11:00:00+08:00,BTC,64065.35,binance:BTCUSDT:1h,Kline close price
+2026-06-23T12:00:00+08:00,BTC,63623.02,binance:BTCUSDT:1h,Kline close price
+2026-06-23T13:00:00+08:00,BTC,63400.0,binance:BTCUSDT:1h,Kline close price
+2026-06-23T14:00:00+08:00,BTC,62936.01,binance:BTCUSDT:1h,Kline close price
+2026-06-23T15:00:00+08:00,BTC,62886.03,binance:BTCUSDT:1h,Kline close price
+2026-06-23T16:00:00+08:00,BTC,62385.99,binance:BTCUSDT:1h,Kline close price
+2026-06-22T19:00:00+08:00,WLD,0.6267,binance:WLDUSDT:1h,Kline close price
+2026-06-22T20:00:00+08:00,WLD,0.6367,binance:WLDUSDT:1h,Kline close price
+2026-06-22T21:00:00+08:00,WLD,0.6432,binance:WLDUSDT:1h,Kline close price
+2026-06-22T22:00:00+08:00,WLD,0.6352,binance:WLDUSDT:1h,Kline close price
+2026-06-22T23:00:00+08:00,WLD,0.6366,binance:WLDUSDT:1h,Kline close price
+2026-06-23T00:00:00+08:00,WLD,0.6346,binance:WLDUSDT:1h,Kline close price
+2026-06-23T01:00:00+08:00,WLD,0.6358,binance:WLDUSDT:1h,Kline close price
+2026-06-23T02:00:00+08:00,WLD,0.6202,binance:WLDUSDT:1h,Kline close price
+2026-06-23T03:00:00+08:00,WLD,0.6257,binance:WLDUSDT:1h,Kline close price
+2026-06-23T04:00:00+08:00,WLD,0.6322,binance:WLDUSDT:1h,Kline close price
+2026-06-23T05:00:00+08:00,WLD,0.6279,binance:WLDUSDT:1h,Kline close price
+2026-06-23T06:00:00+08:00,WLD,0.6246,binance:WLDUSDT:1h,Kline close price
+2026-06-23T07:00:00+08:00,WLD,0.6193,binance:WLDUSDT:1h,Kline close price
+2026-06-23T08:00:00+08:00,WLD,0.6274,binance:WLDUSDT:1h,Kline close price
+2026-06-23T09:00:00+08:00,WLD,0.6154,binance:WLDUSDT:1h,Kline close price
+2026-06-23T10:00:00+08:00,WLD,0.6138,binance:WLDUSDT:1h,Kline close price
+2026-06-23T11:00:00+08:00,WLD,0.6121,binance:WLDUSDT:1h,Kline close price
+2026-06-23T12:00:00+08:00,WLD,0.6062,binance:WLDUSDT:1h,Kline close price
+2026-06-23T13:00:00+08:00,WLD,0.5987,binance:WLDUSDT:1h,Kline close price
+2026-06-23T14:00:00+08:00,WLD,0.5856,binance:WLDUSDT:1h,Kline close price
+2026-06-23T15:00:00+08:00,WLD,0.5849,binance:WLDUSDT:1h,Kline close price
+2026-06-23T16:00:00+08:00,WLD,0.5722,binance:WLDUSDT:1h,Kline close price
+2026-06-23T17:00:00+08:00,WLD,0.5665,binance:WLDUSDT:1h,Kline close price
+2026-06-23T18:00:00+08:00,WLD,0.5599,binance:WLDUSDT:1h,Kline close price

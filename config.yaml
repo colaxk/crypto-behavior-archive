@@ -1,0 +1,27 @@
+assets:
+  - BTC
+  - WLD
+
+storage:
+  snapshots_csv: data/processed/snapshots.csv
+  prices_csv: data/processed/prices.csv
+  events_jsonl: events/events.jsonl
+  reports_dir: reports
+
+binance:
+  base_url: https://api.binance.com
+  symbols:
+    BTC: BTCUSDT
+    WLD: WLDUSDT
+
+coinglass:
+  page_urls:
+    BTC: https://www.coinglass.com/currencies/BTC
+    WLD: https://www.coinglass.com/currencies/WLD
+
+outcome_windows:
+  - 1h
+  - 4h
+  - 24h
+  - 3d
+  - 7d
