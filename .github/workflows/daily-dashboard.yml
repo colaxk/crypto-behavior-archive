@@ -1,8 +1,8 @@
-name: Daily Crypto Behavior Dashboard
+name: Crypto Behavior Dashboard
 
 on:
   schedule:
-    - cron: "15 22 * * *"
+    - cron: "7 * * * *"
   workflow_dispatch:
 
 permissions:
@@ -23,7 +23,7 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Collect daily market data
+      - name: Collect market data
         run: python3 -m src.cli daily-collect
 
       - name: Update event outcomes

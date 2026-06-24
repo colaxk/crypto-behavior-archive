@@ -254,6 +254,22 @@ def build_html(
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 10px;
     }}
+    .live-bar {{
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }}
+    .live-dot {{
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #9aa3af;
+      margin-right: 6px;
+    }}
+    .live-dot.ok {{ background: var(--green); }}
+    .live-dot.bad {{ background: var(--red); }}
     .metric {{
       border: 1px solid var(--line);
       border-radius: 8px;
@@ -376,6 +392,7 @@ def build_html(
       main {{ padding-left: 12px; padding-right: 12px; }}
       .grid {{ grid-template-columns: 1fr; gap: 12px; }}
       .market {{ grid-template-columns: repeat(2, minmax(0, 1fr)); }}
+      .live-bar {{ grid-template-columns: 1fr; }}
       .kv {{ grid-template-columns: 1fr 1fr; }}
       .card {{ padding: 12px; }}
       .value {{ font-size: 16px; }}
@@ -396,6 +413,19 @@ def build_html(
         {market_metric("BTC 24h", fmt_pct(value_of(snapshots.get("BTC"), "change_24h")), value_of(snapshots.get("BTC"), "change_24h"))}
         {market_metric("WLD 24h", fmt_pct(value_of(snapshots.get("WLD"), "change_24h")), value_of(snapshots.get("WLD"), "change_24h"))}
       </div>
+      <div class="live-bar">
+        <div class="metric">
+          <div class="label"><span class="live-dot" id="liveDotBTC"></span>BTC Binance 实时</div>
+          <div class="value" id="liveBTC">读取中...</div>
+          <div class="label" id="liveBTCChange">24h: -</div>
+        </div>
+        <div class="metric">
+          <div class="label"><span class="live-dot" id="liveDotWLD"></span>WLD Binance 实时</div>
+          <div class="value" id="liveWLD">读取中...</div>
+          <div class="label" id="liveWLDChange">24h: -</div>
+        </div>
+      </div>
+      <div class="note" id="liveUpdated">实时层：页面打开后每 60 秒尝试读取 Binance；档案快照由 GitHub Actions 每小时沉淀一次。</div>
     </section>
 
     <section class="grid single">
@@ -462,6 +492,50 @@ def build_html(
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawLine(chartData.BTC || [], '#2458d3');
     drawLine(chartData.WLD || [], '#12805c');
+
+    const liveSymbols = {{
+      BTC: {{ symbol: 'BTCUSDT', priceId: 'liveBTC', changeId: 'liveBTCChange', dotId: 'liveDotBTC' }},
+      WLD: {{ symbol: 'WLDUSDT', priceId: 'liveWLD', changeId: 'liveWLDChange', dotId: 'liveDotWLD' }}
+    }};
+    function formatLiveMoney(value) {{
+      const number = Number(value);
+      if (!Number.isFinite(number)) return '-';
+      if (number >= 100) return '$' + number.toLocaleString(undefined, {{ minimumFractionDigits: 2, maximumFractionDigits: 2 }});
+      return '$' + number.toFixed(4);
+    }}
+    function formatLivePct(value) {{
+      const number = Number(value);
+      if (!Number.isFinite(number)) return '-';
+      return (number > 0 ? '+' : '') + number.toFixed(2) + '%';
+    }}
+    async function refreshLivePrices() {{
+      let okCount = 0;
+      await Promise.all(Object.entries(liveSymbols).map(async ([asset, cfg]) => {{
+        const dot = document.getElementById(cfg.dotId);
+        try {{
+          const response = await fetch('https://api.binance.com/api/v3/ticker/24hr?symbol=' + cfg.symbol, {{ cache: 'no-store' }});
+          if (!response.ok) throw new Error('HTTP ' + response.status);
+          const data = await response.json();
+          const change = Number(data.priceChangePercent);
+          document.getElementById(cfg.priceId).innerText = formatLiveMoney(data.lastPrice);
+          const changeNode = document.getElementById(cfg.changeId);
+          changeNode.innerText = '24h: ' + formatLivePct(change);
+          changeNode.className = 'label ' + (change > 0 ? 'positive' : change < 0 ? 'negative' : '');
+          dot.className = 'live-dot ok';
+          okCount += 1;
+        }} catch (error) {{
+          document.getElementById(cfg.priceId).innerText = '读取失败';
+          document.getElementById(cfg.changeId).innerText = '24h: -';
+          dot.className = 'live-dot bad';
+        }}
+      }}));
+      const now = new Date().toLocaleString();
+      document.getElementById('liveUpdated').innerText = okCount
+        ? '实时层更新时间：' + now + '。档案快照由 GitHub Actions 每小时沉淀一次。'
+        : '实时层读取失败：可能是 Binance 网络或浏览器跨域限制。档案快照仍按 GitHub Actions 每小时更新。';
+    }}
+    refreshLivePrices();
+    setInterval(refreshLivePrices, 60000);
 
     async function copyText(text) {{
       if (navigator.clipboard && window.isSecureContext) {{

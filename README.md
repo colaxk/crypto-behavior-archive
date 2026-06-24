@@ -213,7 +213,7 @@ https://你的GitHub用户名.github.io/仓库名/
 .github/workflows/daily-dashboard.yml
 ```
 
-它会每天自动执行：
+它会每小时自动执行一次。注意：GitHub Actions 的定时任务按 UTC 调度，且可能延迟几分钟到几十分钟，不是实时任务。
 
 ```bash
 python3 -m src.cli daily-collect
@@ -231,6 +231,8 @@ python3 -m src.cli generate-dashboard
 - `reports/*.md`
 
 这样 GitHub Pages 页面会随着数据一起更新。
+
+仪表板页面还有一层浏览器端实时价格：打开页面后会每 60 秒尝试从 Binance 读取 `BTCUSDT` 和 `WLDUSDT` 的最新价格。这个实时层只更新页面显示，不会写入 CSV；真正沉淀到行为档案里的数据仍由 GitHub Actions 定时生成。
 
 ### 手动触发更新
 
