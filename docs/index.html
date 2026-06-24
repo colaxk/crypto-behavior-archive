@@ -255,16 +255,16 @@
       <div class="live-bar">
         <div class="metric">
           <div class="label"><span class="live-dot" id="liveDotBTC"></span>BTC Binance 实时</div>
-          <div class="value" id="liveBTC">读取中...</div>
-          <div class="label" id="liveBTCChange">24h: -</div>
+          <div class="value" id="liveBTC">$62,392.18</div>
+          <div class="label" id="liveBTCChange">档案快照 24h: -2.77%</div>
         </div>
         <div class="metric">
           <div class="label"><span class="live-dot" id="liveDotWLD"></span>WLD Binance 实时</div>
-          <div class="value" id="liveWLD">读取中...</div>
-          <div class="label" id="liveWLDChange">24h: -</div>
+          <div class="value" id="liveWLD">$0.5599</div>
+          <div class="label" id="liveWLDChange">档案快照 24h: -10.19%</div>
         </div>
       </div>
-      <div class="note" id="liveUpdated">实时层：页面打开后每 60 秒尝试读取 Binance；档案快照由 GitHub Actions 每小时沉淀一次。</div>
+      <div class="note" id="liveUpdated">先显示档案快照，正在尝试读取实时价格；若 Binance 访问失败，会自动保留快照价。</div>
     </section>
 
     <section class="grid single">
@@ -504,19 +504,47 @@
         <h2>GPT Context</h2>
         <button type="button" id="copyContext">一键复制</button>
       </div>
-      <pre id="gptContext">Crypto Behavior Archive GPT Context
-Generated at: 2026-06-24T14:33:21+08:00
+      <pre id="gptContext">BTC
 
-Latest snapshots:
-- BTC: price=62392.18, 24h_change=-2.772, volume_24h=1328311132.8902972, oi=44991342796.1904, funding=, liquidation=, long_short_ratio=, 7d_change=-3.43%
-  note=Binance spot ticker BTCUSDT; CoinGlass page metrics
-- WLD: price=0.5599, 24h_change=-10.186, volume_24h=61128136.72074, oi=374918947.3697, funding=, liquidation=, long_short_ratio=, 7d_change=14.46%
-  note=Binance spot ticker WLDUSDT; CoinGlass page metrics
+价格: $62,392.18 / 24h -2.77% / 7d -3.43%
+OI: 44.99B
+Funding: -
+Liquidation: -
+CVD: 待接入
+Heatmap: 待接入
+状态: Binance spot ticker BTCUSDT; CoinGlass page metrics
 
-Recent events:
-- 2026-06-23T12:00:00+08:00 WLD funding_hot: WLD Funding 与 OI 同步升温; tags=Funding异常升高, OI暴增, 合约推动; conclusion=未知; outcomes=1h:1.8462% 4h:5.8462% 24h:4.0% 3d:-4.0% 7d:14.4615%
+---
 
-Latest report summary:
+WLD
+
+价格: $0.5599 / 24h -10.19% / 7d 14.46%
+OI: 374.92M
+Funding: -
+CVD: 待接入
+异常事件:
+- WLD Funding 与 OI 同步升温 | 标签: Funding异常升高, OI暴增, 合约推动 | 结果: 1h:1.8462% 4h:5.8462% 24h:4.0% 3d:-4.0% 7d:14.4615%
+
+---
+
+当前假设
+- BTC/WLD 当前结构需要结合 OI、Funding、成交量、异常事件和 BTC 大盘环境判断。
+- BTC 近期事件: 暂无
+- WLD 近期事件: WLD Funding 与 OI 同步升温
+
+已验证
+- 最新档案时间: 2026-06-23T18:24:49+08:00
+- 已记录事件后表现: WLD WLD Funding 与 OI 同步升温: 1h:1.8462% 4h:5.8462% 24h:4.0% 3d:-4.0% 7d:14.4615%
+
+待验证
+- CVD 数据待接入。
+- Heatmap / 清算地图待接入。
+- CoinGlass Funding、爆仓、多空比需要更稳定接口。
+- 观察异常事件后 1h / 4h / 24h / 3d / 7d 表现是否支持当前标签。
+
+请基于以上上下文分析 BTC/WLD 的资金行为、异常事件、相对强弱、风险和下一步待验证假设。不要给自动交易指令。
+
+最近报告摘要
 - 本报告由本地 MVP 自动生成。
 - 请结合手动备注、截图、新闻事件继续补充判断。
 - 时间: 2026-06-23T18:24:49+08:00
@@ -532,9 +560,7 @@ Latest report summary:
 - 多空比: -
 - 现货成交量: 1328311132.8902972
 - 合约成交量: -
-- 备注: Binance spot ticker BTCUSDT; CoinGlass page metrics
-
-Please analyze BTC/WLD behavior, market structure, abnormal events, OI/Funding/liquidation context, relative strength, risks, and hypotheses to verify. This is not a trading instruction.</pre>
+- 备注: Binance spot ticker BTCUSDT; CoinGlass page metrics</pre>
     </section>
   </main>
   <footer>
@@ -542,6 +568,7 @@ Please analyze BTC/WLD behavior, market structure, abnormal events, OI/Funding/l
   </footer>
   <script>
     const chartData = {"BTC": [{"timestamp": "2026-06-22T19:00:00+08:00", "price": 64657.22}, {"timestamp": "2026-06-22T20:00:00+08:00", "price": 65149.57}, {"timestamp": "2026-06-22T21:00:00+08:00", "price": 65578.0}, {"timestamp": "2026-06-22T22:00:00+08:00", "price": 64980.39}, {"timestamp": "2026-06-22T23:00:00+08:00", "price": 64836.95}, {"timestamp": "2026-06-23T00:00:00+08:00", "price": 64719.77}, {"timestamp": "2026-06-23T01:00:00+08:00", "price": 64602.0}, {"timestamp": "2026-06-23T02:00:00+08:00", "price": 64334.01}, {"timestamp": "2026-06-23T03:00:00+08:00", "price": 64472.0}, {"timestamp": "2026-06-23T04:00:00+08:00", "price": 64433.8}, {"timestamp": "2026-06-23T05:00:00+08:00", "price": 64320.57}, {"timestamp": "2026-06-23T06:00:00+08:00", "price": 63971.12}, {"timestamp": "2026-06-23T07:00:00+08:00", "price": 64020.01}, {"timestamp": "2026-06-23T08:00:00+08:00", "price": 64154.99}, {"timestamp": "2026-06-23T09:00:00+08:00", "price": 64156.0}, {"timestamp": "2026-06-23T10:00:00+08:00", "price": 64204.01}, {"timestamp": "2026-06-23T11:00:00+08:00", "price": 64065.35}, {"timestamp": "2026-06-23T12:00:00+08:00", "price": 63623.02}, {"timestamp": "2026-06-23T13:00:00+08:00", "price": 63400.0}, {"timestamp": "2026-06-23T14:00:00+08:00", "price": 62936.01}, {"timestamp": "2026-06-23T15:00:00+08:00", "price": 62886.03}, {"timestamp": "2026-06-23T16:00:00+08:00", "price": 62385.99}, {"timestamp": "2026-06-23T17:00:00+08:00", "price": 62386.0}, {"timestamp": "2026-06-23T18:00:00+08:00", "price": 62440.38}], "WLD": [{"timestamp": "2026-06-23T12:00:00+08:00", "price": 3.25}, {"timestamp": "2026-06-23T12:00:00+08:00", "price": 0.6062}, {"timestamp": "2026-06-23T13:00:00+08:00", "price": 3.31}, {"timestamp": "2026-06-23T13:00:00+08:00", "price": 0.5987}, {"timestamp": "2026-06-23T14:00:00+08:00", "price": 0.5856}, {"timestamp": "2026-06-23T15:00:00+08:00", "price": 0.5849}, {"timestamp": "2026-06-23T16:00:00+08:00", "price": 3.44}, {"timestamp": "2026-06-23T16:00:00+08:00", "price": 0.5722}, {"timestamp": "2026-06-23T17:00:00+08:00", "price": 0.5665}, {"timestamp": "2026-06-23T18:00:00+08:00", "price": 0.5599}, {"timestamp": "2026-06-23T23:59:00+08:00", "price": 3.38}, {"timestamp": "2026-06-24T12:00:00+08:00", "price": 3.38}, {"timestamp": "2026-06-26T12:00:00+08:00", "price": 3.12}, {"timestamp": "2026-06-30T12:00:00+08:00", "price": 3.72}]};
+    const snapshotData = {"BTC": {"price": "62392.18", "change24h": "-2.772", "timestamp": "2026-06-23T18:24:49+08:00"}, "WLD": {"price": "0.5599", "change24h": "-10.186", "timestamp": "2026-06-23T18:24:51+08:00"}};
     const canvas = document.getElementById('priceChart');
     const ctx = canvas.getContext('2d');
     function drawLine(points, color) {
@@ -566,9 +593,16 @@ Please analyze BTC/WLD behavior, market structure, abnormal events, OI/Funding/l
     drawLine(chartData.BTC || [], '#2458d3');
     drawLine(chartData.WLD || [], '#12805c');
 
+    const liveBases = [
+      'https://api.binance.com',
+      'https://api1.binance.com',
+      'https://api2.binance.com',
+      'https://api3.binance.com',
+      'https://data-api.binance.vision'
+    ];
     const liveSymbols = {
-      BTC: { symbol: 'BTCUSDT', priceId: 'liveBTC', changeId: 'liveBTCChange', dotId: 'liveDotBTC' },
-      WLD: { symbol: 'WLDUSDT', priceId: 'liveWLD', changeId: 'liveWLDChange', dotId: 'liveDotWLD' }
+      BTC: { symbol: 'BTCUSDT', priceId: 'liveBTC', changeId: 'liveBTCChange', dotId: 'liveDotBTC', fallback: snapshotData.BTC },
+      WLD: { symbol: 'WLDUSDT', priceId: 'liveWLD', changeId: 'liveWLDChange', dotId: 'liveDotWLD', fallback: snapshotData.WLD }
     };
     function formatLiveMoney(value) {
       const number = Number(value);
@@ -581,14 +615,41 @@ Please analyze BTC/WLD behavior, market structure, abnormal events, OI/Funding/l
       if (!Number.isFinite(number)) return '-';
       return (number > 0 ? '+' : '') + number.toFixed(2) + '%';
     }
+    async function fetchWithTimeout(url, timeoutMs) {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), timeoutMs);
+      try {
+        const response = await fetch(url, { cache: 'no-store', signal: controller.signal });
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+        return await response.json();
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+    async function fetchBinanceTicker(symbol) {
+      let lastError;
+      for (const base of liveBases) {
+        try {
+          return await fetchWithTimeout(base + '/api/v3/ticker/24hr?symbol=' + symbol, 6000);
+        } catch (error) {
+          lastError = error;
+        }
+      }
+      throw lastError || new Error('No live endpoint available');
+    }
+    function showFallback(cfg) {
+      const fallback = cfg.fallback || {};
+      document.getElementById(cfg.priceId).innerText = formatLiveMoney(fallback.price);
+      document.getElementById(cfg.changeId).innerText = '实时失败，使用档案快照 24h: ' + formatLivePct(fallback.change24h);
+      document.getElementById(cfg.changeId).className = 'label';
+      document.getElementById(cfg.dotId).className = 'live-dot bad';
+    }
     async function refreshLivePrices() {
       let okCount = 0;
       await Promise.all(Object.entries(liveSymbols).map(async ([asset, cfg]) => {
         const dot = document.getElementById(cfg.dotId);
         try {
-          const response = await fetch('https://api.binance.com/api/v3/ticker/24hr?symbol=' + cfg.symbol, { cache: 'no-store' });
-          if (!response.ok) throw new Error('HTTP ' + response.status);
-          const data = await response.json();
+          const data = await fetchBinanceTicker(cfg.symbol);
           const change = Number(data.priceChangePercent);
           document.getElementById(cfg.priceId).innerText = formatLiveMoney(data.lastPrice);
           const changeNode = document.getElementById(cfg.changeId);
@@ -597,15 +658,13 @@ Please analyze BTC/WLD behavior, market structure, abnormal events, OI/Funding/l
           dot.className = 'live-dot ok';
           okCount += 1;
         } catch (error) {
-          document.getElementById(cfg.priceId).innerText = '读取失败';
-          document.getElementById(cfg.changeId).innerText = '24h: -';
-          dot.className = 'live-dot bad';
+          showFallback(cfg);
         }
       }));
       const now = new Date().toLocaleString();
       document.getElementById('liveUpdated').innerText = okCount
         ? '实时层更新时间：' + now + '。档案快照由 GitHub Actions 每小时沉淀一次。'
-        : '实时层读取失败：可能是 Binance 网络或浏览器跨域限制。档案快照仍按 GitHub Actions 每小时更新。';
+        : '实时层读取失败，当前显示档案快照。可能是手机网络无法访问 Binance；档案快照仍按 GitHub Actions 每小时更新。';
     }
     refreshLivePrices();
     setInterval(refreshLivePrices, 60000);

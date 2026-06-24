@@ -121,44 +121,77 @@ def build_gpt_context(
     events: list[Any],
     report: dict[str, str] | None,
 ) -> str:
+    btc = snapshots.get("BTC") or {}
+    wld = snapshots.get("WLD") or {}
+    btc_summary = price_summaries.get("BTC") or {}
+    wld_summary = price_summaries.get("WLD") or {}
+    btc_events = [event for event in events if event.asset == "BTC"][:3]
+    wld_events = [event for event in events if event.asset == "WLD"][:3]
     lines = [
-        "Crypto Behavior Archive GPT Context",
-        f"Generated at: {datetime.now().astimezone().isoformat(timespec='seconds')}",
+        "BTC",
         "",
-        "Latest snapshots:",
+        f"价格: {money(btc.get('price'))} / 24h {fmt_pct(btc.get('change_24h'))} / 7d {fmt_pct(btc_summary.get('change_7d'))}",
+        f"OI: {compact_number(btc.get('oi'))}",
+        f"Funding: {fmt_pct(btc.get('funding_rate'))}",
+        f"Liquidation: {compact_number(btc.get('liquidation_total'))}",
+        "CVD: 待接入",
+        "Heatmap: 待接入",
+        f"状态: {btc.get('note') or '待判断'}",
+        "",
+        "---",
+        "",
+        "WLD",
+        "",
+        f"价格: {money(wld.get('price'))} / 24h {fmt_pct(wld.get('change_24h'))} / 7d {fmt_pct(wld_summary.get('change_7d'))}",
+        f"OI: {compact_number(wld.get('oi'))}",
+        f"Funding: {fmt_pct(wld.get('funding_rate'))}",
+        "CVD: 待接入",
+        "异常事件:",
     ]
-    for asset in ASSETS:
-        row = snapshots.get(asset) or {}
-        summary = price_summaries.get(asset) or {}
-        lines.extend(
-            [
-                f"- {asset}: price={row.get('price', '-')}, 24h_change={row.get('change_24h', '-')}, "
-                f"volume_24h={row.get('volume_24h', '-')}, oi={row.get('oi', '-')}, "
-                f"funding={row.get('funding_rate', '-')}, liquidation={row.get('liquidation_total', '-')}, "
-                f"long_short_ratio={row.get('long_short_ratio', '-')}, 7d_change={fmt_pct(summary.get('change_7d'))}",
-                f"  note={row.get('note', '-')}",
-            ]
-        )
-
-    lines.extend(["", "Recent events:"])
-    if events:
-        for event in events[:5]:
-            lines.append(
-                f"- {event.event_time} {event.asset} {event.event_type}: {event.title}; "
-                f"tags={', '.join(event.tags)}; conclusion={event.conclusion}; outcomes={compact_outcome(event.outcome)}"
-            )
+    if wld_events:
+        lines.extend([f"- {event.title} | 标签: {', '.join(event.tags)} | 结果: {compact_outcome(event.outcome)}" for event in wld_events])
     else:
-        lines.append("- None")
+        lines.append("- 暂无")
 
-    lines.extend(["", "Latest report summary:"])
-    lines.append(report["summary"] if report else "No report yet.")
     lines.extend(
         [
             "",
-            "Please analyze BTC/WLD behavior, market structure, abnormal events, OI/Funding/liquidation context, relative strength, risks, and hypotheses to verify. This is not a trading instruction.",
+            "---",
+            "",
+            "当前假设",
+            "- BTC/WLD 当前结构需要结合 OI、Funding、成交量、异常事件和 BTC 大盘环境判断。",
+            f"- BTC 近期事件: {event_titles(btc_events)}",
+            f"- WLD 近期事件: {event_titles(wld_events)}",
+            "",
+            "已验证",
+            f"- 最新档案时间: {btc.get('timestamp') or wld.get('timestamp') or '-'}",
+            f"- 已记录事件后表现: {verified_outcomes(events)}",
+            "",
+            "待验证",
+            "- CVD 数据待接入。",
+            "- Heatmap / 清算地图待接入。",
+            "- CoinGlass Funding、爆仓、多空比需要更稳定接口。",
+            "- 观察异常事件后 1h / 4h / 24h / 3d / 7d 表现是否支持当前标签。",
+            "",
+            "请基于以上上下文分析 BTC/WLD 的资金行为、异常事件、相对强弱、风险和下一步待验证假设。不要给自动交易指令。",
         ]
     )
+    if report:
+        lines.extend(["", "最近报告摘要", report["summary"]])
     return "\n".join(lines)
+
+
+def event_titles(events: list[Any]) -> str:
+    if not events:
+        return "暂无"
+    return "；".join(event.title for event in events[:3])
+
+
+def verified_outcomes(events: list[Any]) -> str:
+    verified = [event for event in events if compact_outcome(event.outcome) != "-"]
+    if not verified:
+        return "暂无"
+    return "；".join(f"{event.asset} {event.title}: {compact_outcome(event.outcome)}" for event in verified[:3])
 
 
 def compact_outcome(outcome: dict[str, Any]) -> str:
@@ -179,6 +212,17 @@ def build_html(
     gpt_context: str,
 ) -> str:
     chart_data = json.dumps({asset: price_summaries[asset]["points"] for asset in ASSETS}, ensure_ascii=False)
+    snapshot_data = json.dumps(
+        {
+            asset: {
+                "price": value_of(snapshots.get(asset), "price"),
+                "change24h": value_of(snapshots.get(asset), "change_24h"),
+                "timestamp": value_of(snapshots.get(asset), "timestamp"),
+            }
+            for asset in ASSETS
+        },
+        ensure_ascii=False,
+    )
     return f"""<!doctype html>
 <html lang="zh-CN">
 <head>
@@ -416,16 +460,16 @@ def build_html(
       <div class="live-bar">
         <div class="metric">
           <div class="label"><span class="live-dot" id="liveDotBTC"></span>BTC Binance 实时</div>
-          <div class="value" id="liveBTC">读取中...</div>
-          <div class="label" id="liveBTCChange">24h: -</div>
+          <div class="value" id="liveBTC">{escape(money(value_of(snapshots.get("BTC"), "price")))}</div>
+          <div class="label" id="liveBTCChange">档案快照 24h: {escape(fmt_pct(value_of(snapshots.get("BTC"), "change_24h")))}</div>
         </div>
         <div class="metric">
           <div class="label"><span class="live-dot" id="liveDotWLD"></span>WLD Binance 实时</div>
-          <div class="value" id="liveWLD">读取中...</div>
-          <div class="label" id="liveWLDChange">24h: -</div>
+          <div class="value" id="liveWLD">{escape(money(value_of(snapshots.get("WLD"), "price")))}</div>
+          <div class="label" id="liveWLDChange">档案快照 24h: {escape(fmt_pct(value_of(snapshots.get("WLD"), "change_24h")))}</div>
         </div>
       </div>
-      <div class="note" id="liveUpdated">实时层：页面打开后每 60 秒尝试读取 Binance；档案快照由 GitHub Actions 每小时沉淀一次。</div>
+      <div class="note" id="liveUpdated">先显示档案快照，正在尝试读取实时价格；若 Binance 访问失败，会自动保留快照价。</div>
     </section>
 
     <section class="grid single">
@@ -469,6 +513,7 @@ def build_html(
   </footer>
   <script>
     const chartData = {chart_data};
+    const snapshotData = {snapshot_data};
     const canvas = document.getElementById('priceChart');
     const ctx = canvas.getContext('2d');
     function drawLine(points, color) {{
@@ -493,9 +538,16 @@ def build_html(
     drawLine(chartData.BTC || [], '#2458d3');
     drawLine(chartData.WLD || [], '#12805c');
 
+    const liveBases = [
+      'https://api.binance.com',
+      'https://api1.binance.com',
+      'https://api2.binance.com',
+      'https://api3.binance.com',
+      'https://data-api.binance.vision'
+    ];
     const liveSymbols = {{
-      BTC: {{ symbol: 'BTCUSDT', priceId: 'liveBTC', changeId: 'liveBTCChange', dotId: 'liveDotBTC' }},
-      WLD: {{ symbol: 'WLDUSDT', priceId: 'liveWLD', changeId: 'liveWLDChange', dotId: 'liveDotWLD' }}
+      BTC: {{ symbol: 'BTCUSDT', priceId: 'liveBTC', changeId: 'liveBTCChange', dotId: 'liveDotBTC', fallback: snapshotData.BTC }},
+      WLD: {{ symbol: 'WLDUSDT', priceId: 'liveWLD', changeId: 'liveWLDChange', dotId: 'liveDotWLD', fallback: snapshotData.WLD }}
     }};
     function formatLiveMoney(value) {{
       const number = Number(value);
@@ -508,14 +560,41 @@ def build_html(
       if (!Number.isFinite(number)) return '-';
       return (number > 0 ? '+' : '') + number.toFixed(2) + '%';
     }}
+    async function fetchWithTimeout(url, timeoutMs) {{
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), timeoutMs);
+      try {{
+        const response = await fetch(url, {{ cache: 'no-store', signal: controller.signal }});
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+        return await response.json();
+      }} finally {{
+        clearTimeout(timer);
+      }}
+    }}
+    async function fetchBinanceTicker(symbol) {{
+      let lastError;
+      for (const base of liveBases) {{
+        try {{
+          return await fetchWithTimeout(base + '/api/v3/ticker/24hr?symbol=' + symbol, 6000);
+        }} catch (error) {{
+          lastError = error;
+        }}
+      }}
+      throw lastError || new Error('No live endpoint available');
+    }}
+    function showFallback(cfg) {{
+      const fallback = cfg.fallback || {{}};
+      document.getElementById(cfg.priceId).innerText = formatLiveMoney(fallback.price);
+      document.getElementById(cfg.changeId).innerText = '实时失败，使用档案快照 24h: ' + formatLivePct(fallback.change24h);
+      document.getElementById(cfg.changeId).className = 'label';
+      document.getElementById(cfg.dotId).className = 'live-dot bad';
+    }}
     async function refreshLivePrices() {{
       let okCount = 0;
       await Promise.all(Object.entries(liveSymbols).map(async ([asset, cfg]) => {{
         const dot = document.getElementById(cfg.dotId);
         try {{
-          const response = await fetch('https://api.binance.com/api/v3/ticker/24hr?symbol=' + cfg.symbol, {{ cache: 'no-store' }});
-          if (!response.ok) throw new Error('HTTP ' + response.status);
-          const data = await response.json();
+          const data = await fetchBinanceTicker(cfg.symbol);
           const change = Number(data.priceChangePercent);
           document.getElementById(cfg.priceId).innerText = formatLiveMoney(data.lastPrice);
           const changeNode = document.getElementById(cfg.changeId);
@@ -524,15 +603,13 @@ def build_html(
           dot.className = 'live-dot ok';
           okCount += 1;
         }} catch (error) {{
-          document.getElementById(cfg.priceId).innerText = '读取失败';
-          document.getElementById(cfg.changeId).innerText = '24h: -';
-          dot.className = 'live-dot bad';
+          showFallback(cfg);
         }}
       }}));
       const now = new Date().toLocaleString();
       document.getElementById('liveUpdated').innerText = okCount
         ? '实时层更新时间：' + now + '。档案快照由 GitHub Actions 每小时沉淀一次。'
-        : '实时层读取失败：可能是 Binance 网络或浏览器跨域限制。档案快照仍按 GitHub Actions 每小时更新。';
+        : '实时层读取失败，当前显示档案快照。可能是手机网络无法访问 Binance；档案快照仍按 GitHub Actions 每小时更新。';
     }}
     refreshLivePrices();
     setInterval(refreshLivePrices, 60000);
