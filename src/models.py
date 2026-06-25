@@ -79,6 +79,8 @@ class Snapshot:
     long_liquidation: float | None = None
     short_liquidation: float | None = None
     long_short_ratio: float | None = None
+    cvd: float | None = None
+    heatmap: str = ""
     spot_volume: float | None = None
     futures_volume: float | None = None
     note: str = ""

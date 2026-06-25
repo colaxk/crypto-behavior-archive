@@ -7,7 +7,7 @@ from pathlib import Path
 from src.analyzers.outcomes import update_event_outcome
 from src.analyzers.queries import query_events
 from src.collectors.binance import DataFetchError as BinanceFetchError
-from src.collectors.binance import backfill_prices, fetch_24h_snapshot
+from src.collectors.binance import apply_futures_metrics, backfill_prices, fetch_24h_snapshot, fetch_futures_metrics
 from src.collectors.coinglass import DataFetchError as CoinGlassFetchError
 from src.collectors.coinglass import as_float, fetch_page_metrics, metrics_to_snapshot
 from src.models import Event, PricePoint, Snapshot, parse_datetime, to_iso
@@ -48,6 +48,8 @@ def main() -> None:
     snapshot.add_argument("--long-liquidation", type=float)
     snapshot.add_argument("--short-liquidation", type=float)
     snapshot.add_argument("--long-short-ratio", type=float)
+    snapshot.add_argument("--cvd", type=float)
+    snapshot.add_argument("--heatmap", default="")
     snapshot.add_argument("--spot-volume", type=float)
     snapshot.add_argument("--futures-volume", type=float)
     snapshot.add_argument("--note", default="")
@@ -169,6 +171,8 @@ def handle_add_snapshot(args: argparse.Namespace) -> None:
         long_liquidation=args.long_liquidation,
         short_liquidation=args.short_liquidation,
         long_short_ratio=args.long_short_ratio,
+        cvd=args.cvd,
+        heatmap=args.heatmap,
         spot_volume=args.spot_volume,
         futures_volume=args.futures_volume,
         note=args.note,
@@ -254,6 +258,14 @@ def handle_daily_collect(args: argparse.Namespace) -> None:
             print(f"- Binance failed: {exc}")
             continue
 
+        try:
+            futures_metrics = fetch_futures_metrics(asset)
+            snapshot = apply_futures_metrics(snapshot, futures_metrics)
+            print("- Binance futures metrics: ok")
+        except BinanceFetchError as exc:
+            snapshot.note = f"{snapshot.note}; Binance futures failed: {exc}"
+            print(f"- Binance futures failed: {exc}")
+
         print(f"- Binance prices added: {added_prices}")
         if raw_klines:
             print(f"- Binance raw klines: {raw_klines}")
@@ -262,11 +274,11 @@ def handle_daily_collect(args: argparse.Namespace) -> None:
             try:
                 metrics, raw_page, metrics_path = fetch_page_metrics(asset)
                 snapshot.oi = as_float(metrics.get("oi"))
-                snapshot.funding_rate = as_float(metrics.get("funding_rate"))
-                snapshot.liquidation_total = as_float(metrics.get("liquidation_total"))
-                snapshot.long_liquidation = as_float(metrics.get("long_liquidation"))
-                snapshot.short_liquidation = as_float(metrics.get("short_liquidation"))
-                snapshot.long_short_ratio = as_float(metrics.get("long_short_ratio"))
+                snapshot.funding_rate = as_float(metrics.get("funding_rate")) or snapshot.funding_rate
+                snapshot.liquidation_total = as_float(metrics.get("liquidation_total")) or snapshot.liquidation_total
+                snapshot.long_liquidation = as_float(metrics.get("long_liquidation")) or snapshot.long_liquidation
+                snapshot.short_liquidation = as_float(metrics.get("short_liquidation")) or snapshot.short_liquidation
+                snapshot.long_short_ratio = as_float(metrics.get("long_short_ratio")) or snapshot.long_short_ratio
                 snapshot.note = f"{snapshot.note}; CoinGlass page metrics"
                 print(f"- CoinGlass raw page: {raw_page}")
                 print(f"- CoinGlass metrics: {metrics_path}")

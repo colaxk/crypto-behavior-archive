@@ -16,6 +16,8 @@
 - 多单爆仓: -
 - 空单爆仓: -
 - 多空比: -
+- CVD: -
+- Heatmap: -
 - 现货成交量: 1920226533.3864694
 - 合约成交量: -
 - 备注: Binance spot ticker BTCUSDT; CoinGlass page metrics
@@ -32,6 +34,8 @@
 - 多单爆仓: -
 - 空单爆仓: -
 - 多空比: -
+- CVD: -
+- Heatmap: -
 - 现货成交量: 641879772.863186
 - 合约成交量: -
 - 备注: Binance spot ticker ETHUSDT; CoinGlass page metrics
@@ -48,6 +52,8 @@
 - 多单爆仓: -
 - 空单爆仓: -
 - 多空比: -
+- CVD: -
+- Heatmap: -
 - 现货成交量: 50472626.13719
 - 合约成交量: -
 - 备注: Binance spot ticker WLDUSDT; CoinGlass page metrics

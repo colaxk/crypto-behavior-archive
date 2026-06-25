@@ -82,6 +82,8 @@ def snapshot_block(row: dict[str, Any] | None) -> str:
         ("多单爆仓", "long_liquidation"),
         ("空单爆仓", "short_liquidation"),
         ("多空比", "long_short_ratio"),
+        ("CVD", "cvd"),
+        ("Heatmap", "heatmap"),
         ("现货成交量", "spot_volume"),
         ("合约成交量", "futures_volume"),
         ("备注", "note"),

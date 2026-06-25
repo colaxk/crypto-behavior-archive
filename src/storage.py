@@ -34,12 +34,27 @@ def init_storage() -> None:
 
 
 def ensure_csv(path: Path, model: type[Any]) -> None:
+    fieldnames = [field.name for field in fields(model)]
     if path.exists() and path.stat().st_size > 0:
+        migrate_csv_header(path, fieldnames)
         return
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=[field.name for field in fields(model)])
+        writer = csv.DictWriter(handle, fieldnames=fieldnames)
         writer.writeheader()
+
+
+def migrate_csv_header(path: Path, fieldnames: list[str]) -> None:
+    with path.open("r", newline="", encoding="utf-8") as handle:
+        reader = csv.DictReader(handle)
+        if reader.fieldnames == fieldnames:
+            return
+        rows = list(reader)
+    with path.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer.writeheader()
+        for row in rows:
+            writer.writerow({field: row.get(field, "") for field in fieldnames})
 
 
 def append_csv(path: Path, model: type[Any], row: dict[str, Any]) -> None:
@@ -100,6 +115,8 @@ def import_snapshots(path: Path) -> int:
             long_liquidation=_float(row.get("long_liquidation")),
             short_liquidation=_float(row.get("short_liquidation")),
             long_short_ratio=_float(row.get("long_short_ratio")),
+            cvd=_float(row.get("cvd")),
+            heatmap=row.get("heatmap") or "",
             spot_volume=_float(row.get("spot_volume")),
             futures_volume=_float(row.get("futures_volume")),
             note=row.get("note") or "",

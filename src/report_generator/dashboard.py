@@ -148,13 +148,20 @@ def build_gpt_context(
             section.extend(
                 [
                     f"Liquidation: {compact_number(row.get('liquidation_total'))}",
-                    "CVD: 待接入",
-                    "Heatmap: 待接入",
+                    f"CVD: {compact_number(row.get('cvd'))}",
+                    f"Heatmap: {row.get('heatmap') or '未接入'}",
                     f"状态: {row.get('note') or '待判断'}",
                 ]
             )
         else:
-            section.extend(["CVD: 待接入", "异常事件:"])
+            section.extend(
+                [
+                    f"Liquidation: {compact_number(row.get('liquidation_total'))}",
+                    f"CVD: {compact_number(row.get('cvd'))}",
+                    f"Heatmap: {row.get('heatmap') or '未接入'}",
+                    "异常事件:",
+                ]
+            )
             if asset_events:
                 section.extend(
                     [
@@ -184,9 +191,9 @@ def build_gpt_context(
             f"- 已记录事件后表现: {verified_outcomes(events)}",
             "",
             "待验证",
-            "- CVD 数据待接入。",
-            "- Heatmap / 清算地图待接入。",
-            "- CoinGlass Funding、爆仓、多空比需要更稳定接口。",
+            "- CVD 目前使用 Binance Futures taker buy/sell 近似值，需要后续接更精细订单流。",
+            "- Heatmap / 清算地图仍需接入稳定数据源。",
+            "- CoinGlass 全市场 Funding、爆仓、多空比需要更稳定接口；当前优先使用 Binance Futures 公共数据补齐。",
             "- 观察异常事件后 1h / 4h / 24h / 3d / 7d 表现是否支持当前标签。",
             "",
             "请基于以上上下文分析 BTC/ETH/WLD 的资金行为、异常事件、相对强弱、风险和下一步待验证假设。不要给自动交易指令。",
@@ -730,6 +737,8 @@ def asset_card(asset: str, row: dict[str, str] | None, summary: dict[str, Any]) 
         {metric("Funding", fmt_pct(row.get("funding_rate")))}
         {metric("爆仓总额", compact_number(row.get("liquidation_total")))}
         {metric("多空比", fmt_plain(row.get("long_short_ratio")))}
+        {metric("CVD", compact_number(row.get("cvd")))}
+        {metric("Heatmap", fmt_plain(row.get("heatmap")))}
       </div>
       <div class="note">{escape(row.get("note") or "无备注")}</div>
     </div>
@@ -757,7 +766,12 @@ def market_structure_table(snapshots: dict[str, dict[str, str] | None]) -> str:
                 {metric("OI", compact_number(row.get("oi")))}
                 {metric("Funding", fmt_pct(row.get("funding_rate")))}
                 {metric("爆仓总额", compact_number(row.get("liquidation_total")))}
+                {metric("多单爆仓", compact_number(row.get("long_liquidation")))}
+                {metric("空单爆仓", compact_number(row.get("short_liquidation")))}
                 {metric("24h成交量", compact_number(row.get("volume_24h")))}
+                {metric("合约成交量", compact_number(row.get("futures_volume")))}
+                {metric("多空比", fmt_plain(row.get("long_short_ratio")))}
+                {metric("CVD", compact_number(row.get("cvd")))}
               </div>
             </div>
             """

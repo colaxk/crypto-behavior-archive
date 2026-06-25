@@ -3,6 +3,13 @@ name: Crypto Behavior Dashboard
 on:
   schedule:
     - cron: "7 * * * *"
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/daily-dashboard.yml"
+      - "config.yaml"
+      - "src/**"
   workflow_dispatch:
 
 permissions:
