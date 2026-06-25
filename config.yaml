@@ -1,5 +1,6 @@
 assets:
   - BTC
+  - ETH
   - WLD
 
 storage:
@@ -12,11 +13,13 @@ binance:
   base_url: https://api.binance.com
   symbols:
     BTC: BTCUSDT
+    ETH: ETHUSDT
     WLD: WLDUSDT
 
 coinglass:
   page_urls:
     BTC: https://www.coinglass.com/currencies/BTC
+    ETH: https://www.coinglass.com/currencies/ETH
     WLD: https://www.coinglass.com/currencies/WLD
 
 outcome_windows:

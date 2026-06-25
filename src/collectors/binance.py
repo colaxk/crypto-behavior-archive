@@ -13,6 +13,7 @@ from src.storage import ROOT, add_prices_dedup
 BINANCE_BASE_URL = "https://api.binance.com"
 SYMBOLS = {
     "BTC": "BTCUSDT",
+    "ETH": "ETHUSDT",
     "WLD": "WLDUSDT",
 }
 

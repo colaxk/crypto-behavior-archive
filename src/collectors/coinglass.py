@@ -14,6 +14,7 @@ from src.storage import ROOT
 
 PAGE_URLS = {
     "BTC": "https://www.coinglass.com/currencies/BTC",
+    "ETH": "https://www.coinglass.com/currencies/ETH",
     "WLD": "https://www.coinglass.com/currencies/WLD",
 }
 

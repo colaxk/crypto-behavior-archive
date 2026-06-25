@@ -21,6 +21,7 @@ def init_storage() -> None:
         ROOT / "data" / "processed",
         ROOT / "data" / "screenshots",
         ROOT / "assets" / "BTC",
+        ROOT / "assets" / "ETH",
         ROOT / "assets" / "WLD",
         ROOT / "events",
         ROOT / "reports",

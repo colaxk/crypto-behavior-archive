@@ -11,7 +11,17 @@ from src.storage import REPORTS_DIR, ROOT, load_events, load_prices, load_snapsh
 
 DOCS_DIR = ROOT / "docs"
 DASHBOARD_PATH = DOCS_DIR / "index.html"
-ASSETS = ("BTC", "WLD")
+ASSETS = ("BTC", "ETH", "WLD")
+LIVE_SYMBOLS = {
+    "BTC": "BTCUSDT",
+    "ETH": "ETHUSDT",
+    "WLD": "WLDUSDT",
+}
+CHART_COLORS = {
+    "BTC": "#2458d3",
+    "ETH": "#7c3aed",
+    "WLD": "#12805c",
+}
 
 
 def generate_dashboard(output_path: Path = DASHBOARD_PATH) -> Path:
@@ -121,37 +131,42 @@ def build_gpt_context(
     events: list[Any],
     report: dict[str, str] | None,
 ) -> str:
-    btc = snapshots.get("BTC") or {}
-    wld = snapshots.get("WLD") or {}
-    btc_summary = price_summaries.get("BTC") or {}
-    wld_summary = price_summaries.get("WLD") or {}
-    btc_events = [event for event in events if event.asset == "BTC"][:3]
-    wld_events = [event for event in events if event.asset == "WLD"][:3]
-    lines = [
-        "BTC",
-        "",
-        f"价格: {money(btc.get('price'))} / 24h {fmt_pct(btc.get('change_24h'))} / 7d {fmt_pct(btc_summary.get('change_7d'))}",
-        f"OI: {compact_number(btc.get('oi'))}",
-        f"Funding: {fmt_pct(btc.get('funding_rate'))}",
-        f"Liquidation: {compact_number(btc.get('liquidation_total'))}",
-        "CVD: 待接入",
-        "Heatmap: 待接入",
-        f"状态: {btc.get('note') or '待判断'}",
-        "",
-        "---",
-        "",
-        "WLD",
-        "",
-        f"价格: {money(wld.get('price'))} / 24h {fmt_pct(wld.get('change_24h'))} / 7d {fmt_pct(wld_summary.get('change_7d'))}",
-        f"OI: {compact_number(wld.get('oi'))}",
-        f"Funding: {fmt_pct(wld.get('funding_rate'))}",
-        "CVD: 待接入",
-        "异常事件:",
-    ]
-    if wld_events:
-        lines.extend([f"- {event.title} | 标签: {', '.join(event.tags)} | 结果: {compact_outcome(event.outcome)}" for event in wld_events])
-    else:
-        lines.append("- 暂无")
+    grouped_events = {asset: [event for event in events if event.asset == asset][:3] for asset in ASSETS}
+    sections = []
+    for asset in ASSETS:
+        row = snapshots.get(asset) or {}
+        summary = price_summaries.get(asset) or {}
+        asset_events = grouped_events[asset]
+        section = [
+            asset,
+            "",
+            f"价格: {money(row.get('price'))} / 24h {fmt_pct(row.get('change_24h'))} / 7d {fmt_pct(summary.get('change_7d'))}",
+            f"OI: {compact_number(row.get('oi'))}",
+            f"Funding: {fmt_pct(row.get('funding_rate'))}",
+        ]
+        if asset != "WLD":
+            section.extend(
+                [
+                    f"Liquidation: {compact_number(row.get('liquidation_total'))}",
+                    "CVD: 待接入",
+                    "Heatmap: 待接入",
+                    f"状态: {row.get('note') or '待判断'}",
+                ]
+            )
+        else:
+            section.extend(["CVD: 待接入", "异常事件:"])
+            if asset_events:
+                section.extend(
+                    [
+                        f"- {event.title} | 标签: {', '.join(event.tags)} | 结果: {compact_outcome(event.outcome)}"
+                        for event in asset_events
+                    ]
+                )
+            else:
+                section.append("- 暂无")
+        sections.append("\n".join(section))
+
+    lines = ["\n\n---\n\n".join(sections)]
 
     lines.extend(
         [
@@ -159,12 +174,13 @@ def build_gpt_context(
             "---",
             "",
             "当前假设",
-            "- BTC/WLD 当前结构需要结合 OI、Funding、成交量、异常事件和 BTC 大盘环境判断。",
-            f"- BTC 近期事件: {event_titles(btc_events)}",
-            f"- WLD 近期事件: {event_titles(wld_events)}",
+            "- BTC/ETH/WLD 当前结构需要结合 OI、Funding、成交量、异常事件和 BTC 大盘环境判断。",
+            f"- BTC 近期事件: {event_titles(grouped_events['BTC'])}",
+            f"- ETH 近期事件: {event_titles(grouped_events['ETH'])}",
+            f"- WLD 近期事件: {event_titles(grouped_events['WLD'])}",
             "",
             "已验证",
-            f"- 最新档案时间: {btc.get('timestamp') or wld.get('timestamp') or '-'}",
+            f"- 最新档案时间: {latest_context_time(snapshots)}",
             f"- 已记录事件后表现: {verified_outcomes(events)}",
             "",
             "待验证",
@@ -173,7 +189,7 @@ def build_gpt_context(
             "- CoinGlass Funding、爆仓、多空比需要更稳定接口。",
             "- 观察异常事件后 1h / 4h / 24h / 3d / 7d 表现是否支持当前标签。",
             "",
-            "请基于以上上下文分析 BTC/WLD 的资金行为、异常事件、相对强弱、风险和下一步待验证假设。不要给自动交易指令。",
+            "请基于以上上下文分析 BTC/ETH/WLD 的资金行为、异常事件、相对强弱、风险和下一步待验证假设。不要给自动交易指令。",
         ]
     )
     if report:
@@ -194,6 +210,13 @@ def verified_outcomes(events: list[Any]) -> str:
     return "；".join(f"{event.asset} {event.title}: {compact_outcome(event.outcome)}" for event in verified[:3])
 
 
+def latest_context_time(snapshots: dict[str, dict[str, str] | None]) -> str:
+    times = [row.get("timestamp") for row in snapshots.values() if row and row.get("timestamp")]
+    if not times:
+        return "-"
+    return max(times, key=lambda value: parse_datetime(value))
+
+
 def compact_outcome(outcome: dict[str, Any]) -> str:
     parts = []
     for window in ("1h", "4h", "24h", "3d", "7d"):
@@ -212,6 +235,19 @@ def build_html(
     gpt_context: str,
 ) -> str:
     chart_data = json.dumps({asset: price_summaries[asset]["points"] for asset in ASSETS}, ensure_ascii=False)
+    chart_colors = json.dumps(CHART_COLORS, ensure_ascii=False)
+    live_symbols = json.dumps(
+        {
+            asset: {
+                "symbol": LIVE_SYMBOLS[asset],
+                "priceId": f"live{asset}",
+                "changeId": f"live{asset}Change",
+                "dotId": f"liveDot{asset}",
+            }
+            for asset in ASSETS
+        },
+        ensure_ascii=False,
+    )
     snapshot_data = json.dumps(
         {
             asset: {
@@ -452,29 +488,16 @@ def build_html(
     <section class="card">
       <h2>今日市场总览</h2>
       <div class="market">
-        {market_metric("BTC 价格", money(value_of(snapshots.get("BTC"), "price")), price_summaries["BTC"].get("change_7d"))}
-        {market_metric("WLD 价格", money(value_of(snapshots.get("WLD"), "price")), price_summaries["WLD"].get("change_7d"))}
-        {market_metric("BTC 24h", fmt_pct(value_of(snapshots.get("BTC"), "change_24h")), value_of(snapshots.get("BTC"), "change_24h"))}
-        {market_metric("WLD 24h", fmt_pct(value_of(snapshots.get("WLD"), "change_24h")), value_of(snapshots.get("WLD"), "change_24h"))}
+        {overview_metrics(snapshots, price_summaries)}
       </div>
       <div class="live-bar">
-        <div class="metric">
-          <div class="label"><span class="live-dot" id="liveDotBTC"></span>BTC Binance 实时</div>
-          <div class="value" id="liveBTC">{escape(money(value_of(snapshots.get("BTC"), "price")))}</div>
-          <div class="label" id="liveBTCChange">档案快照 24h: {escape(fmt_pct(value_of(snapshots.get("BTC"), "change_24h")))}</div>
-        </div>
-        <div class="metric">
-          <div class="label"><span class="live-dot" id="liveDotWLD"></span>WLD Binance 实时</div>
-          <div class="value" id="liveWLD">{escape(money(value_of(snapshots.get("WLD"), "price")))}</div>
-          <div class="label" id="liveWLDChange">档案快照 24h: {escape(fmt_pct(value_of(snapshots.get("WLD"), "change_24h")))}</div>
-        </div>
+        {live_price_cards(snapshots)}
       </div>
       <div class="note" id="liveUpdated">先显示档案快照，正在尝试读取实时价格；若 Binance 访问失败，会自动保留快照价。</div>
     </section>
 
     <section class="grid single">
-      {asset_card("BTC", snapshots.get("BTC"), price_summaries["BTC"])}
-      {asset_card("WLD", snapshots.get("WLD"), price_summaries["WLD"])}
+      {asset_cards(snapshots, price_summaries)}
     </section>
 
     <section class="grid single">
@@ -513,6 +536,7 @@ def build_html(
   </footer>
   <script>
     const chartData = {chart_data};
+    const chartColors = {chart_colors};
     const snapshotData = {snapshot_data};
     const canvas = document.getElementById('priceChart');
     const ctx = canvas.getContext('2d');
@@ -535,8 +559,7 @@ def build_html(
       ctx.stroke();
     }}
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawLine(chartData.BTC || [], '#2458d3');
-    drawLine(chartData.WLD || [], '#12805c');
+    Object.entries(chartData).forEach(([asset, points]) => drawLine(points || [], chartColors[asset] || '#2458d3'));
 
     const liveBases = [
       'https://api.binance.com',
@@ -545,10 +568,8 @@ def build_html(
       'https://api3.binance.com',
       'https://data-api.binance.vision'
     ];
-    const liveSymbols = {{
-      BTC: {{ symbol: 'BTCUSDT', priceId: 'liveBTC', changeId: 'liveBTCChange', dotId: 'liveDotBTC', fallback: snapshotData.BTC }},
-      WLD: {{ symbol: 'WLDUSDT', priceId: 'liveWLD', changeId: 'liveWLDChange', dotId: 'liveDotWLD', fallback: snapshotData.WLD }}
-    }};
+    const liveSymbols = {live_symbols};
+    Object.keys(liveSymbols).forEach(asset => liveSymbols[asset].fallback = snapshotData[asset]);
     function formatLiveMoney(value) {{
       const number = Number(value);
       if (!Number.isFinite(number)) return '-';
@@ -655,6 +676,40 @@ def market_metric(label: str, value: str, raw_change: Any = None) -> str:
       <div class="value {change_class(raw_change)}">{escape(value)}</div>
     </div>
     """
+
+
+def overview_metrics(
+    snapshots: dict[str, dict[str, str] | None],
+    price_summaries: dict[str, dict[str, Any]],
+) -> str:
+    blocks = []
+    for asset in ASSETS:
+        blocks.append(market_metric(f"{asset} 价格", money(value_of(snapshots.get(asset), "price")), price_summaries[asset].get("change_7d")))
+    for asset in ASSETS:
+        blocks.append(market_metric(f"{asset} 24h", fmt_pct(value_of(snapshots.get(asset), "change_24h")), value_of(snapshots.get(asset), "change_24h")))
+    return "\n".join(blocks)
+
+
+def live_price_cards(snapshots: dict[str, dict[str, str] | None]) -> str:
+    blocks = []
+    for asset in ASSETS:
+        blocks.append(
+            f"""
+            <div class="metric">
+              <div class="label"><span class="live-dot" id="liveDot{asset}"></span>{asset} Binance 实时</div>
+              <div class="value" id="live{asset}">{escape(money(value_of(snapshots.get(asset), "price")))}</div>
+              <div class="label" id="live{asset}Change">档案快照 24h: {escape(fmt_pct(value_of(snapshots.get(asset), "change_24h")))}</div>
+            </div>
+            """
+        )
+    return "\n".join(blocks)
+
+
+def asset_cards(
+    snapshots: dict[str, dict[str, str] | None],
+    price_summaries: dict[str, dict[str, Any]],
+) -> str:
+    return "\n".join(asset_card(asset, snapshots.get(asset), price_summaries[asset]) for asset in ASSETS)
 
 
 def asset_card(asset: str, row: dict[str, str] | None, summary: dict[str, Any]) -> str:

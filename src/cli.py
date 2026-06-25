@@ -33,7 +33,9 @@ def main() -> None:
 
     subparsers.add_parser("init", help="Create local project data directories and empty data files.")
 
-    snapshot = subparsers.add_parser("add-snapshot", help="Add a BTC/WLD daily snapshot.")
+    asset_choices = ["BTC", "ETH", "WLD"]
+
+    snapshot = subparsers.add_parser("add-snapshot", help="Add a BTC/ETH/WLD daily snapshot.")
     snapshot.add_argument("--asset", required=True)
     snapshot.add_argument("--timestamp")
     snapshot.add_argument("--price", required=True, type=float)
@@ -60,8 +62,8 @@ def main() -> None:
     price.add_argument("--source", default="manual")
     price.add_argument("--note", default="")
 
-    backfill = subparsers.add_parser("backfill-prices", help="Backfill BTC/WLD prices from Binance klines.")
-    backfill.add_argument("--asset", required=True, choices=["BTC", "WLD"])
+    backfill = subparsers.add_parser("backfill-prices", help="Backfill BTC/ETH/WLD prices from Binance klines.")
+    backfill.add_argument("--asset", required=True, choices=asset_choices)
     backfill.add_argument("--interval", default="1h")
     backfill.add_argument("--start", help="ISO datetime, e.g. 2026-06-01T00:00:00+08:00")
     backfill.add_argument("--end", help="ISO datetime, e.g. 2026-06-23T00:00:00+08:00")
@@ -69,15 +71,15 @@ def main() -> None:
     backfill.add_argument("--no-raw", action="store_true")
 
     binance_snapshot = subparsers.add_parser("fetch-binance-snapshot", help="Fetch Binance 24h ticker snapshot.")
-    binance_snapshot.add_argument("--asset", required=True, choices=["BTC", "WLD"])
+    binance_snapshot.add_argument("--asset", required=True, choices=asset_choices)
 
-    coinglass = subparsers.add_parser("fetch-coinglass", help="Fetch CoinGlass BTC/WLD page and parse available metrics.")
-    coinglass.add_argument("--asset", required=True, choices=["BTC", "WLD"])
+    coinglass = subparsers.add_parser("fetch-coinglass", help="Fetch CoinGlass BTC/ETH/WLD page and parse available metrics.")
+    coinglass.add_argument("--asset", required=True, choices=asset_choices)
     coinglass.add_argument("--price", type=float, help="Price to use if CoinGlass page does not expose one.")
     coinglass.add_argument("--write-snapshot", action="store_true")
 
-    daily = subparsers.add_parser("daily-collect", help="Collect daily BTC/WLD data from Binance and CoinGlass.")
-    daily.add_argument("--assets", nargs="*", default=["BTC", "WLD"], choices=["BTC", "WLD"])
+    daily = subparsers.add_parser("daily-collect", help="Collect daily BTC/ETH/WLD data from Binance and CoinGlass.")
+    daily.add_argument("--assets", nargs="*", default=asset_choices, choices=asset_choices)
     daily.add_argument("--interval", default="1h")
     daily.add_argument("--kline-limit", type=int, default=24)
     daily.add_argument("--skip-coinglass", action="store_true")

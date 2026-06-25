@@ -17,6 +17,7 @@ def generate_daily_report(report_date: date, output_dir: Path = REPORTS_DIR) -> 
     ]
 
     btc = latest_snapshot("BTC")
+    eth = latest_snapshot("ETH")
     wld = latest_snapshot("WLD")
     path = output_dir / f"{report_date.isoformat()}_daily_report.md"
     path.write_text(
@@ -30,6 +31,9 @@ def generate_daily_report(report_date: date, output_dir: Path = REPORTS_DIR) -> 
                 "",
                 "## BTC状态",
                 snapshot_block(btc),
+                "",
+                "## ETH状态",
+                snapshot_block(eth),
                 "",
                 "## WLD状态",
                 snapshot_block(wld),

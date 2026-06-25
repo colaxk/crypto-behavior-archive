@@ -1,10 +1,10 @@
 # Crypto Behavior Archive / 加密资产行为档案系统
 
-本项目是一个本地可运行的加密资产行为档案 MVP。它不做自动交易，也不预测价格；目标是长期记录 BTC、WLD 等资产的市场行为、异常事件、后续表现与复盘结论。
+本项目是一个本地可运行的加密资产行为档案 MVP。它不做自动交易，也不预测价格；目标是长期记录 BTC、ETH、WLD 等资产的市场行为、异常事件、后续表现与复盘结论。
 
 第一阶段聚焦：
 
-- 手动录入或 CSV 导入 BTC / WLD 每日快照
+- 手动录入或 CSV 导入 BTC / ETH / WLD 每日快照
 - 记录异常事件与行为标签
 - 计算事件后 1h、4h、24h、3d、7d 的价格变化
 - 查询历史事件
@@ -99,7 +99,7 @@ python3 -m src.cli fetch-coinglass --asset WLD
 python3 -m src.cli fetch-coinglass --asset WLD --write-snapshot --price 3.25
 ```
 
-每日采集一条龙：补最近 24 根 Binance K 线价格点，并写入合并后的 BTC/WLD 快照。CoinGlass 抓取失败时会保留 Binance 数据，不会中断另一个标的。
+每日采集一条龙：补最近 24 根 Binance K 线价格点，并写入合并后的 BTC/ETH/WLD 快照。CoinGlass 抓取失败时会保留 Binance 数据，不会中断另一个标的。
 
 ```bash
 python3 -m src.cli daily-collect
@@ -161,6 +161,7 @@ crypto_behavior_archive/
 │   └── screenshots/
 ├── assets/
 │   ├── BTC/
+│   ├── ETH/
 │   └── WLD/
 ├── events/
 ├── reports/
@@ -232,7 +233,7 @@ python3 -m src.cli generate-dashboard
 
 这样 GitHub Pages 页面会随着数据一起更新。
 
-仪表板页面还有一层浏览器端实时价格：打开页面后会每 60 秒尝试从 Binance 读取 `BTCUSDT` 和 `WLDUSDT` 的最新价格。这个实时层只更新页面显示，不会写入 CSV；真正沉淀到行为档案里的数据仍由 GitHub Actions 定时生成。
+仪表板页面还有一层浏览器端实时价格：打开页面后会每 60 秒尝试从 Binance 读取 `BTCUSDT`、`ETHUSDT` 和 `WLDUSDT` 的最新价格。这个实时层只更新页面显示，不会写入 CSV；真正沉淀到行为档案里的数据仍由 GitHub Actions 定时生成。
 
 ### 手动触发更新
 

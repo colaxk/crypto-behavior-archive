@@ -5,7 +5,7 @@ from datetime import datetime
 from typing import Any
 
 
-SUPPORTED_ASSETS = {"BTC", "WLD"}
+SUPPORTED_ASSETS = {"BTC", "ETH", "WLD"}
 
 EVENT_TAGS = {
     "放量突破",
@@ -36,7 +36,7 @@ OUTCOME_WINDOWS = ("1h", "4h", "24h", "3d", "7d")
 def require_asset(asset: str) -> str:
     normalized = asset.upper()
     if normalized not in SUPPORTED_ASSETS:
-        raise ValueError(f"Unsupported asset: {asset}. Supported assets: BTC, WLD")
+        raise ValueError(f"Unsupported asset: {asset}. Supported assets: BTC, ETH, WLD")
     return normalized
 
 
