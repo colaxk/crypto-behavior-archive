@@ -142,13 +142,13 @@ def build_gpt_context(
             "",
             f"价格: {money(row.get('price'))} / 24h {fmt_pct(row.get('change_24h'))} / 7d {fmt_pct(summary.get('change_7d'))}",
             f"OI: {compact_number(row.get('oi'))}",
-            f"Funding: {fmt_pct(row.get('funding_rate'))}",
+            f"Funding: {fmt_pct(row.get('funding_rate'), missing='未返回')}",
         ]
         if asset != "WLD":
             section.extend(
                 [
-                    f"Liquidation: {compact_number(row.get('liquidation_total'))}",
-                    f"CVD: {compact_number(row.get('cvd'))}",
+                    f"Liquidation: {compact_number(row.get('liquidation_total'), missing='未返回')}",
+                    f"CVD: {compact_number(row.get('cvd'), missing='未返回')}",
                     f"Heatmap: {row.get('heatmap') or '未接入'}",
                     f"状态: {row.get('note') or '待判断'}",
                 ]
@@ -156,8 +156,8 @@ def build_gpt_context(
         else:
             section.extend(
                 [
-                    f"Liquidation: {compact_number(row.get('liquidation_total'))}",
-                    f"CVD: {compact_number(row.get('cvd'))}",
+                    f"Liquidation: {compact_number(row.get('liquidation_total'), missing='未返回')}",
+                    f"CVD: {compact_number(row.get('cvd'), missing='未返回')}",
                     f"Heatmap: {row.get('heatmap') or '未接入'}",
                     "异常事件:",
                 ]
@@ -734,11 +734,11 @@ def asset_card(asset: str, row: dict[str, str] | None, summary: dict[str, Any]) 
         {metric("7天变化", fmt_pct(summary.get("change_7d")), summary.get("change_7d"))}
         {metric("24h成交量", compact_number(row.get("volume_24h")))}
         {metric("OI", compact_number(row.get("oi")))}
-        {metric("Funding", fmt_pct(row.get("funding_rate")))}
-        {metric("爆仓总额", compact_number(row.get("liquidation_total")))}
+        {metric("Funding", fmt_pct(row.get("funding_rate"), missing="未返回"))}
+        {metric("爆仓总额", compact_number(row.get("liquidation_total"), missing="未返回"))}
         {metric("多空比", fmt_plain(row.get("long_short_ratio")))}
-        {metric("CVD", compact_number(row.get("cvd")))}
-        {metric("Heatmap", fmt_plain(row.get("heatmap")))}
+        {metric("CVD", compact_number(row.get("cvd"), missing="未返回"))}
+        {metric("Heatmap", fmt_plain(row.get("heatmap"), missing="未接入"))}
       </div>
       <div class="note">{escape(row.get("note") or "无备注")}</div>
     </div>
@@ -764,14 +764,14 @@ def market_structure_table(snapshots: dict[str, dict[str, str] | None]) -> str:
               <h3>{asset}</h3>
               <div class="kv">
                 {metric("OI", compact_number(row.get("oi")))}
-                {metric("Funding", fmt_pct(row.get("funding_rate")))}
-                {metric("爆仓总额", compact_number(row.get("liquidation_total")))}
-                {metric("多单爆仓", compact_number(row.get("long_liquidation")))}
-                {metric("空单爆仓", compact_number(row.get("short_liquidation")))}
+                {metric("Funding", fmt_pct(row.get("funding_rate"), missing="未返回"))}
+                {metric("爆仓总额", compact_number(row.get("liquidation_total"), missing="未返回"))}
+                {metric("多单爆仓", compact_number(row.get("long_liquidation"), missing="未返回"))}
+                {metric("空单爆仓", compact_number(row.get("short_liquidation"), missing="未返回"))}
                 {metric("24h成交量", compact_number(row.get("volume_24h")))}
                 {metric("合约成交量", compact_number(row.get("futures_volume")))}
                 {metric("多空比", fmt_plain(row.get("long_short_ratio")))}
-                {metric("CVD", compact_number(row.get("cvd")))}
+                {metric("CVD", compact_number(row.get("cvd"), missing="未返回"))}
               </div>
             </div>
             """
@@ -824,15 +824,15 @@ def value_of(row: dict[str, str] | None, key: str) -> str | None:
     return row.get(key)
 
 
-def fmt_plain(value: Any) -> str:
+def fmt_plain(value: Any, missing: str = "-") -> str:
     if value in (None, ""):
-        return "-"
+        return missing
     return str(value)
 
 
-def fmt_pct(value: Any) -> str:
+def fmt_pct(value: Any, missing: str = "-") -> str:
     if value in (None, ""):
-        return "-"
+        return missing
     number = float(value)
     return f"{number:.2f}%"
 
@@ -846,9 +846,9 @@ def money(value: Any) -> str:
     return f"${number:.4f}"
 
 
-def compact_number(value: Any) -> str:
+def compact_number(value: Any, missing: str = "-") -> str:
     if value in (None, ""):
-        return "-"
+        return missing
     number = float(value)
     sign = "-" if number < 0 else ""
     number = abs(number)
