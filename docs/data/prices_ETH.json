@@ -1,0 +1,338 @@
+[
+  {
+    "timestamp": "2026-06-24T17:00:00+08:00",
+    "asset": "ETH",
+    "price": 1667.15,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-06-24T18:00:00+08:00",
+    "asset": "ETH",
+    "price": 1663.69,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-06-24T19:00:00+08:00",
+    "asset": "ETH",
+    "price": 1679.57,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-06-24T20:00:00+08:00",
+    "asset": "ETH",
+    "price": 1671.53,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-06-24T21:00:00+08:00",
+    "asset": "ETH",
+    "price": 1645.43,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-06-24T22:00:00+08:00",
+    "asset": "ETH",
+    "price": 1647.26,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-06-24T23:00:00+08:00",
+    "asset": "ETH",
+    "price": 1618.08,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-06-25T00:00:00+08:00",
+    "asset": "ETH",
+    "price": 1589.87,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-06-25T01:00:00+08:00",
+    "asset": "ETH",
+    "price": 1560.66,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-06-25T02:00:00+08:00",
+    "asset": "ETH",
+    "price": 1572.26,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-06-25T03:00:00+08:00",
+    "asset": "ETH",
+    "price": 1584.58,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-06-25T04:00:00+08:00",
+    "asset": "ETH",
+    "price": 1613.63,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-06-25T05:00:00+08:00",
+    "asset": "ETH",
+    "price": 1621.37,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-06-25T06:00:00+08:00",
+    "asset": "ETH",
+    "price": 1615.46,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-06-25T07:00:00+08:00",
+    "asset": "ETH",
+    "price": 1622.17,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-06-25T08:00:00+08:00",
+    "asset": "ETH",
+    "price": 1619.12,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-06-25T09:00:00+08:00",
+    "asset": "ETH",
+    "price": 1620.72,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-06-25T10:00:00+08:00",
+    "asset": "ETH",
+    "price": 1621,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-06-25T11:00:00+08:00",
+    "asset": "ETH",
+    "price": 1619.6,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-06-25T12:00:00+08:00",
+    "asset": "ETH",
+    "price": 1635.03,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-06-25T13:00:00+08:00",
+    "asset": "ETH",
+    "price": 1645.89,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-06-25T14:00:00+08:00",
+    "asset": "ETH",
+    "price": 1653.95,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-06-25T15:00:00+08:00",
+    "asset": "ETH",
+    "price": 1657.19,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-06-25T16:00:00+08:00",
+    "asset": "ETH",
+    "price": 1655.8,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-07-01T21:00:00+08:00",
+    "asset": "ETH",
+    "price": 1597.22,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-07-01T22:00:00+08:00",
+    "asset": "ETH",
+    "price": 1601.18,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-07-01T23:00:00+08:00",
+    "asset": "ETH",
+    "price": 1620.09,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-07-02T00:00:00+08:00",
+    "asset": "ETH",
+    "price": 1614.54,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-07-02T01:00:00+08:00",
+    "asset": "ETH",
+    "price": 1622.72,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-07-02T02:00:00+08:00",
+    "asset": "ETH",
+    "price": 1616.59,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-07-02T03:00:00+08:00",
+    "asset": "ETH",
+    "price": 1618.09,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-07-02T04:00:00+08:00",
+    "asset": "ETH",
+    "price": 1617.68,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-07-02T05:00:00+08:00",
+    "asset": "ETH",
+    "price": 1632.12,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-07-02T06:00:00+08:00",
+    "asset": "ETH",
+    "price": 1621.63,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-07-02T07:00:00+08:00",
+    "asset": "ETH",
+    "price": 1609.58,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-07-02T08:00:00+08:00",
+    "asset": "ETH",
+    "price": 1603.42,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-07-02T09:00:00+08:00",
+    "asset": "ETH",
+    "price": 1620.48,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-07-02T10:00:00+08:00",
+    "asset": "ETH",
+    "price": 1620.68,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-07-02T11:00:00+08:00",
+    "asset": "ETH",
+    "price": 1639.47,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-07-02T12:00:00+08:00",
+    "asset": "ETH",
+    "price": 1632.71,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-07-02T13:00:00+08:00",
+    "asset": "ETH",
+    "price": 1626.5,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-07-02T14:00:00+08:00",
+    "asset": "ETH",
+    "price": 1619.14,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-07-02T15:00:00+08:00",
+    "asset": "ETH",
+    "price": 1615.97,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-07-02T16:00:00+08:00",
+    "asset": "ETH",
+    "price": 1624.92,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-07-02T17:00:00+08:00",
+    "asset": "ETH",
+    "price": 1643.33,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-07-02T18:00:00+08:00",
+    "asset": "ETH",
+    "price": 1646.12,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-07-02T19:00:00+08:00",
+    "asset": "ETH",
+    "price": 1650.32,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-07-02T20:00:00+08:00",
+    "asset": "ETH",
+    "price": 1660.95,
+    "source": "binance:ETHUSDT:1h",
+    "note": "Kline close price"
+  }
+]

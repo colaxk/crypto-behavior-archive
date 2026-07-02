@@ -151,6 +151,14 @@ python3 -m src.cli generate-dashboard
 
 仪表板会生成到 `docs/index.html`，适合用 GitHub Pages 免费发布。
 
+导出网页读取的静态 JSON 和日报副本：
+
+```bash
+python3 -m src.cli export-json
+```
+
+导出结果会写入 `docs/data/` 和 `docs/reports/`。GitHub Pages 页面刷新时读取这些静态文件，历史数据仍长期保存在仓库里，不依赖浏览器内存。
+
 ## 目录结构
 
 ```text
@@ -185,6 +193,13 @@ crypto_behavior_archive/
 - `events/events.jsonl`: 异常事件，每行一个 JSON
 - `reports/*.md`: Markdown 日报
 - `docs/index.html`: 静态仪表板，适合 GitHub Pages 发布
+- `docs/data/snapshots.json`: 网页读取的快照历史
+- `docs/data/prices_BTC.json`: BTC 价格历史
+- `docs/data/prices_ETH.json`: ETH 价格历史
+- `docs/data/prices_WLD.json`: WLD 价格历史
+- `docs/data/events.json`: 网页读取的异常事件
+- `docs/data/hypotheses.json`: GPT Context 与假设区块数据
+- `docs/reports/*.md`: GitHub Pages 可访问的日报副本
 
 ## GitHub Pages 部署
 
@@ -214,26 +229,26 @@ https://你的GitHub用户名.github.io/仓库名/
 .github/workflows/daily-dashboard.yml
 ```
 
-它会每小时自动执行一次。注意：GitHub Actions 的定时任务按 UTC 调度，且可能延迟几分钟到几十分钟，不是实时任务。
+它会每天自动执行一次，当前设置为北京时间 00:10 左右。注意：GitHub Actions 的定时任务按 UTC 调度，且可能延迟几分钟到几十分钟，不是实时任务。
 
 ```bash
 python3 -m src.cli daily-collect
 python3 -m src.cli update-outcomes --all
 python3 -m src.cli generate-report --date "$(date +%F)"
 python3 -m src.cli generate-dashboard
+python3 -m src.cli export-json
 ```
 
 然后提交这些文件：
 
+- `data/processed/`
+- `docs/data/`
+- `docs/reports/`
 - `docs/index.html`
-- `data/processed/snapshots.csv`
-- `data/processed/prices.csv`
 - `events/events.jsonl`
 - `reports/*.md`
 
-这样 GitHub Pages 页面会随着数据一起更新。
-
-仪表板页面还有一层浏览器端实时价格：打开页面后会每 60 秒尝试从 Binance 读取 `BTCUSDT`、`ETHUSDT` 和 `WLDUSDT` 的最新价格。这个实时层只更新页面显示，不会写入 CSV；真正沉淀到行为档案里的数据仍由 GitHub Actions 定时生成。
+这样 GitHub 仓库会长期保存 CSV / JSON / Markdown 历史数据，GitHub Pages 页面也会随着这些静态文件一起更新。页面刷新时读取的是 `docs/data/*.json`，不是浏览器临时内存，所以可以支持半年、一年甚至更久的回溯。
 
 ### 手动触发更新
 

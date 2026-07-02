@@ -12,6 +12,7 @@ from src.collectors.coinglass import DataFetchError as CoinGlassFetchError
 from src.collectors.coinglass import as_float, fetch_page_metrics, metrics_to_snapshot
 from src.models import Event, PricePoint, Snapshot, parse_datetime, to_iso
 from src.report_generator.dashboard import generate_dashboard
+from src.report_generator.export_json import export_json
 from src.report_generator.markdown import generate_daily_report
 from src.storage import (
     add_event,
@@ -117,6 +118,7 @@ def main() -> None:
     report.add_argument("--date", required=True, help="YYYY-MM-DD")
 
     subparsers.add_parser("generate-dashboard", help="Generate docs/index.html static dashboard.")
+    subparsers.add_parser("export-json", help="Export CSV/JSONL/Markdown history to docs/data and docs/reports.")
 
     seed = subparsers.add_parser("seed-demo", help="Create demo BTC/WLD data for a quick smoke test.")
     seed.add_argument("--date", default=date.today().isoformat())
@@ -153,6 +155,11 @@ def main() -> None:
     elif args.command == "generate-dashboard":
         path = generate_dashboard()
         print(f"Generated dashboard: {path}")
+    elif args.command == "export-json":
+        paths = export_json()
+        print(f"Exported {len(paths)} static JSON/report files.")
+        for path in paths:
+            print(f"- {path}")
     elif args.command == "seed-demo":
         handle_seed_demo(args)
 
@@ -273,12 +280,12 @@ def handle_daily_collect(args: argparse.Namespace) -> None:
         if not args.skip_coinglass:
             try:
                 metrics, raw_page, metrics_path = fetch_page_metrics(asset)
-                snapshot.oi = as_float(metrics.get("oi"))
-                snapshot.funding_rate = as_float(metrics.get("funding_rate")) or snapshot.funding_rate
-                snapshot.liquidation_total = as_float(metrics.get("liquidation_total")) or snapshot.liquidation_total
-                snapshot.long_liquidation = as_float(metrics.get("long_liquidation")) or snapshot.long_liquidation
-                snapshot.short_liquidation = as_float(metrics.get("short_liquidation")) or snapshot.short_liquidation
-                snapshot.long_short_ratio = as_float(metrics.get("long_short_ratio")) or snapshot.long_short_ratio
+                snapshot.oi = prefer_metric(metrics.get("oi"), snapshot.oi)
+                snapshot.funding_rate = prefer_metric(metrics.get("funding_rate"), snapshot.funding_rate)
+                snapshot.liquidation_total = prefer_metric(metrics.get("liquidation_total"), snapshot.liquidation_total)
+                snapshot.long_liquidation = prefer_metric(metrics.get("long_liquidation"), snapshot.long_liquidation)
+                snapshot.short_liquidation = prefer_metric(metrics.get("short_liquidation"), snapshot.short_liquidation)
+                snapshot.long_short_ratio = prefer_metric(metrics.get("long_short_ratio"), snapshot.long_short_ratio)
                 snapshot.note = f"{snapshot.note}; CoinGlass page metrics"
                 print(f"- CoinGlass raw page: {raw_page}")
                 print(f"- CoinGlass metrics: {metrics_path}")
@@ -288,6 +295,11 @@ def handle_daily_collect(args: argparse.Namespace) -> None:
 
         add_snapshot(snapshot)
         print(f"- Snapshot saved: {snapshot.asset} {snapshot.timestamp} price={snapshot.price}")
+
+
+def prefer_metric(candidate: object, fallback: float | None) -> float | None:
+    value = as_float(candidate)
+    return value if value is not None else fallback
 
 
 def handle_add_event(args: argparse.Namespace) -> None:

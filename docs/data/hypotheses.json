@@ -1,0 +1,21 @@
+{
+  "current": [
+    "BTC/ETH/WLD 当前结构需要结合 OI、Funding、成交量、异常事件和 BTC 大盘环境判断。",
+    "CVD 当前使用 Binance Futures taker buy/sell 近似值。",
+    "Heatmap / 清算地图仍需接入稳定数据源。"
+  ],
+  "verified": [
+    {
+      "event_id": "EVT-20260623-120000-WLD",
+      "asset": "WLD",
+      "title": "WLD Funding 与 OI 同步升温",
+      "outcome": "1h:1.8462% 4h:5.8462% 24h:4.0% 3d:-4.0% 7d:14.4615%"
+    }
+  ],
+  "pending": [
+    "验证 Funding 与 OI 同向升温后，价格 1h/4h/24h/3d/7d 表现是否持续。",
+    "验证 BTC 下跌时 WLD 和 ETH 的相对强弱。",
+    "补充更稳定的爆仓与 Heatmap 数据源。"
+  ],
+  "latest_snapshot_time": "2026-07-02T20:59:35+08:00"
+}
