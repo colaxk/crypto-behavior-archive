@@ -15,6 +15,7 @@
       --red: #c23b3b;
       --blue: #2458d3;
       --purple: #7c3aed;
+      --amber: #9a5b13;
       --shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
     }
     * { box-sizing: border-box; }
@@ -86,6 +87,7 @@
     .positive { color: var(--green); }
     .negative { color: var(--red); }
     .muted { color: var(--muted); }
+    .warn { color: var(--amber); }
     .pill {
       display: inline-block;
       padding: 2px 8px;
@@ -94,13 +96,27 @@
       color: var(--blue);
       font-size: 12px;
       font-weight: 700;
+      white-space: nowrap;
     }
+    .pill.live { background: #e9f8f1; color: var(--green); }
     .asset-head {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
       gap: 8px;
       margin-bottom: 10px;
+    }
+    .live-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .live-cell {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 10px;
     }
     canvas {
       width: 100%;
@@ -138,7 +154,7 @@
     @media (max-width: 820px) {
       h1 { font-size: 22px; }
       main { padding-left: 12px; padding-right: 12px; }
-      .grid, .two, .toolbar { grid-template-columns: 1fr; }
+      .grid, .two, .toolbar, .live-strip { grid-template-columns: 1fr; }
       .card { padding: 12px; }
       canvas { height: 180px; }
     }
@@ -157,12 +173,13 @@
       <button type="button" id="copyContext">复制 GPT Context</button>
     </section>
 
+    <section class="live-strip" id="liveStrip"></section>
     <section class="grid" id="assetCards"></section>
 
     <section class="card single">
       <h2>最近30天价格曲线</h2>
       <canvas id="priceChart" width="1000" height="320"></canvas>
-      <div class="subtitle">蓝色 BTC，紫色 ETH，绿色 WLD。数据来自 docs/data/prices_*.json。</div>
+      <div class="subtitle">历史曲线来自仓库 docs/data/prices_*.json；最新卡片会叠加浏览器实时 API 数据。</div>
     </section>
 
     <section class="grid two single">
@@ -183,13 +200,26 @@
       <pre id="gptContext">正在生成...</pre>
     </section>
   </main>
-  <footer>GitHub Pages 静态页面。历史数据由 GitHub Actions commit 到仓库中的 CSV / JSON / Markdown 文件。</footer>
+  <footer>GitHub Pages 静态页面。历史数据由 GitHub Actions commit 到仓库；实时层由浏览器直接读取公开 API，不执行交易。</footer>
 
   <script>
     const ASSETS = ['BTC', 'ETH', 'WLD'];
     const COLORS = { BTC: '#2458d3', ETH: '#7c3aed', WLD: '#12805c' };
-    const SYMBOLS = { BTC: 'BTCUSDT', ETH: 'ETHUSDT', WLD: 'WLDUSDT' };
-    const state = { snapshots: [], prices: {}, events: [], reports: [], hypotheses: {}, selectedDate: null };
+    const BINANCE_SYMBOLS = { BTC: 'BTCUSDT', ETH: 'ETHUSDT', WLD: 'WLDUSDT' };
+    const OKX_SPOT = { BTC: 'BTC-USDT', ETH: 'ETH-USDT', WLD: 'WLD-USDT' };
+    const OKX_SWAP = { BTC: 'BTC-USDT-SWAP', ETH: 'ETH-USDT-SWAP', WLD: 'WLD-USDT-SWAP' };
+    const state = {
+      snapshots: [],
+      prices: {},
+      events: [],
+      reports: [],
+      hypotheses: {},
+      selectedDate: null,
+      live: {},
+      liveErrors: {},
+      liquidations: {},
+      liveTimer: null,
+    };
 
     async function loadJson(path) {
       const response = await fetch(path + '?v=' + Date.now(), { cache: 'no-store' });
@@ -213,8 +243,12 @@
       state.hypotheses = hypotheses;
       state.prices = { BTC: btc, ETH: eth, WLD: wld };
       state.selectedDate = latestDate(snapshots);
+      ASSETS.forEach(asset => {
+        state.liquidations[asset] = { total: 0, long: 0, short: 0, count: 0, startedAt: new Date().toISOString() };
+      });
       fillDateSelect();
       render();
+      startLive();
     }
 
     function fillDateSelect() {
@@ -229,13 +263,34 @@
     }
 
     function render() {
-      const latestByAsset = Object.fromEntries(ASSETS.map(asset => [asset, snapshotFor(asset, state.selectedDate)]));
-      document.getElementById('subtitle').innerText = `历史数据日期 ${state.selectedDate} · 最新仓库快照 ${state.hypotheses.latest_snapshot_time || '-'}`;
-      document.getElementById('assetCards').innerHTML = ASSETS.map(asset => assetCard(asset, latestByAsset[asset])).join('');
+      const latestDateValue = latestDate(state.snapshots);
+      const useLive = state.selectedDate === latestDateValue;
+      const latestByAsset = Object.fromEntries(ASSETS.map(asset => {
+        const archived = snapshotFor(asset, state.selectedDate);
+        return [asset, useLive ? mergeLive(asset, archived) : archived];
+      }));
+      const liveSummary = ASSETS.map(asset => state.live[asset]?.status || '等待实时数据').join(' / ');
+      document.getElementById('subtitle').innerText =
+        `历史日期 ${state.selectedDate} · 仓库快照 ${state.hypotheses.latest_snapshot_time || '-'} · 实时层 ${liveSummary}`;
+      renderLiveStrip();
+      document.getElementById('assetCards').innerHTML = ASSETS.map(asset => assetCard(asset, latestByAsset[asset], useLive)).join('');
       renderEvents();
       renderReports();
       drawChart();
-      document.getElementById('gptContext').innerText = buildContext(latestByAsset);
+      document.getElementById('gptContext').innerText = buildContext(latestByAsset, useLive);
+    }
+
+    function mergeLive(asset, archived) {
+      const row = { ...(archived || {}) };
+      const live = state.live[asset] || {};
+      for (const key of [
+        'timestamp', 'price', 'change_24h', 'volume_24h', 'oi', 'funding_rate',
+        'liquidation_total', 'long_liquidation', 'short_liquidation',
+        'long_short_ratio', 'cvd', 'heatmap', 'spot_volume', 'futures_volume', 'note'
+      ]) {
+        if (live[key] !== undefined && live[key] !== null && live[key] !== '') row[key] = live[key];
+      }
+      return row;
     }
 
     function snapshotFor(asset, date) {
@@ -245,31 +300,50 @@
       return rows[rows.length - 1] || null;
     }
 
-    function assetCard(asset, row) {
+    function assetCard(asset, row, useLive) {
       if (!row) return `<div class="card"><h2>${asset}</h2><div class="muted">暂无快照</div></div>`;
+      const live = state.live[asset] || {};
+      const liq = state.liquidations[asset] || {};
+      const pillClass = useLive && live.timestamp ? 'pill live' : 'pill';
+      const pillText = useLive && live.timestamp ? `实时 ${shortClock(live.timestamp)}` : shortTime(row.timestamp);
+      const source = useLive ? live.status || '实时层等待中' : '历史档案';
       return `<div class="card">
-        <div class="asset-head"><h2>${asset}</h2><span class="pill">${shortTime(row.timestamp)}</span></div>
+        <div class="asset-head"><h2>${asset}</h2><span class="${pillClass}">${escapeHtml(pillText)}</span></div>
         <div class="metric-grid">
           ${metric('价格', money(row.price))}
           ${metric('24h涨跌', pct(row.change_24h), row.change_24h)}
           ${metric('OI', compact(row.oi))}
           ${metric('Funding', pct(row.funding_rate, '未返回'))}
-          ${metric('爆仓总额', compact(row.liquidation_total, '未返回'))}
-          ${metric('多单爆仓', compact(row.long_liquidation, '未返回'))}
-          ${metric('空单爆仓', compact(row.short_liquidation, '未返回'))}
-          ${metric('多空比', plain(row.long_short_ratio))}
+          ${metric('爆仓总额', compact(row.liquidation_total, '0，本页实时'), row.liquidation_total)}
+          ${metric('多单爆仓', compact(row.long_liquidation, '0，本页实时'), row.long_liquidation)}
+          ${metric('空单爆仓', compact(row.short_liquidation, '0，本页实时'), row.short_liquidation)}
+          ${metric('多空比', plain(row.long_short_ratio, '未返回'))}
           ${metric('CVD', compact(row.cvd, '未返回'))}
-          ${metric('Heatmap', plain(row.heatmap, '未接入'))}
+          ${metric('Heatmap', plain(row.heatmap, '需 CoinGlass API'))}
           ${metric('现货成交量', compact(row.spot_volume))}
           ${metric('合约成交量', compact(row.futures_volume))}
         </div>
-        <div class="subtitle">${escapeHtml(row.note || '')}</div>
+        <div class="subtitle">${escapeHtml(source)} · 强平WS累计 ${liq.count || 0} 笔 · ${escapeHtml(row.note || '')}</div>
       </div>`;
     }
 
     function metric(label, value, raw) {
       const cls = Number(raw) > 0 ? 'positive' : Number(raw) < 0 ? 'negative' : '';
       return `<div class="metric"><div class="label">${label}</div><div class="value ${cls}">${escapeHtml(value)}</div></div>`;
+    }
+
+    function renderLiveStrip() {
+      document.getElementById('liveStrip').innerHTML = ASSETS.map(asset => {
+        const live = state.live[asset] || {};
+        const err = state.liveErrors[asset];
+        const cls = live.timestamp ? 'positive' : err ? 'negative' : 'warn';
+        const text = live.timestamp ? `${money(live.price)} · ${pct(live.change_24h)}` : err || '正在请求公开 API...';
+        return `<div class="live-cell">
+          <div class="label">${asset} 实时层</div>
+          <div class="value ${cls}">${escapeHtml(text)}</div>
+          <div class="subtitle">${escapeHtml(live.source || 'Binance 主源，OKX 备用')}</div>
+        </div>`;
+      }).join('');
     }
 
     function renderEvents() {
@@ -334,22 +408,179 @@
       ctx.stroke();
     }
 
-    function buildContext(latestByAsset) {
+    async function startLive() {
+      connectLiquidationSockets();
+      await refreshLive();
+      state.liveTimer = setInterval(refreshLive, 30000);
+    }
+
+    async function refreshLive() {
+      await Promise.all(ASSETS.map(asset => refreshAsset(asset)));
+      render();
+    }
+
+    async function refreshAsset(asset) {
+      try {
+        const [spot, futures, okx] = await Promise.allSettled([
+          fetchBinanceSpot(asset),
+          fetchBinanceFutures(asset),
+          fetchOkxFallback(asset),
+        ]);
+        const live = {};
+        const sources = [];
+        if (spot.status === 'fulfilled') {
+          Object.assign(live, spot.value);
+          sources.push('Binance Spot');
+        }
+        if (futures.status === 'fulfilled') {
+          Object.assign(live, futures.value);
+          sources.push('Binance Futures');
+        }
+        if (okx.status === 'fulfilled') {
+          for (const [key, value] of Object.entries(okx.value)) {
+            if (live[key] === undefined || live[key] === null || live[key] === '') live[key] = value;
+          }
+          sources.push('OKX fallback');
+        }
+        const liq = state.liquidations[asset] || {};
+        live.liquidation_total = liq.total || 0;
+        live.long_liquidation = liq.long || 0;
+        live.short_liquidation = liq.short || 0;
+        live.heatmap = live.heatmap || '需 CoinGlass API';
+        live.timestamp = new Date().toISOString();
+        live.status = sources.length ? '已实时刷新' : '实时源未返回';
+        live.source = sources.join(' + ') || '未返回';
+        live.note = `实时层：${live.source}；爆仓为本页打开后的 Binance 强平流累计，非24h历史总额`;
+        state.live[asset] = live;
+        delete state.liveErrors[asset];
+      } catch (error) {
+        state.liveErrors[asset] = error.message || String(error);
+      }
+    }
+
+    async function fetchBinanceSpot(asset) {
+      const symbol = BINANCE_SYMBOLS[asset];
+      const data = await fetchAny([
+        `https://api.binance.com/api/v3/ticker/24hr?symbol=${symbol}`,
+        `https://data-api.binance.vision/api/v3/ticker/24hr?symbol=${symbol}`,
+      ]);
+      return {
+        price: number(data.lastPrice),
+        change_24h: number(data.priceChangePercent),
+        volume_24h: number(data.quoteVolume),
+        spot_volume: number(data.quoteVolume),
+      };
+    }
+
+    async function fetchBinanceFutures(asset) {
+      const symbol = BINANCE_SYMBOLS[asset];
+      const [premium, oi, ticker, longShort, taker] = await Promise.allSettled([
+        fetchAny([`https://fapi.binance.com/fapi/v1/premiumIndex?symbol=${symbol}`]),
+        fetchAny([`https://fapi.binance.com/fapi/v1/openInterest?symbol=${symbol}`]),
+        fetchAny([`https://fapi.binance.com/fapi/v1/ticker/24hr?symbol=${symbol}`]),
+        fetchAny([`https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=${symbol}&period=5m&limit=1`]),
+        fetchAny([`https://fapi.binance.com/futures/data/takerlongshortRatio?symbol=${symbol}&period=1h&limit=24`]),
+      ]);
+      const p = premium.status === 'fulfilled' ? premium.value : {};
+      const open = oi.status === 'fulfilled' ? oi.value : {};
+      const t = ticker.status === 'fulfilled' ? ticker.value : {};
+      const ls = longShort.status === 'fulfilled' && Array.isArray(longShort.value) ? longShort.value.at(-1) || {} : {};
+      const flow = taker.status === 'fulfilled' && Array.isArray(taker.value) ? taker.value : [];
+      const mark = number(p.markPrice || t.lastPrice);
+      const contracts = number(open.openInterest);
+      return {
+        funding_rate: number(p.lastFundingRate) * 100,
+        oi: mark && contracts ? mark * contracts : contracts,
+        futures_volume: number(t.quoteVolume),
+        long_short_ratio: number(ls.longShortRatio),
+        cvd: flow.reduce((sum, row) => sum + number(row.buyVol) - number(row.sellVol), 0),
+      };
+    }
+
+    async function fetchOkxFallback(asset) {
+      const [spot, funding, oi, swapTicker] = await Promise.allSettled([
+        fetchAny([`https://www.okx.com/api/v5/market/ticker?instId=${OKX_SPOT[asset]}`]),
+        fetchAny([`https://www.okx.com/api/v5/public/funding-rate?instId=${OKX_SWAP[asset]}`]),
+        fetchAny([`https://www.okx.com/api/v5/public/open-interest?instType=SWAP&instId=${OKX_SWAP[asset]}`]),
+        fetchAny([`https://www.okx.com/api/v5/market/ticker?instId=${OKX_SWAP[asset]}`]),
+      ]);
+      const result = {};
+      const s = spot.status === 'fulfilled' ? firstData(spot.value) : {};
+      const f = funding.status === 'fulfilled' ? firstData(funding.value) : {};
+      const o = oi.status === 'fulfilled' ? firstData(oi.value) : {};
+      const sw = swapTicker.status === 'fulfilled' ? firstData(swapTicker.value) : {};
+      if (s.last) result.price = number(s.last);
+      if (s.sodUtc0 && s.last) result.change_24h = ((number(s.last) - number(s.sodUtc0)) / number(s.sodUtc0)) * 100;
+      if (s.volCcy24h && s.last) result.spot_volume = number(s.volCcy24h) * number(s.last);
+      if (f.fundingRate) result.funding_rate = number(f.fundingRate) * 100;
+      if (o.oiUsd) result.oi = number(o.oiUsd);
+      if (sw.volCcy24h && sw.last) result.futures_volume = number(sw.volCcy24h) * number(sw.last);
+      return result;
+    }
+
+    function connectLiquidationSockets() {
+      ASSETS.forEach(asset => {
+        const stream = `${BINANCE_SYMBOLS[asset].toLowerCase()}@forceOrder`;
+        try {
+          const socket = new WebSocket(`wss://fstream.binance.com/ws/${stream}`);
+          socket.onmessage = event => {
+            const payload = JSON.parse(event.data);
+            const order = payload.o || {};
+            const qty = number(order.q || order.z);
+            const price = number(order.ap || order.p);
+            const notional = qty * price;
+            if (!Number.isFinite(notional) || notional <= 0) return;
+            const liq = state.liquidations[asset];
+            liq.total += notional;
+            liq.count += 1;
+            if (order.S === 'SELL') liq.long += notional;
+            if (order.S === 'BUY') liq.short += notional;
+            render();
+          };
+          socket.onerror = () => {
+            state.liveErrors[asset] = `${asset} 强平 WebSocket 暂不可用`;
+            renderLiveStrip();
+          };
+        } catch (error) {
+          state.liveErrors[asset] = `${asset} 强平 WebSocket 打不开`;
+        }
+      });
+    }
+
+    async function fetchAny(urls) {
+      let lastError;
+      for (const url of urls) {
+        try {
+          const controller = new AbortController();
+          const timer = setTimeout(() => controller.abort(), 8000);
+          const response = await fetch(url, { cache: 'no-store', signal: controller.signal });
+          clearTimeout(timer);
+          if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
+          return response.json();
+        } catch (error) {
+          lastError = error;
+        }
+      }
+      throw lastError || new Error('all endpoints failed');
+    }
+
+    function buildContext(latestByAsset, useLive) {
       const blocks = ASSETS.map(asset => {
         const row = latestByAsset[asset] || {};
         return `${asset}
 
-价格: ${money(row.price)} / 24h ${pct(row.change_24h)} / 日期 ${day(row.timestamp) || '-'}
+价格: ${money(row.price)} / 24h ${pct(row.change_24h)} / 时间 ${row.timestamp || '-'}
 OI: ${compact(row.oi)}
 Funding: ${pct(row.funding_rate, '未返回')}
-Liquidation: ${compact(row.liquidation_total, '未返回')}
+Liquidation: ${compact(row.liquidation_total, '0，本页实时累计')}
 CVD: ${compact(row.cvd, '未返回')}
-Heatmap: ${plain(row.heatmap, '未接入')}
+Heatmap: ${plain(row.heatmap, '需 CoinGlass API')}
 状态: ${row.note || '待判断'}`;
       }).join('\n\n---\n\n');
       const verified = (state.hypotheses.verified || []).map(item => `- ${item.asset} ${item.title}: ${item.outcome}`).join('\n') || '- 暂无';
       const current = (state.hypotheses.current || []).map(item => `- ${item}`).join('\n');
       const pending = (state.hypotheses.pending || []).map(item => `- ${item}`).join('\n');
+      const mode = useLive ? '当前卡片已叠加浏览器实时 API 数据。' : '当前为历史日期回溯，未叠加实时数据。';
       return `${blocks}
 
 ---
@@ -362,6 +593,11 @@ ${verified}
 
 待验证
 ${pending}
+
+数据说明
+- ${mode}
+- 爆仓为本页打开后 Binance 强平 WebSocket 捕捉累计，不等于 24h 历史爆仓。
+- Heatmap/清算地图需要 CoinGlass API 或其他授权数据源，静态 GitHub Pages 不能稳定抓网页私有数据。
 
 请基于以上上下文分析 BTC/ETH/WLD 的资金行为、异常事件、相对强弱、风险和下一步待验证假设。不要给自动交易指令。`;
     }
@@ -389,29 +625,37 @@ ${pending}
     }
     function day(value) { return value ? String(value).slice(0, 10) : ''; }
     function shortTime(value) { return value ? String(value).slice(5, 16).replace('T', ' ') : '-'; }
+    function shortClock(value) { return value ? new Date(value).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '-'; }
     function plain(value, missing = '-') { return value === null || value === undefined || value === '' ? missing : String(value); }
     function pct(value, missing = '-') {
       if (value === null || value === undefined || value === '') return missing;
-      const number = Number(value);
-      return Number.isFinite(number) ? number.toFixed(2) + '%' : missing;
+      const n = Number(value);
+      return Number.isFinite(n) ? n.toFixed(3).replace(/\.000$/, '') + '%' : missing;
     }
     function money(value) {
       if (value === null || value === undefined || value === '') return '-';
-      const number = Number(value);
-      if (!Number.isFinite(number)) return '-';
-      return number >= 100 ? '$' + number.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '$' + number.toFixed(4);
+      const n = Number(value);
+      if (!Number.isFinite(n)) return '-';
+      return n >= 100 ? '$' + n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '$' + n.toFixed(4);
     }
     function compact(value, missing = '-') {
       if (value === null || value === undefined || value === '') return missing;
-      let number = Number(value);
-      if (!Number.isFinite(number)) return missing;
-      const sign = number < 0 ? '-' : '';
-      number = Math.abs(number);
+      let n = Number(value);
+      if (!Number.isFinite(n)) return missing;
+      const sign = n < 0 ? '-' : '';
+      n = Math.abs(n);
       const units = [['T', 1e12], ['B', 1e9], ['M', 1e6], ['K', 1e3]];
       for (const [suffix, divisor] of units) {
-        if (number >= divisor) return sign + (number / divisor).toFixed(2) + suffix;
+        if (n >= divisor) return sign + (n / divisor).toFixed(2) + suffix;
       }
-      return sign + number.toPrecision(4);
+      return sign + n.toPrecision(4);
+    }
+    function number(value) {
+      const n = Number(value);
+      return Number.isFinite(n) ? n : 0;
+    }
+    function firstData(payload) {
+      return payload && Array.isArray(payload.data) && payload.data.length ? payload.data[0] : {};
     }
     function compactOutcome(outcome) {
       if (!outcome) return '';
