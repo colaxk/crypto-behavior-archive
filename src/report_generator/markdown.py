@@ -34,6 +34,9 @@ def generate_daily_report(report_date: date, output_dir: Path = REPORTS_DIR) -> 
                 "## Behavior Summary（行为画像）",
                 behavior_summary_block(behavior_day),
                 "",
+                "## Behavior Confidence（结论可信度）",
+                behavior_confidence_block(behavior_day),
+                "",
                 "## Behavior Score（行为评分）",
                 behavior_score_block(behavior_day),
                 "",
@@ -95,6 +98,59 @@ def behavior_summary_block(day_payload: dict[str, Any]) -> str:
             f"| {asset} | {item.get('phase', '-')} | {item.get('summary', '-')} | {', '.join(item.get('tags', []))} |"
         )
     return "\n".join(lines)
+
+
+def behavior_confidence_block(day_payload: dict[str, Any]) -> str:
+    assets = day_payload.get("assets") or {}
+    if not assets:
+        return "- 暂无可信度判断。"
+    blocks = []
+    for asset in ("BTC", "ETH", "WLD"):
+        item = assets.get(asset)
+        if not item:
+            continue
+        confidence = item.get("confidence") or {}
+        support = confidence.get("support") or []
+        against = confidence.get("against") or []
+        lines = [
+            f"### {asset}: {behavior_title(item)}",
+            f"- 可信度: {confidence.get('level', '-')}",
+            "- 原因:",
+        ]
+        if support:
+            lines.extend(f"  - 支持: {line}" for line in support)
+        else:
+            lines.append("  - 支持: 暂无足够支持证据。")
+        if against:
+            lines.extend(f"  - 反对: {line}" for line in against)
+        else:
+            lines.append("  - 反对: 暂无明显反对证据。")
+        lines.append(f"- 结论: {confidence.get('conclusion', item.get('phase', '-'))}")
+        blocks.append("\n".join(lines))
+    return "\n\n".join(blocks)
+
+
+def behavior_title(item: dict[str, Any]) -> str:
+    tags = item.get("tags") or []
+    priority = [
+        "杠杆释放",
+        "空头衰减",
+        "吸筹观察",
+        "资金试探",
+        "趋势转强",
+        "趋势转弱",
+        "多头过热",
+        "诱多风险",
+        "OI暴增",
+        "OI暴减",
+        "成交衰减",
+        "放量上涨",
+        "放量下跌",
+    ]
+    selected = [tag for tag in priority if tag in tags]
+    if not selected:
+        selected = tags[:3]
+    return "、".join(selected[:3]) or item.get("phase", "-")
 
 
 def behavior_score_block(day_payload: dict[str, Any]) -> str:

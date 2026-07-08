@@ -404,10 +404,12 @@ def build_html() -> str:
     }
 
     function focusAssetBlock(item) {
+      const confidence = item.confidence || {};
       return `<div>
         <div class="asset-head"><h2>${escapeHtml(item.asset || '-')}</h2><span class="pill">${escapeHtml(item.phase || '等待确认')}</span></div>
         <div class="score-total">${plain(item.scores?.composite, '-')}<span class="label"> /100</span></div>
         <div class="subtitle">${escapeHtml(item.summary || '')}</div>
+        <div class="subtitle"><strong>可信度：${escapeHtml(confidence.level || '-')}</strong> · ${escapeHtml(confidence.conclusion || '-')}</div>
         ${scoreRows(item.scores || {})}
       </div>`;
     }
@@ -415,14 +417,25 @@ def build_html() -> str:
     function behaviorAssetCard(asset, item) {
       if (!item) return `<div class="card"><h2>${asset}</h2><div class="muted">暂无行为画像</div></div>`;
       const evidence = flattenEvidence(item.evidence).slice(0, 4);
+      const confidence = item.confidence || {};
       return `<div class="card">
         <div class="asset-head"><h2>${asset}</h2><span class="pill">${escapeHtml(item.phase || '等待确认')}</span></div>
         <div class="score-total">${plain(item.scores?.composite, '-')}<span class="label"> /100</span></div>
         <div class="subtitle">${escapeHtml(item.summary || '')}</div>
+        <div class="subtitle"><strong>可信度：${escapeHtml(confidence.level || '-')}</strong> · 结论：${escapeHtml(confidence.conclusion || '-')}</div>
         <div class="tags">${(item.tags || []).slice(0, 8).map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join('')}</div>
         ${scoreRows(item.scores || {})}
+        ${confidenceBlock(confidence)}
         <ul class="evidence-list">${evidence.map(line => `<li>${escapeHtml(line)}</li>`).join('')}</ul>
       </div>`;
+    }
+
+    function confidenceBlock(confidence) {
+      const support = confidence.support || [];
+      const against = confidence.against || [];
+      const supportHtml = support.length ? support.slice(0, 3).map(line => `<li>支持：${escapeHtml(line)}</li>`).join('') : '<li>支持证据不足</li>';
+      const againstHtml = against.length ? against.slice(0, 3).map(line => `<li>反对：${escapeHtml(line)}</li>`).join('') : '<li>暂无明显反对证据</li>';
+      return `<ul class="evidence-list">${supportHtml}${againstHtml}</ul>`;
     }
 
     function scoreRows(scores) {
@@ -798,8 +811,12 @@ def build_html() -> str:
       const behaviorAssets = ASSETS.map(asset => {
         const item = behavior.assets?.[asset];
         if (!item) return `${asset}: 暂无行为画像`;
+        const confidence = item.confidence || {};
         return `${asset}: ${item.phase} / 综合评分 ${item.scores?.composite}/100
 行为总结: ${item.summary}
+可信度: ${confidence.level || '-'} / 结论: ${confidence.conclusion || '-'}
+支持: ${(confidence.support || []).join('；') || '-'}
+反对: ${(confidence.against || []).join('；') || '-'}
 行为标签: ${(item.tags || []).join('、')}
 关键证据: ${flattenEvidence(item.evidence).slice(0, 5).join('；')}`;
       }).join('\\n\\n');

@@ -159,6 +159,18 @@ def analyze_snapshot(
     phase = infer_phase(tags, scores)
     biggest_change = infer_biggest_change(row, previous, tags, scores, oi_delta, volume_delta, cvd_delta)
     summary = summarize_behavior(asset, phase, tags, scores)
+    confidence = build_confidence(
+        phase=phase,
+        tags=tags,
+        scores=scores,
+        oi_delta=oi_delta,
+        volume_delta=volume_delta,
+        futures_volume_delta=futures_volume_delta,
+        cvd=cvd,
+        cvd_delta=cvd_delta,
+        funding=funding,
+        long_short_ratio=long_short_ratio,
+    )
 
     return {
         "asset": asset,
@@ -171,6 +183,7 @@ def analyze_snapshot(
         "score_stars": {key: score_to_stars(value) for key, value in scores.items()},
         "tags": tags,
         "evidence": evidence,
+        "confidence": confidence,
         "raw_refs": {
             "price": price,
             "change_24h": change_24h,
@@ -178,7 +191,9 @@ def analyze_snapshot(
             "oi_delta": oi_delta,
             "funding_rate": funding,
             "volume_24h": num(row.get("volume_24h")),
+            "volume_delta": volume_delta,
             "cvd": cvd,
+            "cvd_delta": cvd_delta,
             "long_short_ratio": long_short_ratio,
         },
     }
@@ -457,6 +472,105 @@ def build_evidence(
         evidence["relative_strength"].append("缺少同日BTC/ETH参照或强弱差异不足，暂不输出相对强弱标签。")
 
     return {key: clean_evidence(value) for key, value in evidence.items()}
+
+
+def build_confidence(
+    phase: str,
+    tags: list[str],
+    scores: dict[str, int],
+    oi_delta: float | None,
+    volume_delta: float | None,
+    futures_volume_delta: float | None,
+    cvd: float | None,
+    cvd_delta: float | None,
+    funding: float | None,
+    long_short_ratio: float | None,
+) -> dict[str, Any]:
+    support: list[str] = []
+    against: list[str] = []
+
+    if oi_delta is not None:
+        if oi_delta <= -8:
+            support.append(f"OI {fmt(oi_delta, '%')}，杠杆仓位明显释放。")
+        elif oi_delta >= 8:
+            against.append(f"OI {fmt(oi_delta, '%')}，新增仓位仍在进入。")
+        elif abs(oi_delta) <= 3:
+            against.append(f"OI {fmt(oi_delta, '%')}，仓位变化不强。")
+
+    if volume_delta is not None:
+        if volume_delta <= -20:
+            support.append(f"成交量 {fmt(volume_delta, '%')}，追杀/换手强度衰减。")
+        elif volume_delta >= 30:
+            against.append(f"成交量 {fmt(volume_delta, '%')}，波动仍有放大迹象。")
+
+    if futures_volume_delta is not None:
+        if futures_volume_delta <= -20:
+            support.append(f"合约成交量 {fmt(futures_volume_delta, '%')}，杠杆活跃度下降。")
+        elif futures_volume_delta >= 35:
+            against.append(f"合约成交量 {fmt(futures_volume_delta, '%')}，杠杆活跃度仍高。")
+
+    if funding is not None:
+        if abs(funding) <= 0.01:
+            support.append(f"Funding {fmt(funding, '%')}，费率未明显过热。")
+        elif funding >= 0.03:
+            against.append(f"Funding {fmt(funding, '%')}，多头拥挤风险仍在。")
+        elif funding <= -0.01:
+            against.append(f"Funding {fmt(funding, '%')}，空头拥挤但方向仍激烈。")
+
+    if cvd is not None:
+        if cvd < -1_000_000:
+            against.append(f"CVD {fmt(cvd)}，主动卖仍明显。")
+        elif cvd > 1_000_000:
+            support.append(f"CVD {fmt(cvd)}，主动买开始占优。")
+
+    if cvd_delta is not None:
+        if cvd_delta > 1_000_000:
+            support.append(f"CVD变化 {fmt(cvd_delta)}，主动卖压有缓和迹象。")
+        elif cvd_delta < -1_000_000:
+            against.append(f"CVD变化 {fmt(cvd_delta)}，主动卖压继续增加。")
+
+    if long_short_ratio is not None:
+        if 0.85 <= long_short_ratio <= 1.2:
+            support.append(f"多空比 {fmt(long_short_ratio)}，情绪未明显单边拥挤。")
+        elif long_short_ratio > 1.6:
+            against.append(f"多空比 {fmt(long_short_ratio)}，散户偏多拥挤。")
+        elif long_short_ratio < 0.75:
+            against.append(f"多空比 {fmt(long_short_ratio)}，散户偏空拥挤。")
+
+    if scores.get("whale_behavior", 50) < 35:
+        against.append(f"主力行为评分 {scores.get('whale_behavior')}/100，持续吸筹未确认。")
+    if scores.get("capital_quality", 50) < 35:
+        against.append(f"资金质量评分 {scores.get('capital_quality')}/100，资金流入质量偏弱。")
+    if "空头衰减" in tags:
+        support.append("行为标签触发：空头衰减。")
+    if "杠杆释放" in tags:
+        support.append("行为标签触发：杠杆释放。")
+
+    support = dedupe(support)
+    against = dedupe(against)
+    score = len(support) - len(against)
+    if len(support) >= 4 and len(against) <= 1:
+        level = "高"
+    elif score >= 1 or (len(support) >= 2 and len(against) <= 3):
+        level = "中"
+    else:
+        level = "低"
+
+    if level == "高" and phase not in {"等待确认", "震荡"}:
+        conclusion = phase
+    elif level == "高":
+        conclusion = "倾向成立，继续观察确认"
+    elif level == "中":
+        conclusion = "等待确认"
+    else:
+        conclusion = "证据不足"
+
+    return {
+        "level": level,
+        "support": support[:5],
+        "against": against[:5],
+        "conclusion": conclusion,
+    }
 
 
 def build_daily_conclusion(assets: dict[str, Any], date_key: str) -> dict[str, Any]:
