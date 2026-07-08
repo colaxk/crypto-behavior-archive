@@ -13,9 +13,9 @@
     }
   ],
   "pending": [
-    "验证 Funding 与 OI 同向升温后，价格 1h/4h/24h/3d/7d 表现是否持续。",
+    "验证 Funding 与 OI 同向升温后，价格 1h/4h/24h/3d/7d/30d 表现是否持续。",
     "验证 BTC 下跌时 WLD 和 ETH 的相对强弱。",
     "补充更稳定的爆仓与 Heatmap 数据源。"
   ],
-  "latest_snapshot_time": "2026-07-03T18:48:02+08:00"
+  "latest_snapshot_time": "2026-07-08T22:02:59+08:00"
 }

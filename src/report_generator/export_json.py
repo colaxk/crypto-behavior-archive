@@ -5,6 +5,7 @@ import shutil
 from pathlib import Path
 from typing import Any
 
+from src.analyzers.behavior import build_behavior_archive
 from src.models import parse_datetime
 from src.storage import REPORTS_DIR, ROOT, load_events, load_prices, load_snapshots
 
@@ -23,10 +24,12 @@ def export_json() -> list[Path]:
     events = [event.to_dict() for event in load_events()]
     reports = export_reports()
     hypotheses = build_hypotheses(snapshots, events)
+    behavior = build_behavior_archive(snapshots, events)
 
     written = [
         write_json(DOCS_DATA_DIR / "snapshots.json", snapshots),
         write_json(DOCS_DATA_DIR / "events.json", events),
+        write_json(DOCS_DATA_DIR / "behavior.json", behavior),
         write_json(DOCS_DATA_DIR / "hypotheses.json", hypotheses),
         write_json(DOCS_DATA_DIR / "reports.json", reports),
     ]
@@ -91,7 +94,7 @@ def build_hypotheses(snapshots: list[dict[str, Any]], events: list[dict[str, Any
     for event in events:
         outcome = event.get("outcome") or {}
         compact = []
-        for window in ("1h", "4h", "24h", "3d", "7d"):
+        for window in ("1h", "4h", "24h", "3d", "7d", "30d"):
             result = outcome.get(window)
             if isinstance(result, dict) and result.get("change_pct") is not None:
                 compact.append(f"{window}:{result['change_pct']}%")
@@ -112,7 +115,7 @@ def build_hypotheses(snapshots: list[dict[str, Any]], events: list[dict[str, Any
         ],
         "verified": verified[:10],
         "pending": [
-            "验证 Funding 与 OI 同向升温后，价格 1h/4h/24h/3d/7d 表现是否持续。",
+            "验证 Funding 与 OI 同向升温后，价格 1h/4h/24h/3d/7d/30d 表现是否持续。",
             "验证 BTC 下跌时 WLD 和 ETH 的相对强弱。",
             "补充更稳定的爆仓与 Heatmap 数据源。",
         ],

@@ -4,8 +4,9 @@ from datetime import date
 from pathlib import Path
 from typing import Any
 
+from src.analyzers.behavior import build_behavior_archive
 from src.models import parse_datetime
-from src.storage import REPORTS_DIR, latest_snapshot, load_events
+from src.storage import REPORTS_DIR, latest_snapshot, load_events, load_snapshots
 
 
 def generate_daily_report(report_date: date, output_dir: Path = REPORTS_DIR) -> Path:
@@ -19,15 +20,25 @@ def generate_daily_report(report_date: date, output_dir: Path = REPORTS_DIR) -> 
     btc = latest_snapshot("BTC")
     eth = latest_snapshot("ETH")
     wld = latest_snapshot("WLD")
+    behavior = build_behavior_archive(load_snapshots(), [event.to_dict() for event in load_events()])
+    behavior_day = behavior.get("by_date", {}).get(report_date.isoformat()) or behavior.get("latest", {})
     path = output_dir / f"{report_date.isoformat()}_daily_report.md"
     path.write_text(
         "\n".join(
             [
                 f"# Crypto Behavior Archive 日报 - {report_date.isoformat()}",
                 "",
-                "## 今日市场概况",
-                "- 本报告由本地 MVP 自动生成。",
-                "- 请结合手动备注、截图、新闻事件继续补充判断。",
+                "## Behavior Conclusion（行为结论）",
+                behavior_conclusion_block(behavior_day),
+                "",
+                "## Behavior Summary（行为画像）",
+                behavior_summary_block(behavior_day),
+                "",
+                "## Behavior Score（行为评分）",
+                behavior_score_block(behavior_day),
+                "",
+                "## Behavior Evidence（行为证据）",
+                behavior_evidence_block(behavior_day),
                 "",
                 "## BTC状态",
                 snapshot_block(btc),
@@ -44,27 +55,99 @@ def generate_daily_report(report_date: date, output_dir: Path = REPORTS_DIR) -> 
                 "## 关键事件",
                 event_details(events),
                 "",
-                "## 技术结构",
-                "- 待人工补充：趋势、关键均线、前高/前低、支撑压力。",
-                "",
-                "## OI / Funding / 爆仓分析",
-                "- 待人工补充：OI变化、Funding冷热、爆仓方向、合约拥挤度。",
-                "",
-                "## 当前行为判断",
-                "- 待人工补充：有效信号 / 假突破 / 洗盘 / 出货 / 未知。",
-                "",
                 "## 风险提示",
                 "- 本系统仅用于记录和复盘，不构成交易建议。",
                 "- 数据可能来自手动录入，请核对关键字段。",
                 "",
                 "## 待验证假设",
-                "- 事件后 1h / 4h / 24h / 7d 表现是否支持当前行为标签。",
+                "- 事件后 1h / 4h / 24h / 7d / 30d 表现是否支持当前行为标签。",
                 "",
             ]
         ),
         encoding="utf-8",
     )
     return path
+
+
+def behavior_conclusion_block(day_payload: dict[str, Any]) -> str:
+    conclusion = day_payload.get("conclusion") or {}
+    headline = conclusion.get("headline") or "暂无足够数据生成今日最大变化。"
+    summary = conclusion.get("summary") or "暂无行为画像。"
+    return "\n".join(
+        [
+            f"- 今天最大的变化: {headline}",
+            f"- 结构摘要: {summary}",
+            f"- 聚焦资产: {conclusion.get('focus_asset') or '-'}",
+        ]
+    )
+
+
+def behavior_summary_block(day_payload: dict[str, Any]) -> str:
+    assets = day_payload.get("assets") or {}
+    if not assets:
+        return "- 暂无行为画像。"
+    lines = ["| 标的 | 阶段 | 一句话 | 标签 |", "| --- | --- | --- | --- |"]
+    for asset in ("BTC", "ETH", "WLD"):
+        item = assets.get(asset)
+        if not item:
+            continue
+        lines.append(
+            f"| {asset} | {item.get('phase', '-')} | {item.get('summary', '-')} | {', '.join(item.get('tags', []))} |"
+        )
+    return "\n".join(lines)
+
+
+def behavior_score_block(day_payload: dict[str, Any]) -> str:
+    assets = day_payload.get("assets") or {}
+    if not assets:
+        return "- 暂无行为评分。"
+    labels = [
+        ("估值", "valuation"),
+        ("趋势", "trend"),
+        ("主力", "whale_behavior"),
+        ("资金", "capital_quality"),
+        ("杠杆", "leverage_health"),
+        ("散户", "retail_sentiment"),
+        ("供应", "tokenomics"),
+        ("综合", "composite"),
+    ]
+    lines = ["| 标的 | " + " | ".join(label for label, _ in labels) + " |"]
+    lines.append("| --- | " + " | ".join("---" for _ in labels) + " |")
+    for asset in ("BTC", "ETH", "WLD"):
+        item = assets.get(asset)
+        if not item:
+            continue
+        scores = item.get("scores", {})
+        stars = item.get("score_stars", {})
+        values = [f"{scores.get(key, '-')}/100 {stars.get(key, '')}" for _, key in labels]
+        lines.append(f"| {asset} | " + " | ".join(values) + " |")
+    return "\n".join(lines)
+
+
+def behavior_evidence_block(day_payload: dict[str, Any]) -> str:
+    assets = day_payload.get("assets") or {}
+    if not assets:
+        return "- 暂无行为证据。"
+    blocks = []
+    for asset in ("BTC", "ETH", "WLD"):
+        item = assets.get(asset)
+        if not item:
+            continue
+        evidence = item.get("evidence", {})
+        lines = [f"### {asset}", f"- 当前阶段: {item.get('phase', '-')}", f"- 今日变化: {item.get('biggest_change', '-')}"]
+        for label, key in [
+            ("趋势", "trend"),
+            ("主力行为", "whale_behavior"),
+            ("资金质量", "capital_quality"),
+            ("杠杆", "leverage"),
+            ("散户", "retail"),
+            ("供应结构", "tokenomics"),
+            ("相对强弱", "relative_strength"),
+        ]:
+            details = "；".join(evidence.get(key, []))
+            lines.append(f"- {label}: {details or '-'}")
+        blocks.append("\n".join(lines))
+    return "\n\n".join(blocks)
 
 
 def snapshot_block(row: dict[str, Any] | None) -> str:

@@ -119,6 +119,7 @@ def main() -> None:
 
     subparsers.add_parser("generate-dashboard", help="Generate docs/index.html static dashboard.")
     subparsers.add_parser("export-json", help="Export CSV/JSONL/Markdown history to docs/data and docs/reports.")
+    subparsers.add_parser("generate-behavior", help="Generate docs/data/behavior.json behavior archive.")
 
     seed = subparsers.add_parser("seed-demo", help="Create demo BTC/WLD data for a quick smoke test.")
     seed.add_argument("--date", default=date.today().isoformat())
@@ -160,6 +161,11 @@ def main() -> None:
         print(f"Exported {len(paths)} static JSON/report files.")
         for path in paths:
             print(f"- {path}")
+    elif args.command == "generate-behavior":
+        paths = export_json()
+        behavior_paths = [path for path in paths if path.name == "behavior.json"]
+        for path in behavior_paths:
+            print(f"Generated behavior archive: {path}")
     elif args.command == "seed-demo":
         handle_seed_demo(args)
 

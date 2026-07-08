@@ -6,9 +6,10 @@
 
 - 手动录入或 CSV 导入 BTC / ETH / WLD 每日快照
 - 记录异常事件与行为标签
-- 计算事件后 1h、4h、24h、3d、7d 的价格变化
+- 计算事件后 1h、4h、24h、3d、7d、30d 的价格变化
 - 查询历史事件
 - 生成 Markdown 日报
+- 自动生成 Behavior Summary、Behavior Score、Behavior Evidence、Behavior Tags 与 Historical Validation
 
 ## 快速开始
 
@@ -143,6 +144,20 @@ python3 -m src.cli query --asset WLD --tag Funding异常升高 --days 30
 python3 -m src.cli generate-report --date 2026-06-23
 ```
 
+日报会优先输出行为结论，而不是先展示原始指标：
+
+- Behavior Conclusion: 今天最大的变化是什么
+- Behavior Summary: 每个资产当前阶段和一句话画像
+- Behavior Score: 估值、趋势、主力、资金、杠杆、散户、Tokenomics、综合评分
+- Behavior Evidence: 每个判断背后的 OI、Funding、成交量、CVD、多空比等证据
+- Historical Validation: 行为标签进入事件库后，按后续表现持续验证
+
+单独生成行为档案 JSON：
+
+```bash
+python3 -m src.cli generate-behavior
+```
+
 生成静态仪表板：
 
 ```bash
@@ -198,6 +213,7 @@ crypto_behavior_archive/
 - `docs/data/prices_ETH.json`: ETH 价格历史
 - `docs/data/prices_WLD.json`: WLD 价格历史
 - `docs/data/events.json`: 网页读取的异常事件
+- `docs/data/behavior.json`: 行为画像、评分历史、证据、标签和历史验证统计
 - `docs/data/hypotheses.json`: GPT Context 与假设区块数据
 - `docs/reports/*.md`: GitHub Pages 可访问的日报副本
 

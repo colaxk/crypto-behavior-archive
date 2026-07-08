@@ -12,6 +12,7 @@ WINDOW_DELTAS = {
     "24h": timedelta(hours=24),
     "3d": timedelta(days=3),
     "7d": timedelta(days=7),
+    "30d": timedelta(days=30),
 }
 
 WINDOW_TOLERANCES = {
@@ -20,6 +21,7 @@ WINDOW_TOLERANCES = {
     "24h": timedelta(hours=3),
     "3d": timedelta(hours=12),
     "7d": timedelta(hours=12),
+    "30d": timedelta(days=1),
 }
 
 

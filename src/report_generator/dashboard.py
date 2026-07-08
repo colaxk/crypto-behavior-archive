@@ -168,10 +168,74 @@ def build_html() -> str:
       gap: 12px;
       margin-bottom: 10px;
     }
+    .behavior-archive {
+      margin-bottom: 14px;
+      padding: 4px 0 0;
+    }
+    .behavior-head {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 14px;
+      align-items: stretch;
+      margin-bottom: 14px;
+    }
+    .behavior-panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 14px;
+      min-width: 0;
+    }
+    .headline {
+      margin-top: 8px;
+      font-size: 22px;
+      line-height: 1.3;
+      font-weight: 800;
+    }
+    .phase {
+      color: var(--blue);
+      font-weight: 800;
+    }
+    .score-total {
+      font-size: 32px;
+      line-height: 1;
+      font-weight: 850;
+    }
+    .score-row {
+      display: grid;
+      grid-template-columns: 76px 1fr 48px;
+      gap: 8px;
+      align-items: center;
+      margin-top: 8px;
+      font-size: 12px;
+    }
+    .score-track {
+      height: 7px;
+      border-radius: 999px;
+      background: #edf0f4;
+      overflow: hidden;
+    }
+    .score-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: var(--blue);
+    }
+    .evidence-list {
+      margin: 10px 0 0;
+      padding-left: 17px;
+      color: #3e4651;
+      font-size: 13px;
+    }
+    .validation-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
     @media (max-width: 820px) {
       h1 { font-size: 22px; }
       main { padding-left: 12px; padding-right: 12px; }
-      .grid, .two, .toolbar, .live-strip { grid-template-columns: 1fr; }
+      .grid, .two, .toolbar, .live-strip, .behavior-head, .validation-strip { grid-template-columns: 1fr; }
       .card { padding: 12px; }
       canvas { height: 180px; }
     }
@@ -190,8 +254,15 @@ def build_html() -> str:
       <button type="button" id="copyContext">复制 GPT Context</button>
     </section>
 
+    <section class="behavior-archive" id="behaviorArchive"></section>
     <section class="live-strip" id="liveStrip"></section>
     <section class="grid" id="assetCards"></section>
+
+    <section class="card single">
+      <h2>行为评分趋势</h2>
+      <canvas id="scoreChart" width="1000" height="320"></canvas>
+      <div class="subtitle">综合评分来自行为分析引擎，对每条历史快照按同一套规则重算。</div>
+    </section>
 
     <section class="card single">
       <h2>最近30天价格曲线</h2>
@@ -231,6 +302,7 @@ def build_html() -> str:
       events: [],
       reports: [],
       hypotheses: {},
+      behavior: {},
       selectedDate: null,
       live: {},
       liveErrors: {},
@@ -245,11 +317,12 @@ def build_html() -> str:
     }
 
     async function boot() {
-      const [snapshots, events, reports, hypotheses, btc, eth, wld] = await Promise.all([
+      const [snapshots, events, reports, hypotheses, behavior, btc, eth, wld] = await Promise.all([
         loadJson('data/snapshots.json'),
         loadJson('data/events.json'),
         loadJson('data/reports.json'),
         loadJson('data/hypotheses.json'),
+        loadJson('data/behavior.json'),
         loadJson('data/prices_BTC.json'),
         loadJson('data/prices_ETH.json'),
         loadJson('data/prices_WLD.json'),
@@ -258,6 +331,7 @@ def build_html() -> str:
       state.events = events;
       state.reports = reports;
       state.hypotheses = hypotheses;
+      state.behavior = behavior;
       state.prices = { BTC: btc, ETH: eth, WLD: wld };
       state.selectedDate = latestDate(snapshots);
       ASSETS.forEach(asset => {
@@ -289,12 +363,111 @@ def build_html() -> str:
       const liveSummary = ASSETS.map(asset => state.live[asset]?.status || '等待实时数据').join(' / ');
       document.getElementById('subtitle').innerText =
         `历史日期 ${state.selectedDate} · 仓库快照 ${state.hypotheses.latest_snapshot_time || '-'} · 实时层 ${liveSummary}`;
+      renderBehaviorArchive();
       renderLiveStrip();
       document.getElementById('assetCards').innerHTML = ASSETS.map(asset => assetCard(asset, latestByAsset[asset], useLive)).join('');
       renderEvents();
       renderReports();
+      drawScoreChart();
       drawChart();
       document.getElementById('gptContext').innerText = buildContext(latestByAsset, useLive);
+    }
+
+    function behaviorForDate(date) {
+      const byDate = state.behavior.by_date || {};
+      if (byDate[date]) return byDate[date];
+      const dates = Object.keys(byDate).filter(item => item <= date).sort();
+      return dates.length ? byDate[dates[dates.length - 1]] : state.behavior.latest || {};
+    }
+
+    function renderBehaviorArchive() {
+      const payload = behaviorForDate(state.selectedDate);
+      const conclusion = payload.conclusion || {};
+      const assets = payload.assets || {};
+      const focus = conclusion.focus_asset && assets[conclusion.focus_asset] ? assets[conclusion.focus_asset] : Object.values(assets)[0];
+      const assetCards = ASSETS.map(asset => behaviorAssetCard(asset, assets[asset])).join('');
+      document.getElementById('behaviorArchive').innerHTML = `
+        <div class="behavior-head">
+          <div class="behavior-panel">
+            <div class="label">Behavior Conclusion · ${escapeHtml(payload.date || state.selectedDate)}</div>
+            <div class="headline">${escapeHtml(conclusion.headline || '暂无足够数据生成今日最大变化。')}</div>
+            <div class="subtitle">${escapeHtml(conclusion.summary || '暂无行为画像。')}</div>
+          </div>
+          <div class="behavior-panel">
+            <div class="label">聚焦资产</div>
+            ${focus ? focusAssetBlock(focus) : '<div class="muted">暂无行为评分</div>'}
+          </div>
+        </div>
+        <div class="grid">${assetCards}</div>
+        <div class="validation-strip">${validationCards()}</div>
+      `;
+    }
+
+    function focusAssetBlock(item) {
+      return `<div>
+        <div class="asset-head"><h2>${escapeHtml(item.asset || '-')}</h2><span class="pill">${escapeHtml(item.phase || '等待确认')}</span></div>
+        <div class="score-total">${plain(item.scores?.composite, '-')}<span class="label"> /100</span></div>
+        <div class="subtitle">${escapeHtml(item.summary || '')}</div>
+        ${scoreRows(item.scores || {})}
+      </div>`;
+    }
+
+    function behaviorAssetCard(asset, item) {
+      if (!item) return `<div class="card"><h2>${asset}</h2><div class="muted">暂无行为画像</div></div>`;
+      const evidence = flattenEvidence(item.evidence).slice(0, 4);
+      return `<div class="card">
+        <div class="asset-head"><h2>${asset}</h2><span class="pill">${escapeHtml(item.phase || '等待确认')}</span></div>
+        <div class="score-total">${plain(item.scores?.composite, '-')}<span class="label"> /100</span></div>
+        <div class="subtitle">${escapeHtml(item.summary || '')}</div>
+        <div class="tags">${(item.tags || []).slice(0, 8).map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join('')}</div>
+        ${scoreRows(item.scores || {})}
+        <ul class="evidence-list">${evidence.map(line => `<li>${escapeHtml(line)}</li>`).join('')}</ul>
+      </div>`;
+    }
+
+    function scoreRows(scores) {
+      const rows = [
+        ['估值', 'valuation'],
+        ['趋势', 'trend'],
+        ['主力', 'whale_behavior'],
+        ['资金', 'capital_quality'],
+        ['杠杆', 'leverage_health'],
+        ['供应', 'tokenomics'],
+      ];
+      return rows.map(([label, key]) => scoreRow(label, scores[key])).join('');
+    }
+
+    function scoreRow(label, value) {
+      const n = Math.max(0, Math.min(100, Number(value) || 0));
+      return `<div class="score-row">
+        <span class="label">${label}</span>
+        <span class="score-track"><span class="score-fill" style="width:${n}%"></span></span>
+        <span class="label">${n}</span>
+      </div>`;
+    }
+
+    function flattenEvidence(evidence) {
+      if (!evidence) return [];
+      return ['trend', 'whale_behavior', 'capital_quality', 'leverage', 'relative_strength', 'tokenomics']
+        .flatMap(key => evidence[key] || []);
+    }
+
+    function validationCards() {
+      const tags = state.behavior.validations?.tags || {};
+      const items = Object.entries(tags)
+        .map(([tag, payload]) => ({ tag, ...payload }))
+        .sort((a, b) => (b.count || 0) - (a.count || 0))
+        .slice(0, 3);
+      if (!items.length) return '<div class="behavior-panel"><div class="label">历史验证</div><div class="muted">暂无已验证行为标签</div></div>';
+      return items.map(item => {
+        const win = item.windows?.['30d'] || item.windows?.['7d'] || item.windows?.['24h'] || {};
+        const result = win.samples ? `样本 ${win.samples} · 胜率 ${win.success_rate}% · 均值 ${pct(win.avg_change_pct)}` : `出现 ${item.count} 次，等待后续价格点`;
+        return `<div class="behavior-panel">
+          <div class="label">历史验证</div>
+          <h3>${escapeHtml(item.tag)}</h3>
+          <div class="subtitle">${escapeHtml(result)}</div>
+        </div>`;
+      }).join('');
     }
 
     function mergeLive(asset, archived) {
@@ -404,6 +577,45 @@ def build_html() -> str:
         });
         drawLine(ctx, canvas, points, COLORS[asset]);
       });
+    }
+
+    function drawScoreChart() {
+      const canvas = document.getElementById('scoreChart');
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const end = new Date(state.selectedDate + 'T23:59:59');
+      const start = new Date(end.getTime() - 30 * 24 * 60 * 60 * 1000);
+      ctx.strokeStyle = '#e4e7eb';
+      ctx.lineWidth = 1;
+      [25, 50, 75].forEach(score => {
+        const y = canvas.height - 18 - (score / 100) * (canvas.height - 36);
+        ctx.beginPath();
+        ctx.moveTo(18, y);
+        ctx.lineTo(canvas.width - 18, y);
+        ctx.stroke();
+      });
+      ASSETS.forEach(asset => {
+        const points = (state.behavior.history?.[asset] || []).filter(row => {
+          const time = new Date(row.date + 'T12:00:00');
+          return time >= start && time <= end && row.composite != null;
+        });
+        drawScoreLine(ctx, canvas, points, COLORS[asset]);
+      });
+    }
+
+    function drawScoreLine(ctx, canvas, points, color) {
+      if (!points.length) return;
+      const pad = 18;
+      ctx.beginPath();
+      points.forEach((point, index) => {
+        const x = pad + (canvas.width - pad * 2) * (index / Math.max(points.length - 1, 1));
+        const y = canvas.height - pad - (Number(point.composite) / 100) * (canvas.height - pad * 2);
+        if (index === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 3;
+      ctx.stroke();
     }
 
     function drawLine(ctx, canvas, points, color) {
@@ -582,6 +794,15 @@ def build_html() -> str:
     }
 
     function buildContext(latestByAsset, useLive) {
+      const behavior = behaviorForDate(state.selectedDate);
+      const behaviorAssets = ASSETS.map(asset => {
+        const item = behavior.assets?.[asset];
+        if (!item) return `${asset}: 暂无行为画像`;
+        return `${asset}: ${item.phase} / 综合评分 ${item.scores?.composite}/100
+行为总结: ${item.summary}
+行为标签: ${(item.tags || []).join('、')}
+关键证据: ${flattenEvidence(item.evidence).slice(0, 5).join('；')}`;
+      }).join('\\n\\n');
       const blocks = ASSETS.map(asset => {
         const row = latestByAsset[asset] || {};
         return `${asset}
@@ -598,7 +819,17 @@ Heatmap: ${plain(row.heatmap, '需 CoinGlass API')}
       const current = (state.hypotheses.current || []).map(item => `- ${item}`).join('\\n');
       const pending = (state.hypotheses.pending || []).map(item => `- ${item}`).join('\\n');
       const mode = useLive ? '当前卡片已叠加浏览器实时 API 数据。' : '当前为历史日期回溯，未叠加实时数据。';
-      return `${blocks}
+      return `Behavior Conclusion
+今天最大的变化: ${behavior.conclusion?.headline || '-'}
+行为摘要: ${behavior.conclusion?.summary || '-'}
+
+Behavior Summary
+${behaviorAssets}
+
+---
+
+原始数据
+${blocks}
 
 ---
 
@@ -676,7 +907,7 @@ ${pending}
     }
     function compactOutcome(outcome) {
       if (!outcome) return '';
-      return ['1h', '4h', '24h', '3d', '7d'].map(key => outcome[key]?.change_pct !== undefined ? `${key}:${outcome[key].change_pct}%` : '').filter(Boolean).join(' ');
+      return ['1h', '4h', '24h', '3d', '7d', '30d'].map(key => outcome[key]?.change_pct !== undefined ? `${key}:${outcome[key].change_pct}%` : '').filter(Boolean).join(' ');
     }
     function escapeHtml(value) {
       return String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));

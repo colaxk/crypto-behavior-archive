@@ -39,6 +39,9 @@ jobs:
       - name: Generate Markdown report
         run: python3 -m src.cli generate-report --date "$(date +%F)"
 
+      - name: Generate behavior archive
+        run: python3 -m src.cli generate-behavior
+
       - name: Generate static dashboard
         run: python3 -m src.cli generate-dashboard
 
