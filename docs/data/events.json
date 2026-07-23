@@ -20,14 +20,14 @@
       "1h": {
         "target_time": "2026-06-23T13:00:00+08:00",
         "matched_time": "2026-06-23T13:00:00+08:00",
-        "matched_price": 3.31,
-        "change_pct": 1.8462
+        "matched_price": 0.5987,
+        "change_pct": -81.5785
       },
       "4h": {
         "target_time": "2026-06-23T16:00:00+08:00",
         "matched_time": "2026-06-23T16:00:00+08:00",
-        "matched_price": 3.44,
-        "change_pct": 5.8462
+        "matched_price": 0.5722,
+        "change_pct": -82.3938
       },
       "24h": {
         "target_time": "2026-06-24T12:00:00+08:00",
@@ -48,11 +48,14 @@
         "change_pct": 14.4615
       },
       "30d": {
-        "status": "missing_price"
+        "target_time": "2026-07-23T12:00:00+08:00",
+        "matched_time": "2026-07-23T09:00:00+08:00",
+        "matched_price": 0.3862,
+        "change_pct": -88.1169
       }
     },
     "conclusion": "未知",
     "created_at": "2026-06-23T18:12:58+08:00",
-    "updated_at": "2026-07-23T01:35:25+08:00"
+    "updated_at": "2026-07-23T09:17:47+08:00"
   }
 ]

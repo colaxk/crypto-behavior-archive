@@ -9,7 +9,7 @@
       "event_id": "EVT-20260623-120000-WLD",
       "asset": "WLD",
       "title": "WLD Funding 与 OI 同步升温",
-      "outcome": "1h:1.8462% 4h:5.8462% 24h:4.0% 3d:-4.0% 7d:14.4615%"
+      "outcome": "1h:-81.5785% 4h:-82.3938% 24h:4.0% 3d:-4.0% 7d:14.4615% 30d:-88.1169%"
     }
   ],
   "pending": [
@@ -17,5 +17,5 @@
     "验证 BTC 下跌时 WLD 和 ETH 的相对强弱。",
     "补充更稳定的爆仓与 Heatmap 数据源。"
   ],
-  "latest_snapshot_time": "2026-07-08T22:02:59+08:00"
+  "latest_snapshot_time": "2026-07-23T09:14:33+08:00"
 }

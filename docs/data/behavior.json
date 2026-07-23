@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-07-23T01:35:26+08:00",
-  "latest_date": "2026-07-08",
+  "generated_at": "2026-07-23T09:17:48+08:00",
+  "latest_date": "2026-07-23",
   "score_labels": {
     "valuation": "估值评分",
     "trend": "趋势评分",
@@ -12,31 +12,31 @@
     "composite": "综合评分"
   },
   "latest": {
-    "date": "2026-07-08",
+    "date": "2026-07-23",
     "assets": {
       "BTC": {
         "asset": "BTC",
-        "timestamp": "2026-07-08T22:02:51+08:00",
-        "date": "2026-07-08",
-        "phase": "震荡",
-        "summary": "综合评分 51 /100。",
+        "timestamp": "2026-07-23T09:14:23+08:00",
+        "date": "2026-07-23",
+        "phase": "等待确认",
+        "summary": "空头衰减，综合评分 53 /100。",
         "biggest_change": "BTC 新行为标签：震荡、OI平稳、Funding降低。",
         "scores": {
-          "valuation": 87,
-          "trend": 43,
-          "whale_behavior": 33,
-          "capital_quality": 29,
-          "leverage_health": 69,
-          "retail_sentiment": 65,
+          "valuation": 40,
+          "trend": 48,
+          "whale_behavior": 53,
+          "capital_quality": 50,
+          "leverage_health": 71,
+          "retail_sentiment": 63,
           "tokenomics": 52,
-          "composite": 51
+          "composite": 53
         },
         "score_stars": {
-          "valuation": "★★★★☆",
+          "valuation": "★★☆☆☆",
           "trend": "★★☆☆☆",
-          "whale_behavior": "★★☆☆☆",
-          "capital_quality": "★☆☆☆☆",
-          "leverage_health": "★★★☆☆",
+          "whale_behavior": "★★★☆☆",
+          "capital_quality": "★★☆☆☆",
+          "leverage_health": "★★★★☆",
           "retail_sentiment": "★★★☆☆",
           "tokenomics": "★★★☆☆",
           "composite": "★★★☆☆"
@@ -45,34 +45,34 @@
           "震荡",
           "OI平稳",
           "Funding降低",
-          "散户偏多"
+          "空头衰减"
         ],
         "evidence": {
           "trend": [
-            "24h涨跌幅: -1.851%。",
-            "相对上一条快照价格变化: -0.0279%。",
+            "24h涨跌幅: -0.681%。",
+            "相对上一条快照价格变化: 0.2256%。",
             "行为标签: 震荡。"
           ],
           "whale_behavior": [
-            "OI变化: -2.108%。",
-            "CVD相对上一条快照变化: -2.99K。",
+            "OI变化: 0.5012%。",
+            "CVD相对上一条快照变化: -1.64K。",
             "未触发该组明确行为标签。"
           ],
           "capital_quality": [
-            "24h成交量: 1.30B。",
-            "成交量相对上一条快照变化: 11.42%。",
-            "现货成交占总成交估算: 9.852%。"
+            "24h成交量: 1.18B。",
+            "成交量相对上一条快照变化: -2.171%。",
+            "现货成交占总成交估算: 13.27%。"
           ],
           "leverage": [
-            "Funding Rate: 0.005161%。",
-            "Funding相对上一条快照变化: -0.004839pct。",
+            "Funding Rate: -0.001147%。",
+            "Funding相对上一条快照变化: -0.004965pct。",
             "强平总额缺失。",
-            "合约成交量相对上一条快照变化: 16.8%。",
+            "合约成交量相对上一条快照变化: -1.065%。",
             "行为标签: Funding降低。"
           ],
           "retail": [
-            "多空比: 1.768。",
-            "行为标签: 散户偏多。"
+            "多空比: 1.192。",
+            "未触发该组明确行为标签。"
           ],
           "tokenomics": [
             "供应结构数据尚未接入，Tokenomics暂按中性处理。"
@@ -82,89 +82,89 @@
           ]
         },
         "confidence": {
-          "level": "低",
+          "level": "中",
           "support": [
-            "Funding 0.005161%，费率未明显过热。"
+            "Funding -0.001147%，费率未明显过热。",
+            "多空比 1.192，情绪未明显单边拥挤。",
+            "行为标签触发：空头衰减。"
           ],
           "against": [
-            "OI -2.108%，仓位变化不强。",
-            "多空比 1.768，散户偏多拥挤。",
-            "主力行为评分 33/100，持续吸筹未确认。",
-            "资金质量评分 29/100，资金流入质量偏弱。"
+            "OI 0.5012%，仓位变化不强。"
           ],
-          "conclusion": "证据不足"
+          "conclusion": "等待确认"
         },
         "raw_refs": {
-          "price": 61920.53,
-          "change_24h": -1.851,
-          "oi": 45412365917.112,
-          "oi_delta": -2.108,
-          "funding_rate": 0.005161000000000001,
-          "volume_24h": 1304707614.994828,
-          "volume_delta": 11.4204,
-          "cvd": -4788.052,
-          "cvd_delta": -2992.7659999999996,
-          "long_short_ratio": 1.7685
+          "price": 66038.64,
+          "change_24h": -0.681,
+          "oi": 49753392982.7012,
+          "oi_delta": 0.5012,
+          "funding_rate": -0.001147,
+          "volume_24h": 1178532641.2793808,
+          "volume_delta": -2.171,
+          "cvd": 1191.47,
+          "cvd_delta": -1637.428,
+          "long_short_ratio": 1.1925
         }
       },
       "ETH": {
         "asset": "ETH",
-        "timestamp": "2026-07-08T22:02:55+08:00",
-        "date": "2026-07-08",
+        "timestamp": "2026-07-23T09:14:28+08:00",
+        "date": "2026-07-23",
         "phase": "等待确认",
-        "summary": "空头衰减，综合评分 45 /100。",
-        "biggest_change": "ETH 成交量变化 -22.16%，换手强度出现变化。",
+        "summary": "空头衰减，综合评分 53 /100。",
+        "biggest_change": "ETH 新行为标签：震荡、OI平稳、Funding降低。",
         "scores": {
-          "valuation": 45,
-          "trend": 41,
-          "whale_behavior": 32,
-          "capital_quality": 27,
-          "leverage_health": 67,
+          "valuation": 40,
+          "trend": 50,
+          "whale_behavior": 51,
+          "capital_quality": 47,
+          "leverage_health": 72,
           "retail_sentiment": 65,
           "tokenomics": 52,
-          "composite": 45
+          "composite": 53
         },
         "score_stars": {
           "valuation": "★★☆☆☆",
           "trend": "★★☆☆☆",
-          "whale_behavior": "★★☆☆☆",
-          "capital_quality": "★☆☆☆☆",
-          "leverage_health": "★★★☆☆",
+          "whale_behavior": "★★★☆☆",
+          "capital_quality": "★★☆☆☆",
+          "leverage_health": "★★★★☆",
           "retail_sentiment": "★★★☆☆",
           "tokenomics": "★★★☆☆",
-          "composite": "★★☆☆☆"
+          "composite": "★★★☆☆"
         },
         "tags": [
-          "趋势延续",
-          "OI减少",
+          "震荡",
+          "OI平稳",
+          "Funding降低",
           "空头衰减",
           "散户偏多"
         ],
         "evidence": {
           "trend": [
-            "24h涨跌幅: -2.072%。",
-            "相对上一条快照价格变化: -0.4762%。",
-            "行为标签: 趋势延续。"
+            "24h涨跌幅: -0.091%。",
+            "相对上一条快照价格变化: 0.3431%。",
+            "行为标签: 震荡。"
           ],
           "whale_behavior": [
-            "OI变化: -3.428%。",
-            "CVD相对上一条快照变化: -253.33K。",
-            "行为标签: OI减少。"
+            "OI变化: -0.9414%。",
+            "CVD相对上一条快照变化: -101.21K。",
+            "未触发该组明确行为标签。"
           ],
           "capital_quality": [
-            "24h成交量: 459.12M。",
-            "成交量相对上一条快照变化: -22.16%。",
-            "现货成交占总成交估算: 5.297%。"
+            "24h成交量: 474.75M。",
+            "成交量相对上一条快照变化: -1.17%。",
+            "现货成交占总成交估算: 6.669%。"
           ],
           "leverage": [
-            "Funding Rate: 0.007719%。",
-            "Funding相对上一条快照变化: -0.001899pct。",
+            "Funding Rate: -6.5e-05%。",
+            "Funding相对上一条快照变化: -0.007046pct。",
             "强平总额缺失。",
-            "合约成交量相对上一条快照变化: -13.47%。",
-            "行为标签: OI减少。"
+            "合约成交量相对上一条快照变化: -3.261%。",
+            "行为标签: Funding降低。"
           ],
           "retail": [
-            "多空比: 2.03。",
+            "多空比: 1.712。",
             "行为标签: 散户偏多。"
           ],
           "tokenomics": [
@@ -177,90 +177,85 @@
         "confidence": {
           "level": "中",
           "support": [
-            "成交量 -22.16%，追杀/换手强度衰减。",
-            "Funding 0.007719%，费率未明显过热。",
+            "Funding -6.5e-05%，费率未明显过热。",
             "行为标签触发：空头衰减。"
           ],
           "against": [
-            "多空比 2.03，散户偏多拥挤。",
-            "主力行为评分 32/100，持续吸筹未确认。",
-            "资金质量评分 27/100，资金流入质量偏弱。"
+            "OI -0.9414%，仓位变化不强。",
+            "多空比 1.712，散户偏多拥挤。"
           ],
           "conclusion": "等待确认"
         },
         "raw_refs": {
-          "price": 1736.87,
-          "change_24h": -2.072,
-          "oi": 24066283656.8001,
-          "oi_delta": -3.4277,
-          "funding_rate": 0.007719,
-          "volume_24h": 459117079.867387,
-          "volume_delta": -22.161,
-          "cvd": -105733.021,
-          "cvd_delta": -253333.026,
-          "long_short_ratio": 2.0303
+          "price": 1933.15,
+          "change_24h": -0.091,
+          "oi": 27706158201.2,
+          "oi_delta": -0.9414,
+          "funding_rate": -6.500000000000001e-05,
+          "volume_24h": 474753666.117862,
+          "volume_delta": -1.1704,
+          "cvd": 31243.113,
+          "cvd_delta": -101209.94000000002,
+          "long_short_ratio": 1.7122
         }
       },
       "WLD": {
         "asset": "WLD",
-        "timestamp": "2026-07-08T22:02:59+08:00",
-        "date": "2026-07-08",
-        "phase": "等待确认",
-        "summary": "杠杆释放、空头衰减，综合评分 44 /100。",
-        "biggest_change": "WLD 成交量变化 -55.16%，换手强度出现变化。",
+        "timestamp": "2026-07-23T09:14:33+08:00",
+        "date": "2026-07-23",
+        "phase": "震荡",
+        "summary": "综合评分 52 /100。",
+        "biggest_change": "WLD 新行为标签：震荡、OI平稳、Funding降低。",
         "scores": {
           "valuation": 95,
-          "trend": 25,
-          "whale_behavior": 18,
+          "trend": 52,
+          "whale_behavior": 33,
           "capital_quality": 29,
-          "leverage_health": 69,
-          "retail_sentiment": 52,
+          "leverage_health": 71,
+          "retail_sentiment": 62,
           "tokenomics": 44,
-          "composite": 44
+          "composite": 52
         },
         "score_stars": {
           "valuation": "★★★★★",
-          "trend": "★☆☆☆☆",
-          "whale_behavior": "★☆☆☆☆",
+          "trend": "★★★☆☆",
+          "whale_behavior": "★★☆☆☆",
           "capital_quality": "★☆☆☆☆",
-          "leverage_health": "★★★☆☆",
+          "leverage_health": "★★★★☆",
           "retail_sentiment": "★★★☆☆",
           "tokenomics": "★★☆☆☆",
-          "composite": "★★☆☆☆"
+          "composite": "★★★☆☆"
         },
         "tags": [
           "震荡",
-          "成交衰减",
-          "OI减少",
-          "OI暴减",
-          "杠杆释放",
-          "空头衰减"
+          "OI平稳",
+          "Funding降低"
         ],
         "evidence": {
           "trend": [
-            "24h涨跌幅: -1.527%。",
-            "相对上一条快照价格变化: -9.448%。",
+            "24h涨跌幅: 1.285%。",
+            "相对上一条快照价格变化: -1.454%。",
             "行为标签: 震荡。"
           ],
           "whale_behavior": [
-            "OI变化: -17.89%。",
-            "CVD相对上一条快照变化: -18.13M。",
-            "行为标签: OI减少、OI暴减。"
+            "OI变化: -2.23%。",
+            "CVD相对上一条快照变化: -1.18M。",
+            "未触发该组明确行为标签。"
           ],
           "capital_quality": [
-            "24h成交量: 21.46M。",
-            "成交量相对上一条快照变化: -55.16%。",
-            "现货成交占总成交估算: 11.17%。"
+            "24h成交量: 15.63M。",
+            "成交量相对上一条快照变化: 5.607%。",
+            "现货成交占总成交估算: 10.79%。"
           ],
           "leverage": [
-            "Funding Rate: 0.002779%。",
-            "Funding相对上一条快照变化: 0.000126pct。",
+            "Funding Rate: -0.001513%。",
+            "Funding相对上一条快照变化: -0.006733pct。",
             "强平总额缺失。",
-            "合约成交量相对上一条快照变化: -40.77%。",
-            "行为标签: OI减少、杠杆释放。"
+            "合约成交量相对上一条快照变化: 12.71%。",
+            "行为标签: Funding降低。"
           ],
           "retail": [
-            "多空比: 0.9365。",
+            "多空比: 1.17。",
             "未触发该组明确行为标签。"
           ],
           "tokenomics": [
@@ -271,41 +266,39 @@
           ]
         },
         "confidence": {
-          "level": "中",
+          "level": "低",
           "support": [
-            "OI -17.89%，杠杆仓位明显释放。",
-            "成交量 -55.16%，追杀/换手强度衰减。",
-            "合约成交量 -40.77%，杠杆活跃度下降。",
-            "Funding 0.002779%，费率未明显过热。",
-            "多空比 0.9365，情绪未明显单边拥挤。"
+            "Funding -0.001513%，费率未明显过热。",
+            "多空比 1.17，情绪未明显单边拥挤。"
           ],
           "against": [
-            "CVD -22.14M，主动卖仍明显。",
-            "CVD变化 -18.13M，主动卖压继续增加。",
-            "主力行为评分 18/100，持续吸筹未确认。",
+            "OI -2.23%，仓位变化不强。",
+            "CVD -9.36M，主动卖仍明显。",
+            "CVD变化 -1.18M，主动卖压继续增加。",
+            "主力行为评分 33/100，持续吸筹未确认。",
             "资金质量评分 29/100，资金流入质量偏弱。"
           ],
-          "conclusion": "等待确认"
+          "conclusion": "证据不足"
         },
         "raw_refs": {
-          "price": 0.3805,
-          "change_24h": -1.527,
-          "oi": 274999303.9451,
-          "oi_delta": -17.8881,
-          "funding_rate": 0.002779,
-          "volume_24h": 21463030.191,
-          "volume_delta": -55.1562,
-          "cvd": -22138164.0,
-          "cvd_delta": -18132342.0,
-          "long_short_ratio": 0.9365
+          "price": 0.3862,
+          "change_24h": 1.285,
+          "oi": 291222634.4462,
+          "oi_delta": -2.2298,
+          "funding_rate": -0.001513,
+          "volume_24h": 15629003.07941,
+          "volume_delta": 5.6073,
+          "cvd": -9359608.0,
+          "cvd_delta": -1177923.0,
+          "long_short_ratio": 1.1701
         }
       }
     },
     "conclusion": {
-      "date": "2026-07-08",
-      "headline": "WLD 成交量变化 -55.16%，换手强度出现变化。",
-      "summary": "BTC：震荡，综合评分 51 /100。；ETH：等待确认，空头衰减，综合评分 45 /100。；WLD：等待确认，杠杆释放、空头衰减，综合评分 44 /100。",
-      "focus_asset": "WLD"
+      "date": "2026-07-23",
+      "headline": "BTC 新行为标签：震荡、OI平稳、Funding降低。",
+      "summary": "BTC：等待确认，空头衰减，综合评分 53 /100。；ETH：等待确认，空头衰减，综合评分 53 /100。；WLD：震荡，综合评分 52 /100。",
+      "focus_asset": "BTC"
     }
   },
   "by_date": {
@@ -320,7 +313,7 @@
           "summary": "空头衰减、资金试探、吸筹观察，综合评分 56 /100。",
           "biggest_change": "BTC OI变化 143.2%，新增仓位状态发生变化。",
           "scores": {
-            "valuation": 80,
+            "valuation": 83,
             "trend": 31,
             "whale_behavior": 76,
             "capital_quality": 50,
@@ -590,7 +583,7 @@
           "summary": "资金试探、吸筹观察，综合评分 60 /100。",
           "biggest_change": "BTC 成交量变化 44.56%，换手强度出现变化。",
           "scores": {
-            "valuation": 89,
+            "valuation": 90,
             "trend": 43,
             "whale_behavior": 64,
             "capital_quality": 50,
@@ -862,17 +855,17 @@
           "timestamp": "2026-07-02T20:59:31+08:00",
           "date": "2026-07-02",
           "phase": "趋势延续",
-          "summary": "趋势转强，综合评分 65 /100。",
-          "biggest_change": "ETH 综合行为评分为 65 /100。",
+          "summary": "趋势转强，综合评分 66 /100。",
+          "biggest_change": "ETH 综合行为评分为 66 /100。",
           "scores": {
-            "valuation": 91,
+            "valuation": 94,
             "trend": 84,
             "whale_behavior": 53,
             "capital_quality": 47,
             "leverage_health": 69,
             "retail_sentiment": 65,
             "tokenomics": 52,
-            "composite": 65
+            "composite": 66
           },
           "score_stars": {
             "valuation": "★★★★★",
@@ -1044,9 +1037,9 @@
       },
       "conclusion": {
         "date": "2026-07-02",
-        "headline": "BTC 综合行为评分为 65 /100。",
-        "summary": "BTC：趋势延续，趋势转强，综合评分 65 /100。；ETH：趋势延续，趋势转强，综合评分 65 /100。；WLD：等待确认，空头衰减，但AI板块弱于BTC仍需验证。",
-        "focus_asset": "BTC"
+        "headline": "ETH 综合行为评分为 66 /100。",
+        "summary": "BTC：趋势延续，趋势转强，综合评分 65 /100。；ETH：趋势延续，趋势转强，综合评分 66 /100。；WLD：等待确认，空头衰减，但AI板块弱于BTC仍需验证。",
+        "focus_asset": "ETH"
       }
     },
     "2026-07-03": {
@@ -1060,7 +1053,7 @@
           "summary": "综合评分 53 /100。",
           "biggest_change": "BTC 成交量变化 -25.76%，换手强度出现变化。",
           "scores": {
-            "valuation": 87,
+            "valuation": 89,
             "trend": 56,
             "whale_behavior": 32,
             "capital_quality": 29,
@@ -1152,20 +1145,20 @@
           "timestamp": "2026-07-03T18:47:59+08:00",
           "date": "2026-07-03",
           "phase": "趋势延续",
-          "summary": "趋势转强，综合评分 62 /100。",
-          "biggest_change": "ETH 新行为标签：趋势转强、OI增加、Funding升高。",
+          "summary": "趋势转强，综合评分 66 /100。",
+          "biggest_change": "ETH 综合行为评分为 66 /100。",
           "scores": {
-            "valuation": 40,
+            "valuation": 77,
             "trend": 94,
             "whale_behavior": 61,
             "capital_quality": 47,
             "leverage_health": 66,
             "retail_sentiment": 65,
             "tokenomics": 52,
-            "composite": 62
+            "composite": 66
           },
           "score_stars": {
-            "valuation": "★★☆☆☆",
+            "valuation": "★★★★☆",
             "trend": "★★★★★",
             "whale_behavior": "★★★☆☆",
             "capital_quality": "★★☆☆☆",
@@ -1337,9 +1330,9 @@
       },
       "conclusion": {
         "date": "2026-07-03",
-        "headline": "WLD CVD变化 40.32M，主动买卖方向需要关注。",
-        "summary": "BTC：震荡，综合评分 53 /100。；ETH：趋势延续，趋势转强，综合评分 62 /100。；WLD：趋势延续，趋势转强，综合评分 66 /100。",
-        "focus_asset": "WLD"
+        "headline": "ETH 综合行为评分为 66 /100。",
+        "summary": "BTC：震荡，综合评分 53 /100。；ETH：趋势延续，趋势转强，综合评分 66 /100。；WLD：趋势延续，趋势转强，综合评分 66 /100。",
+        "focus_asset": "ETH"
       }
     },
     "2026-07-08": {
@@ -1353,7 +1346,7 @@
           "summary": "综合评分 51 /100。",
           "biggest_change": "BTC 新行为标签：震荡、OI平稳、Funding降低。",
           "scores": {
-            "valuation": 87,
+            "valuation": 89,
             "trend": 43,
             "whale_behavior": 33,
             "capital_quality": 29,
@@ -1443,20 +1436,20 @@
           "timestamp": "2026-07-08T22:02:55+08:00",
           "date": "2026-07-08",
           "phase": "等待确认",
-          "summary": "空头衰减，综合评分 45 /100。",
+          "summary": "空头衰减，综合评分 49 /100。",
           "biggest_change": "ETH 成交量变化 -22.16%，换手强度出现变化。",
           "scores": {
-            "valuation": 45,
+            "valuation": 79,
             "trend": 41,
             "whale_behavior": 32,
             "capital_quality": 27,
             "leverage_health": 67,
             "retail_sentiment": 65,
             "tokenomics": 52,
-            "composite": 45
+            "composite": 49
           },
           "score_stars": {
-            "valuation": "★★☆☆☆",
+            "valuation": "★★★★☆",
             "trend": "★★☆☆☆",
             "whale_behavior": "★★☆☆☆",
             "capital_quality": "★☆☆☆☆",
@@ -1635,8 +1628,298 @@
       "conclusion": {
         "date": "2026-07-08",
         "headline": "WLD 成交量变化 -55.16%，换手强度出现变化。",
-        "summary": "BTC：震荡，综合评分 51 /100。；ETH：等待确认，空头衰减，综合评分 45 /100。；WLD：等待确认，杠杆释放、空头衰减，综合评分 44 /100。",
+        "summary": "BTC：震荡，综合评分 51 /100。；ETH：等待确认，空头衰减，综合评分 49 /100。；WLD：等待确认，杠杆释放、空头衰减，综合评分 44 /100。",
         "focus_asset": "WLD"
+      }
+    },
+    "2026-07-23": {
+      "date": "2026-07-23",
+      "assets": {
+        "BTC": {
+          "asset": "BTC",
+          "timestamp": "2026-07-23T09:14:23+08:00",
+          "date": "2026-07-23",
+          "phase": "等待确认",
+          "summary": "空头衰减，综合评分 53 /100。",
+          "biggest_change": "BTC 新行为标签：震荡、OI平稳、Funding降低。",
+          "scores": {
+            "valuation": 40,
+            "trend": 48,
+            "whale_behavior": 53,
+            "capital_quality": 50,
+            "leverage_health": 71,
+            "retail_sentiment": 63,
+            "tokenomics": 52,
+            "composite": 53
+          },
+          "score_stars": {
+            "valuation": "★★☆☆☆",
+            "trend": "★★☆☆☆",
+            "whale_behavior": "★★★☆☆",
+            "capital_quality": "★★☆☆☆",
+            "leverage_health": "★★★★☆",
+            "retail_sentiment": "★★★☆☆",
+            "tokenomics": "★★★☆☆",
+            "composite": "★★★☆☆"
+          },
+          "tags": [
+            "震荡",
+            "OI平稳",
+            "Funding降低",
+            "空头衰减"
+          ],
+          "evidence": {
+            "trend": [
+              "24h涨跌幅: -0.681%。",
+              "相对上一条快照价格变化: 0.2256%。",
+              "行为标签: 震荡。"
+            ],
+            "whale_behavior": [
+              "OI变化: 0.5012%。",
+              "CVD相对上一条快照变化: -1.64K。",
+              "未触发该组明确行为标签。"
+            ],
+            "capital_quality": [
+              "24h成交量: 1.18B。",
+              "成交量相对上一条快照变化: -2.171%。",
+              "现货成交占总成交估算: 13.27%。"
+            ],
+            "leverage": [
+              "Funding Rate: -0.001147%。",
+              "Funding相对上一条快照变化: -0.004965pct。",
+              "强平总额缺失。",
+              "合约成交量相对上一条快照变化: -1.065%。",
+              "行为标签: Funding降低。"
+            ],
+            "retail": [
+              "多空比: 1.192。",
+              "未触发该组明确行为标签。"
+            ],
+            "tokenomics": [
+              "供应结构数据尚未接入，Tokenomics暂按中性处理。"
+            ],
+            "relative_strength": [
+              "缺少同日BTC/ETH参照或强弱差异不足，暂不输出相对强弱标签。"
+            ]
+          },
+          "confidence": {
+            "level": "中",
+            "support": [
+              "Funding -0.001147%，费率未明显过热。",
+              "多空比 1.192，情绪未明显单边拥挤。",
+              "行为标签触发：空头衰减。"
+            ],
+            "against": [
+              "OI 0.5012%，仓位变化不强。"
+            ],
+            "conclusion": "等待确认"
+          },
+          "raw_refs": {
+            "price": 66038.64,
+            "change_24h": -0.681,
+            "oi": 49753392982.7012,
+            "oi_delta": 0.5012,
+            "funding_rate": -0.001147,
+            "volume_24h": 1178532641.2793808,
+            "volume_delta": -2.171,
+            "cvd": 1191.47,
+            "cvd_delta": -1637.428,
+            "long_short_ratio": 1.1925
+          }
+        },
+        "ETH": {
+          "asset": "ETH",
+          "timestamp": "2026-07-23T09:14:28+08:00",
+          "date": "2026-07-23",
+          "phase": "等待确认",
+          "summary": "空头衰减，综合评分 53 /100。",
+          "biggest_change": "ETH 新行为标签：震荡、OI平稳、Funding降低。",
+          "scores": {
+            "valuation": 40,
+            "trend": 50,
+            "whale_behavior": 51,
+            "capital_quality": 47,
+            "leverage_health": 72,
+            "retail_sentiment": 65,
+            "tokenomics": 52,
+            "composite": 53
+          },
+          "score_stars": {
+            "valuation": "★★☆☆☆",
+            "trend": "★★☆☆☆",
+            "whale_behavior": "★★★☆☆",
+            "capital_quality": "★★☆☆☆",
+            "leverage_health": "★★★★☆",
+            "retail_sentiment": "★★★☆☆",
+            "tokenomics": "★★★☆☆",
+            "composite": "★★★☆☆"
+          },
+          "tags": [
+            "震荡",
+            "OI平稳",
+            "Funding降低",
+            "空头衰减",
+            "散户偏多"
+          ],
+          "evidence": {
+            "trend": [
+              "24h涨跌幅: -0.091%。",
+              "相对上一条快照价格变化: 0.3431%。",
+              "行为标签: 震荡。"
+            ],
+            "whale_behavior": [
+              "OI变化: -0.9414%。",
+              "CVD相对上一条快照变化: -101.21K。",
+              "未触发该组明确行为标签。"
+            ],
+            "capital_quality": [
+              "24h成交量: 474.75M。",
+              "成交量相对上一条快照变化: -1.17%。",
+              "现货成交占总成交估算: 6.669%。"
+            ],
+            "leverage": [
+              "Funding Rate: -6.5e-05%。",
+              "Funding相对上一条快照变化: -0.007046pct。",
+              "强平总额缺失。",
+              "合约成交量相对上一条快照变化: -3.261%。",
+              "行为标签: Funding降低。"
+            ],
+            "retail": [
+              "多空比: 1.712。",
+              "行为标签: 散户偏多。"
+            ],
+            "tokenomics": [
+              "供应结构数据尚未接入，Tokenomics暂按中性处理。"
+            ],
+            "relative_strength": [
+              "缺少同日BTC/ETH参照或强弱差异不足，暂不输出相对强弱标签。"
+            ]
+          },
+          "confidence": {
+            "level": "中",
+            "support": [
+              "Funding -6.5e-05%，费率未明显过热。",
+              "行为标签触发：空头衰减。"
+            ],
+            "against": [
+              "OI -0.9414%，仓位变化不强。",
+              "多空比 1.712，散户偏多拥挤。"
+            ],
+            "conclusion": "等待确认"
+          },
+          "raw_refs": {
+            "price": 1933.15,
+            "change_24h": -0.091,
+            "oi": 27706158201.2,
+            "oi_delta": -0.9414,
+            "funding_rate": -6.500000000000001e-05,
+            "volume_24h": 474753666.117862,
+            "volume_delta": -1.1704,
+            "cvd": 31243.113,
+            "cvd_delta": -101209.94000000002,
+            "long_short_ratio": 1.7122
+          }
+        },
+        "WLD": {
+          "asset": "WLD",
+          "timestamp": "2026-07-23T09:14:33+08:00",
+          "date": "2026-07-23",
+          "phase": "震荡",
+          "summary": "综合评分 52 /100。",
+          "biggest_change": "WLD 新行为标签：震荡、OI平稳、Funding降低。",
+          "scores": {
+            "valuation": 95,
+            "trend": 52,
+            "whale_behavior": 33,
+            "capital_quality": 29,
+            "leverage_health": 71,
+            "retail_sentiment": 62,
+            "tokenomics": 44,
+            "composite": 52
+          },
+          "score_stars": {
+            "valuation": "★★★★★",
+            "trend": "★★★☆☆",
+            "whale_behavior": "★★☆☆☆",
+            "capital_quality": "★☆☆☆☆",
+            "leverage_health": "★★★★☆",
+            "retail_sentiment": "★★★☆☆",
+            "tokenomics": "★★☆☆☆",
+            "composite": "★★★☆☆"
+          },
+          "tags": [
+            "震荡",
+            "OI平稳",
+            "Funding降低"
+          ],
+          "evidence": {
+            "trend": [
+              "24h涨跌幅: 1.285%。",
+              "相对上一条快照价格变化: -1.454%。",
+              "行为标签: 震荡。"
+            ],
+            "whale_behavior": [
+              "OI变化: -2.23%。",
+              "CVD相对上一条快照变化: -1.18M。",
+              "未触发该组明确行为标签。"
+            ],
+            "capital_quality": [
+              "24h成交量: 15.63M。",
+              "成交量相对上一条快照变化: 5.607%。",
+              "现货成交占总成交估算: 10.79%。"
+            ],
+            "leverage": [
+              "Funding Rate: -0.001513%。",
+              "Funding相对上一条快照变化: -0.006733pct。",
+              "强平总额缺失。",
+              "合约成交量相对上一条快照变化: 12.71%。",
+              "行为标签: Funding降低。"
+            ],
+            "retail": [
+              "多空比: 1.17。",
+              "未触发该组明确行为标签。"
+            ],
+            "tokenomics": [
+              "WLD供应/解锁数据尚未接入，Tokenomics暂按中性偏谨慎处理。"
+            ],
+            "relative_strength": [
+              "缺少同日BTC/ETH参照或强弱差异不足，暂不输出相对强弱标签。"
+            ]
+          },
+          "confidence": {
+            "level": "低",
+            "support": [
+              "Funding -0.001513%，费率未明显过热。",
+              "多空比 1.17，情绪未明显单边拥挤。"
+            ],
+            "against": [
+              "OI -2.23%，仓位变化不强。",
+              "CVD -9.36M，主动卖仍明显。",
+              "CVD变化 -1.18M，主动卖压继续增加。",
+              "主力行为评分 33/100，持续吸筹未确认。",
+              "资金质量评分 29/100，资金流入质量偏弱。"
+            ],
+            "conclusion": "证据不足"
+          },
+          "raw_refs": {
+            "price": 0.3862,
+            "change_24h": 1.285,
+            "oi": 291222634.4462,
+            "oi_delta": -2.2298,
+            "funding_rate": -0.001513,
+            "volume_24h": 15629003.07941,
+            "volume_delta": 5.6073,
+            "cvd": -9359608.0,
+            "cvd_delta": -1177923.0,
+            "long_short_ratio": 1.1701
+          }
+        }
+      },
+      "conclusion": {
+        "date": "2026-07-23",
+        "headline": "BTC 新行为标签：震荡、OI平稳、Funding降低。",
+        "summary": "BTC：等待确认，空头衰减，综合评分 53 /100。；ETH：等待确认，空头衰减，综合评分 53 /100。；WLD：震荡，综合评分 52 /100。",
+        "focus_asset": "BTC"
       }
     }
   },
@@ -1644,7 +1927,7 @@
     "BTC": [
       {
         "date": "2026-06-23",
-        "valuation": 80,
+        "valuation": 83,
         "trend": 31,
         "whale_behavior": 76,
         "capital_quality": 50,
@@ -1655,7 +1938,7 @@
       },
       {
         "date": "2026-06-25",
-        "valuation": 89,
+        "valuation": 90,
         "trend": 43,
         "whale_behavior": 64,
         "capital_quality": 50,
@@ -1677,7 +1960,7 @@
       },
       {
         "date": "2026-07-03",
-        "valuation": 87,
+        "valuation": 89,
         "trend": 56,
         "whale_behavior": 32,
         "capital_quality": 29,
@@ -1688,7 +1971,7 @@
       },
       {
         "date": "2026-07-08",
-        "valuation": 87,
+        "valuation": 89,
         "trend": 43,
         "whale_behavior": 33,
         "capital_quality": 29,
@@ -1696,6 +1979,17 @@
         "retail_sentiment": 65,
         "tokenomics": 52,
         "composite": 51
+      },
+      {
+        "date": "2026-07-23",
+        "valuation": 40,
+        "trend": 48,
+        "whale_behavior": 53,
+        "capital_quality": 50,
+        "leverage_health": 71,
+        "retail_sentiment": 63,
+        "tokenomics": 52,
+        "composite": 53
       }
     ],
     "ETH": [
@@ -1712,36 +2006,47 @@
       },
       {
         "date": "2026-07-02",
-        "valuation": 91,
+        "valuation": 94,
         "trend": 84,
         "whale_behavior": 53,
         "capital_quality": 47,
         "leverage_health": 69,
         "retail_sentiment": 65,
         "tokenomics": 52,
-        "composite": 65
+        "composite": 66
       },
       {
         "date": "2026-07-03",
-        "valuation": 40,
+        "valuation": 77,
         "trend": 94,
         "whale_behavior": 61,
         "capital_quality": 47,
         "leverage_health": 66,
         "retail_sentiment": 65,
         "tokenomics": 52,
-        "composite": 62
+        "composite": 66
       },
       {
         "date": "2026-07-08",
-        "valuation": 45,
+        "valuation": 79,
         "trend": 41,
         "whale_behavior": 32,
         "capital_quality": 27,
         "leverage_health": 67,
         "retail_sentiment": 65,
         "tokenomics": 52,
-        "composite": 45
+        "composite": 49
+      },
+      {
+        "date": "2026-07-23",
+        "valuation": 40,
+        "trend": 50,
+        "whale_behavior": 51,
+        "capital_quality": 47,
+        "leverage_health": 72,
+        "retail_sentiment": 65,
+        "tokenomics": 52,
+        "composite": 53
       }
     ],
     "WLD": [
@@ -1799,6 +2104,17 @@
         "retail_sentiment": 52,
         "tokenomics": 44,
         "composite": 44
+      },
+      {
+        "date": "2026-07-23",
+        "valuation": 95,
+        "trend": 52,
+        "whale_behavior": 33,
+        "capital_quality": 29,
+        "leverage_health": 71,
+        "retail_sentiment": 62,
+        "tokenomics": 44,
+        "composite": 52
       }
     ]
   },
@@ -1809,17 +2125,17 @@
         "windows": {
           "1h": {
             "samples": 1,
-            "success_rate": 100.0,
-            "avg_change_pct": 1.8462,
-            "max_drawdown_pct": 1.8462,
-            "max_gain_pct": 1.8462
+            "success_rate": 0.0,
+            "avg_change_pct": -81.5785,
+            "max_drawdown_pct": -81.5785,
+            "max_gain_pct": -81.5785
           },
           "4h": {
             "samples": 1,
-            "success_rate": 100.0,
-            "avg_change_pct": 5.8462,
-            "max_drawdown_pct": 5.8462,
-            "max_gain_pct": 5.8462
+            "success_rate": 0.0,
+            "avg_change_pct": -82.3938,
+            "max_drawdown_pct": -82.3938,
+            "max_gain_pct": -82.3938
           },
           "24h": {
             "samples": 1,
@@ -1841,6 +2157,13 @@
             "avg_change_pct": 14.4615,
             "max_drawdown_pct": 14.4615,
             "max_gain_pct": 14.4615
+          },
+          "30d": {
+            "samples": 1,
+            "success_rate": 0.0,
+            "avg_change_pct": -88.1169,
+            "max_drawdown_pct": -88.1169,
+            "max_gain_pct": -88.1169
           }
         }
       },
@@ -1849,17 +2172,17 @@
         "windows": {
           "1h": {
             "samples": 1,
-            "success_rate": 100.0,
-            "avg_change_pct": 1.8462,
-            "max_drawdown_pct": 1.8462,
-            "max_gain_pct": 1.8462
+            "success_rate": 0.0,
+            "avg_change_pct": -81.5785,
+            "max_drawdown_pct": -81.5785,
+            "max_gain_pct": -81.5785
           },
           "4h": {
             "samples": 1,
-            "success_rate": 100.0,
-            "avg_change_pct": 5.8462,
-            "max_drawdown_pct": 5.8462,
-            "max_gain_pct": 5.8462
+            "success_rate": 0.0,
+            "avg_change_pct": -82.3938,
+            "max_drawdown_pct": -82.3938,
+            "max_gain_pct": -82.3938
           },
           "24h": {
             "samples": 1,
@@ -1881,6 +2204,13 @@
             "avg_change_pct": 14.4615,
             "max_drawdown_pct": 14.4615,
             "max_gain_pct": 14.4615
+          },
+          "30d": {
+            "samples": 1,
+            "success_rate": 0.0,
+            "avg_change_pct": -88.1169,
+            "max_drawdown_pct": -88.1169,
+            "max_gain_pct": -88.1169
           }
         }
       },
@@ -1889,17 +2219,17 @@
         "windows": {
           "1h": {
             "samples": 1,
-            "success_rate": 100.0,
-            "avg_change_pct": 1.8462,
-            "max_drawdown_pct": 1.8462,
-            "max_gain_pct": 1.8462
+            "success_rate": 0.0,
+            "avg_change_pct": -81.5785,
+            "max_drawdown_pct": -81.5785,
+            "max_gain_pct": -81.5785
           },
           "4h": {
             "samples": 1,
-            "success_rate": 100.0,
-            "avg_change_pct": 5.8462,
-            "max_drawdown_pct": 5.8462,
-            "max_gain_pct": 5.8462
+            "success_rate": 0.0,
+            "avg_change_pct": -82.3938,
+            "max_drawdown_pct": -82.3938,
+            "max_gain_pct": -82.3938
           },
           "24h": {
             "samples": 1,
@@ -1921,6 +2251,13 @@
             "avg_change_pct": 14.4615,
             "max_drawdown_pct": 14.4615,
             "max_gain_pct": 14.4615
+          },
+          "30d": {
+            "samples": 1,
+            "success_rate": 0.0,
+            "avg_change_pct": -88.1169,
+            "max_drawdown_pct": -88.1169,
+            "max_gain_pct": -88.1169
           }
         }
       }
