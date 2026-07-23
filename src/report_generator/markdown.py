@@ -43,6 +43,12 @@ def generate_daily_report(report_date: date, output_dir: Path = REPORTS_DIR) -> 
                 "## Behavior Evidence（行为证据）",
                 behavior_evidence_block(behavior_day),
                 "",
+                "## Evidence Weight（证据权重排序）",
+                behavior_driver_block(behavior_day),
+                "",
+                "## Behavior Evolution（行为演化）",
+                behavior_evolution_block(behavior_day),
+                "",
                 "## BTC状态",
                 snapshot_block(btc),
                 "",
@@ -204,6 +210,47 @@ def behavior_evidence_block(day_payload: dict[str, Any]) -> str:
             lines.append(f"- {label}: {details or '-'}")
         blocks.append("\n".join(lines))
     return "\n\n".join(blocks)
+
+
+def behavior_driver_block(day_payload: dict[str, Any]) -> str:
+    assets = day_payload.get("assets") or {}
+    if not assets:
+        return "- 暂无证据权重排序。"
+    blocks = []
+    for asset in ("BTC", "ETH", "WLD"):
+        item = assets.get(asset)
+        if not item:
+            continue
+        lines = [f"### {asset}", "| 权重 | 因素 | 方向 | 原因 |", "| --- | --- | --- | --- |"]
+        for driver in item.get("drivers", []):
+            lines.append(
+                f"| {driver.get('stars', '-')} | {driver.get('name', '-')} | {driver.get('direction', '-')} | {driver.get('reason', '-')} |"
+            )
+        if len(lines) == 3:
+            lines.append("| - | 暂无 | - | 数据不足 |")
+        blocks.append("\n".join(lines))
+    return "\n\n".join(blocks)
+
+
+def behavior_evolution_block(day_payload: dict[str, Any]) -> str:
+    evolution = day_payload.get("evolution") or {}
+    if not evolution:
+        return "- 暂无行为演化。"
+    blocks = []
+    for asset in ("BTC", "ETH", "WLD"):
+        points = evolution.get(asset) or []
+        if not points:
+            continue
+        lines = [f"### {asset}"]
+        for point in points:
+            tags = "、".join(point.get("new_tags") or [])
+            tag_text = f"；新标签: {tags}" if tags else ""
+            changed = "；阶段切换" if point.get("changed") else ""
+            lines.append(
+                f"- {point.get('date')}: {point.get('phase', '-')}，主导因素: {point.get('driver', '-')}{tag_text}{changed}"
+            )
+        blocks.append("\n".join(lines))
+    return "\n\n".join(blocks) if blocks else "- 暂无行为演化。"
 
 
 def snapshot_block(row: dict[str, Any] | None) -> str:

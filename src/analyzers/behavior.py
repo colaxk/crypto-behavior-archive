@@ -69,6 +69,7 @@ def build_behavior_archive(
 
     for date_key, bucket in by_date.items():
         bucket["conclusion"] = build_daily_conclusion(bucket["assets"], date_key)
+        bucket["evolution"] = build_behavior_evolution(by_date, date_key)
 
     latest_date = max(by_date.keys(), default=None)
     latest = by_date.get(latest_date, {"assets": {}, "conclusion": {}}) if latest_date else {}
@@ -80,6 +81,7 @@ def build_behavior_archive(
         "latest": latest,
         "by_date": dict(sorted(by_date.items())),
         "history": build_score_history(analyses),
+        "evolution": build_behavior_evolution(by_date, latest_date) if latest_date else {},
         "validations": build_historical_validation(events),
     }
 
@@ -171,6 +173,22 @@ def analyze_snapshot(
         funding=funding,
         long_short_ratio=long_short_ratio,
     )
+    drivers = build_driver_ranking(
+        row=row,
+        tags=tags,
+        scores=scores,
+        phase=phase,
+        oi_delta=oi_delta,
+        volume_delta=volume_delta,
+        futures_volume_delta=futures_volume_delta,
+        cvd=cvd,
+        cvd_delta=cvd_delta,
+        funding=funding,
+        previous_funding=previous_funding,
+        long_short_ratio=long_short_ratio,
+        change_24h=change_24h,
+        price_delta=price_delta,
+    )
 
     return {
         "asset": asset,
@@ -184,6 +202,7 @@ def analyze_snapshot(
         "tags": tags,
         "evidence": evidence,
         "confidence": confidence,
+        "drivers": drivers,
         "raw_refs": {
             "price": price,
             "change_24h": change_24h,
@@ -197,6 +216,90 @@ def analyze_snapshot(
             "long_short_ratio": long_short_ratio,
         },
     }
+
+
+def build_driver_ranking(
+    row: dict[str, Any],
+    tags: list[str],
+    scores: dict[str, int],
+    phase: str,
+    oi_delta: float | None,
+    volume_delta: float | None,
+    futures_volume_delta: float | None,
+    cvd: float | None,
+    cvd_delta: float | None,
+    funding: float | None,
+    previous_funding: float | None,
+    long_short_ratio: float | None,
+    change_24h: float | None,
+    price_delta: float | None,
+) -> list[dict[str, Any]]:
+    drivers: list[dict[str, Any]] = []
+
+    def add(name: str, raw_weight: float, direction: str, reason: str) -> None:
+        weight = clamp(raw_weight, 1, 5)
+        drivers.append(
+            {
+                "name": name,
+                "weight": weight,
+                "stars": "★" * weight + "☆" * (5 - weight),
+                "direction": direction,
+                "reason": reason,
+            }
+        )
+
+    direction = first_number(change_24h, price_delta)
+    if cvd is not None:
+        raw = min(5, 2 + abs(cvd) / 8_000_000)
+        stance = "支持" if cvd > 0 else "反对" if cvd < 0 else "中性"
+        add("主动买卖盘(CVD)", raw, stance, f"CVD {fmt(cvd)}。")
+    if cvd_delta is not None:
+        raw = min(5, 2 + abs(cvd_delta) / 5_000_000)
+        stance = "支持" if cvd_delta > 0 else "反对" if cvd_delta < 0 else "中性"
+        add("CVD变化", raw, stance, f"CVD相对上一条快照变化 {fmt(cvd_delta)}。")
+    if volume_delta is not None:
+        raw = min(5, 2 + abs(volume_delta) / 18)
+        stance = "支持" if volume_delta <= -20 or (direction is not None and direction > 0 and volume_delta > 20) else "反对" if volume_delta >= 35 and direction is not None and direction < 0 else "中性"
+        add("成交量变化", raw, stance, f"成交量变化 {fmt(volume_delta, '%')}。")
+    if oi_delta is not None:
+        raw = min(5, 2 + abs(oi_delta) / 5)
+        stance = "支持" if oi_delta <= -8 or "吸筹观察" in tags or "资金试探" in tags else "反对" if oi_delta >= 8 else "中性"
+        add("OI变化", raw, stance, f"OI变化 {fmt(oi_delta, '%')}，当前阶段 {phase}。")
+    if futures_volume_delta is not None:
+        raw = min(5, 2 + abs(futures_volume_delta) / 22)
+        stance = "支持" if futures_volume_delta <= -20 else "反对" if futures_volume_delta >= 35 else "中性"
+        add("合约活跃度", raw, stance, f"合约成交量变化 {fmt(futures_volume_delta, '%')}。")
+    if funding is not None:
+        change_text = ""
+        if previous_funding is not None:
+            change_text = f"，较上一条变化 {fmt(funding - previous_funding, 'pct')}"
+        raw = min(5, 2 + abs(funding) * 120)
+        stance = "支持" if abs(funding) <= 0.01 else "反对"
+        add("Funding", raw, stance, f"Funding {fmt(funding, '%')}{change_text}。")
+    if long_short_ratio is not None:
+        raw = min(5, 2 + abs(long_short_ratio - 1) * 3)
+        stance = "支持" if 0.85 <= long_short_ratio <= 1.2 else "反对"
+        add("多空比", raw, stance, f"多空比 {fmt(long_short_ratio)}。")
+
+    score_items = [
+        ("主力评分", "whale_behavior"),
+        ("资金质量", "capital_quality"),
+        ("趋势健康", "trend"),
+        ("杠杆健康", "leverage_health"),
+    ]
+    for label, key in score_items:
+        value = scores.get(key, 50)
+        if abs(value - 50) < 10:
+            continue
+        raw = min(5, 2 + abs(value - 50) / 13)
+        stance = "支持" if value >= 60 else "反对"
+        add(label, raw, stance, f"{label} {value}/100。")
+
+    if not drivers:
+        add("数据完整度", 2, "中性", "当前快照可用指标不足，暂按低权重观察。")
+
+    drivers.sort(key=lambda item: (item["weight"], 1 if item["direction"] != "中性" else 0), reverse=True)
+    return drivers[:7]
 
 
 def build_tags(
@@ -607,6 +710,42 @@ def build_score_history(analyses: list[dict[str, Any]]) -> dict[str, list[dict[s
         item.update(analysis.get("scores", {}))
         history[asset].append(item)
     return history
+
+
+def build_behavior_evolution(by_date: dict[str, Any], up_to_date: str | None, limit: int = 7) -> dict[str, list[dict[str, Any]]]:
+    if not up_to_date:
+        return {asset: [] for asset in ASSETS}
+    dates = [date_key for date_key in sorted(by_date) if date_key <= up_to_date]
+    result: dict[str, list[dict[str, Any]]] = {asset: [] for asset in ASSETS}
+    for asset in ASSETS:
+        points = []
+        previous_phase = None
+        previous_tags: set[str] = set()
+        for date_key in dates:
+            item = (by_date.get(date_key) or {}).get("assets", {}).get(asset)
+            if not item:
+                continue
+            tags = item.get("tags") or []
+            new_tags = [tag for tag in tags if tag not in previous_tags][:3]
+            driver = (item.get("drivers") or [{}])[0]
+            changed = previous_phase and previous_phase != item.get("phase")
+            points.append(
+                {
+                    "date": date_key,
+                    "phase": item.get("phase"),
+                    "summary": item.get("summary"),
+                    "driver": driver.get("name") or "-",
+                    "driver_stars": driver.get("stars") or "",
+                    "driver_direction": driver.get("direction") or "中性",
+                    "new_tags": new_tags,
+                    "changed": bool(changed),
+                    "composite": item.get("scores", {}).get("composite"),
+                }
+            )
+            previous_phase = item.get("phase")
+            previous_tags.update(tags)
+        result[asset] = points[-limit:]
+    return result
 
 
 def build_historical_validation(events: list[dict[str, Any]]) -> dict[str, Any]:

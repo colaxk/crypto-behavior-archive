@@ -215,10 +215,41 @@
       gap: 10px;
       margin-top: 14px;
     }
+    .driver-list {
+      display: grid;
+      gap: 7px;
+      margin-top: 12px;
+    }
+    .driver-row {
+      display: grid;
+      grid-template-columns: 68px 1fr auto;
+      gap: 8px;
+      align-items: center;
+      border-top: 1px solid var(--line);
+      padding-top: 7px;
+      font-size: 12px;
+    }
+    .driver-name { font-weight: 750; }
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .timeline-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .timeline-item {
+      border-left: 3px solid var(--line);
+      padding-left: 9px;
+    }
+    .timeline-item.changed { border-left-color: var(--blue); }
     @media (max-width: 820px) {
       h1 { font-size: 22px; }
       main { padding-left: 12px; padding-right: 12px; }
-      .grid, .two, .toolbar, .live-strip, .behavior-head, .validation-strip { grid-template-columns: 1fr; }
+      .grid, .two, .toolbar, .live-strip, .behavior-head, .validation-strip, .timeline { grid-template-columns: 1fr; }
       .card { padding: 12px; }
       canvas { height: 180px; }
     }
@@ -382,6 +413,7 @@
           </div>
         </div>
         <div class="grid">${assetCards}</div>
+        <div class="timeline">${evolutionCards(payload.evolution || {})}</div>
         <div class="validation-strip">${validationCards()}</div>
       `;
     }
@@ -407,9 +439,21 @@
         <div class="subtitle">${escapeHtml(item.summary || '')}</div>
         <div class="subtitle"><strong>可信度：${escapeHtml(confidence.level || '-')}</strong> · 结论：${escapeHtml(confidence.conclusion || '-')}</div>
         <div class="tags">${(item.tags || []).slice(0, 8).map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join('')}</div>
+        ${driverList(item.drivers || [])}
         ${scoreRows(item.scores || {})}
         ${confidenceBlock(confidence)}
         <ul class="evidence-list">${evidence.map(line => `<li>${escapeHtml(line)}</li>`).join('')}</ul>
+      </div>`;
+    }
+
+    function driverList(drivers) {
+      if (!drivers.length) return '<div class="subtitle">暂无证据权重排序。</div>';
+      return `<div class="driver-list">
+        ${drivers.slice(0, 5).map(driver => `<div class="driver-row">
+          <span class="muted">${escapeHtml(driver.stars || '')}</span>
+          <span><span class="driver-name">${escapeHtml(driver.name || '-')}</span><br><span class="muted">${escapeHtml(driver.reason || '')}</span></span>
+          <span class="pill">${escapeHtml(driver.direction || '中性')}</span>
+        </div>`).join('')}
       </div>`;
     }
 
@@ -464,6 +508,24 @@
           <div class="subtitle">${escapeHtml(result)}</div>
         </div>`;
       }).join('');
+    }
+
+    function evolutionCards(evolution) {
+      const html = ASSETS.map(asset => {
+        const points = evolution[asset] || [];
+        if (!points.length) {
+          return `<div class="behavior-panel"><div class="label">${asset} 行为演化</div><div class="muted">暂无历史轨迹</div></div>`;
+        }
+        return `<div class="behavior-panel">
+          <div class="label">${asset} 行为演化 · 最近${points.length}条</div>
+          <div class="timeline-list">${points.map(point => `<div class="timeline-item ${point.changed ? 'changed' : ''}">
+            <div><strong>${escapeHtml(shortDate(point.date))}</strong> · ${escapeHtml(point.phase || '-')} · 综合 ${plain(point.composite, '-')}</div>
+            <div class="subtitle">主导因素：${escapeHtml(point.driver || '-')} ${escapeHtml(point.driver_stars || '')}</div>
+            <div class="tags">${(point.new_tags || []).map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join('')}</div>
+          </div>`).join('')}</div>
+        </div>`;
+      }).join('');
+      return html || '<div class="behavior-panel"><div class="label">行为演化</div><div class="muted">暂无历史轨迹</div></div>';
     }
 
     function mergeLive(asset, archived) {
@@ -795,14 +857,22 @@
         const item = behavior.assets?.[asset];
         if (!item) return `${asset}: 暂无行为画像`;
         const confidence = item.confidence || {};
+        const drivers = (item.drivers || []).slice(0, 5).map(driver => `${driver.stars || ''} ${driver.name || '-'}（${driver.direction || '中性'}）：${driver.reason || '-'}`).join('\n');
         return `${asset}: ${item.phase} / 综合评分 ${item.scores?.composite}/100
 行为总结: ${item.summary}
 可信度: ${confidence.level || '-'} / 结论: ${confidence.conclusion || '-'}
+权重排序:
+${drivers || '-'}
 支持: ${(confidence.support || []).join('；') || '-'}
 反对: ${(confidence.against || []).join('；') || '-'}
 行为标签: ${(item.tags || []).join('、')}
 关键证据: ${flattenEvidence(item.evidence).slice(0, 5).join('；')}`;
       }).join('\n\n');
+      const evolutionText = ASSETS.map(asset => {
+        const points = behavior.evolution?.[asset] || [];
+        const lines = points.map(point => `${point.date}: ${point.phase} -> ${point.driver}${point.new_tags?.length ? ' / 新标签 ' + point.new_tags.join('、') : ''}`);
+        return `${asset}\n${lines.join('\n') || '-'}`;
+      }).join('\n\n---\n\n');
       const blocks = ASSETS.map(asset => {
         const row = latestByAsset[asset] || {};
         return `${asset}
@@ -825,6 +895,11 @@ Heatmap: ${plain(row.heatmap, '需 CoinGlass API')}
 
 Behavior Summary
 ${behaviorAssets}
+
+---
+
+Behavior Evolution
+${evolutionText}
 
 ---
 
@@ -872,6 +947,7 @@ ${pending}
       return dates[dates.length - 1] || new Date().toISOString().slice(0, 10);
     }
     function day(value) { return value ? String(value).slice(0, 10) : ''; }
+    function shortDate(value) { return value ? String(value).slice(5, 10) : '-'; }
     function shortTime(value) { return value ? String(value).slice(5, 16).replace('T', ' ') : '-'; }
     function shortClock(value) { return value ? new Date(value).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '-'; }
     function plain(value, missing = '-') { return value === null || value === undefined || value === '' ? missing : String(value); }
