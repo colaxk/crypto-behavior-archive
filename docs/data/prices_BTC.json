@@ -1034,5 +1034,173 @@
     "price": 66038.64,
     "source": "binance:BTCUSDT:1h",
     "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-09-28T06:00:00+08:00",
+    "asset": "BTC",
+    "price": 84195.27,
+    "source": "binance:BTCUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-09-28T07:00:00+08:00",
+    "asset": "BTC",
+    "price": 84472,
+    "source": "binance:BTCUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-09-28T08:00:00+08:00",
+    "asset": "BTC",
+    "price": 84140,
+    "source": "binance:BTCUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-09-28T09:00:00+08:00",
+    "asset": "BTC",
+    "price": 83694.43,
+    "source": "binance:BTCUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-09-28T10:00:00+08:00",
+    "asset": "BTC",
+    "price": 83418.24,
+    "source": "binance:BTCUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-09-28T11:00:00+08:00",
+    "asset": "BTC",
+    "price": 83338.6,
+    "source": "binance:BTCUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-09-28T12:00:00+08:00",
+    "asset": "BTC",
+    "price": 83490.21,
+    "source": "binance:BTCUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-09-28T13:00:00+08:00",
+    "asset": "BTC",
+    "price": 83184.01,
+    "source": "binance:BTCUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-09-28T14:00:00+08:00",
+    "asset": "BTC",
+    "price": 83164.78,
+    "source": "binance:BTCUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-09-28T15:00:00+08:00",
+    "asset": "BTC",
+    "price": 82966.01,
+    "source": "binance:BTCUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-09-28T16:00:00+08:00",
+    "asset": "BTC",
+    "price": 82962,
+    "source": "binance:BTCUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-09-28T17:00:00+08:00",
+    "asset": "BTC",
+    "price": 82666.01,
+    "source": "binance:BTCUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-09-28T18:00:00+08:00",
+    "asset": "BTC",
+    "price": 82960,
+    "source": "binance:BTCUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-09-28T19:00:00+08:00",
+    "asset": "BTC",
+    "price": 83082.54,
+    "source": "binance:BTCUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-09-28T20:00:00+08:00",
+    "asset": "BTC",
+    "price": 83579.75,
+    "source": "binance:BTCUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-09-28T21:00:00+08:00",
+    "asset": "BTC",
+    "price": 83641.99,
+    "source": "binance:BTCUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-09-28T22:00:00+08:00",
+    "asset": "BTC",
+    "price": 83020,
+    "source": "binance:BTCUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-09-28T23:00:00+08:00",
+    "asset": "BTC",
+    "price": 83370,
+    "source": "binance:BTCUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-09-29T00:00:00+08:00",
+    "asset": "BTC",
+    "price": 83723.1,
+    "source": "binance:BTCUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-09-29T01:00:00+08:00",
+    "asset": "BTC",
+    "price": 83880.33,
+    "source": "binance:BTCUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-09-29T02:00:00+08:00",
+    "asset": "BTC",
+    "price": 84041.19,
+    "source": "binance:BTCUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-09-29T03:00:00+08:00",
+    "asset": "BTC",
+    "price": 83389.54,
+    "source": "binance:BTCUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-09-29T04:00:00+08:00",
+    "asset": "BTC",
+    "price": 83548,
+    "source": "binance:BTCUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-09-29T05:00:00+08:00",
+    "asset": "BTC",
+    "price": 83400.01,
+    "source": "binance:BTCUSDT:1h",
+    "note": "Kline close price"
   }
 ]
