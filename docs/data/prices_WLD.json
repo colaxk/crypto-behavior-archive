@@ -1251,5 +1251,173 @@
     "price": 0.4819,
     "source": "binance:WLDUSDT:1h",
     "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-10-28T05:00:00+08:00",
+    "asset": "WLD",
+    "price": 0.4373,
+    "source": "binance:WLDUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-10-28T06:00:00+08:00",
+    "asset": "WLD",
+    "price": 0.4367,
+    "source": "binance:WLDUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-10-28T07:00:00+08:00",
+    "asset": "WLD",
+    "price": 0.4394,
+    "source": "binance:WLDUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-10-28T08:00:00+08:00",
+    "asset": "WLD",
+    "price": 0.4399,
+    "source": "binance:WLDUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-10-28T09:00:00+08:00",
+    "asset": "WLD",
+    "price": 0.4419,
+    "source": "binance:WLDUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-10-28T10:00:00+08:00",
+    "asset": "WLD",
+    "price": 0.4407,
+    "source": "binance:WLDUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-10-28T11:00:00+08:00",
+    "asset": "WLD",
+    "price": 0.4391,
+    "source": "binance:WLDUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-10-28T12:00:00+08:00",
+    "asset": "WLD",
+    "price": 0.4367,
+    "source": "binance:WLDUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-10-28T13:00:00+08:00",
+    "asset": "WLD",
+    "price": 0.4334,
+    "source": "binance:WLDUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-10-28T14:00:00+08:00",
+    "asset": "WLD",
+    "price": 0.4339,
+    "source": "binance:WLDUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-10-28T15:00:00+08:00",
+    "asset": "WLD",
+    "price": 0.4362,
+    "source": "binance:WLDUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-10-28T16:00:00+08:00",
+    "asset": "WLD",
+    "price": 0.437,
+    "source": "binance:WLDUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-10-28T17:00:00+08:00",
+    "asset": "WLD",
+    "price": 0.4387,
+    "source": "binance:WLDUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-10-28T18:00:00+08:00",
+    "asset": "WLD",
+    "price": 0.4384,
+    "source": "binance:WLDUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-10-28T19:00:00+08:00",
+    "asset": "WLD",
+    "price": 0.4362,
+    "source": "binance:WLDUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-10-28T20:00:00+08:00",
+    "asset": "WLD",
+    "price": 0.4285,
+    "source": "binance:WLDUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-10-28T21:00:00+08:00",
+    "asset": "WLD",
+    "price": 0.4292,
+    "source": "binance:WLDUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-10-28T22:00:00+08:00",
+    "asset": "WLD",
+    "price": 0.4297,
+    "source": "binance:WLDUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-10-28T23:00:00+08:00",
+    "asset": "WLD",
+    "price": 0.4328,
+    "source": "binance:WLDUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-10-29T00:00:00+08:00",
+    "asset": "WLD",
+    "price": 0.425,
+    "source": "binance:WLDUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-10-29T01:00:00+08:00",
+    "asset": "WLD",
+    "price": 0.425,
+    "source": "binance:WLDUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-10-29T02:00:00+08:00",
+    "asset": "WLD",
+    "price": 0.437,
+    "source": "binance:WLDUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-10-29T03:00:00+08:00",
+    "asset": "WLD",
+    "price": 0.4428,
+    "source": "binance:WLDUSDT:1h",
+    "note": "Kline close price"
+  },
+  {
+    "timestamp": "2026-10-29T04:00:00+08:00",
+    "asset": "WLD",
+    "price": 0.4416,
+    "source": "binance:WLDUSDT:1h",
+    "note": "Kline close price"
   }
 ]
