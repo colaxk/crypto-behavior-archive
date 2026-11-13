@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-11-13T06:11:14+08:00",
-  "latest_date": "2026-10-29",
+  "generated_at": "2026-11-14T05:54:54+08:00",
+  "latest_date": "2026-11-14",
   "score_labels": {
     "valuation": "估值评分",
     "trend": "趋势评分",
@@ -12,29 +12,180 @@
     "composite": "综合评分"
   },
   "latest": {
-    "date": "2026-10-29",
+    "date": "2026-11-14",
     "assets": {
       "BTC": {
         "asset": "BTC",
-        "timestamp": "2026-10-29T04:57:15+08:00",
-        "date": "2026-10-29",
-        "phase": "震荡",
-        "summary": "综合评分 49 /100。",
-        "biggest_change": "BTC 成交量变化 -39.84%，换手强度出现变化。",
+        "timestamp": "2026-11-14T05:54:44+08:00",
+        "date": "2026-11-14",
+        "phase": "下降趋势",
+        "summary": "杠杆释放，综合评分 40 /100。",
+        "biggest_change": "BTC 成交量变化 88.64%，换手强度出现变化。",
         "scores": {
-          "valuation": 45,
-          "trend": 47,
-          "whale_behavior": 51,
-          "capital_quality": 28,
-          "leverage_health": 66,
+          "valuation": 77,
+          "trend": 1,
+          "whale_behavior": 20,
+          "capital_quality": 29,
+          "leverage_health": 71,
           "retail_sentiment": 65,
           "tokenomics": 52,
-          "composite": 49
+          "composite": 40
         },
         "score_stars": {
-          "valuation": "★★☆☆☆",
-          "trend": "★★☆☆☆",
-          "whale_behavior": "★★★☆☆",
+          "valuation": "★★★★☆",
+          "trend": "★☆☆☆☆",
+          "whale_behavior": "★☆☆☆☆",
+          "capital_quality": "★☆☆☆☆",
+          "leverage_health": "★★★★☆",
+          "retail_sentiment": "★★★☆☆",
+          "tokenomics": "★★★☆☆",
+          "composite": "★★☆☆☆"
+        },
+        "tags": [
+          "趋势延续",
+          "放量下跌",
+          "OI减少",
+          "OI暴减",
+          "Funding降低",
+          "杠杆释放",
+          "散户偏多",
+          "合约成交放大"
+        ],
+        "evidence": {
+          "trend": [
+            "24h涨跌幅: -4.407%。",
+            "相对上一条快照价格变化: -15.83%。",
+            "行为标签: 趋势延续。"
+          ],
+          "whale_behavior": [
+            "OI变化: -13.28%。",
+            "CVD相对上一条快照变化: -14.08K。",
+            "行为标签: OI减少、OI暴减。"
+          ],
+          "capital_quality": [
+            "24h成交量: 2.02B。",
+            "成交量相对上一条快照变化: 88.64%。",
+            "现货成交占总成交估算: 9.485%。"
+          ],
+          "leverage": [
+            "Funding Rate: 0.007518%。",
+            "Funding相对上一条快照变化: -0.002482pct。",
+            "强平总额缺失。",
+            "合约成交量相对上一条快照变化: 86.46%。",
+            "行为标签: OI减少、Funding降低、杠杆释放。"
+          ],
+          "retail": [
+            "多空比: 3.105。",
+            "行为标签: 散户偏多。"
+          ],
+          "tokenomics": [
+            "供应结构数据尚未接入，Tokenomics暂按中性处理。"
+          ],
+          "relative_strength": [
+            "缺少同日BTC/ETH参照或强弱差异不足，暂不输出相对强弱标签。"
+          ]
+        },
+        "confidence": {
+          "level": "低",
+          "support": [
+            "OI -13.28%，杠杆仓位明显释放。",
+            "Funding 0.007518%，费率未明显过热。",
+            "行为标签触发：杠杆释放。"
+          ],
+          "against": [
+            "成交量 88.64%，波动仍有放大迹象。",
+            "合约成交量 86.46%，杠杆活跃度仍高。",
+            "多空比 3.105，散户偏多拥挤。",
+            "主力行为评分 20/100，持续吸筹未确认。",
+            "资金质量评分 29/100，资金流入质量偏弱。"
+          ],
+          "conclusion": "证据不足"
+        },
+        "drivers": [
+          {
+            "name": "成交量变化",
+            "weight": 5,
+            "stars": "★★★★★",
+            "direction": "反对",
+            "reason": "成交量变化 88.64%。"
+          },
+          {
+            "name": "OI变化",
+            "weight": 5,
+            "stars": "★★★★★",
+            "direction": "支持",
+            "reason": "OI变化 -13.28%，当前阶段 下降趋势。"
+          },
+          {
+            "name": "合约活跃度",
+            "weight": 5,
+            "stars": "★★★★★",
+            "direction": "反对",
+            "reason": "合约成交量变化 86.46%。"
+          },
+          {
+            "name": "多空比",
+            "weight": 5,
+            "stars": "★★★★★",
+            "direction": "反对",
+            "reason": "多空比 3.105。"
+          },
+          {
+            "name": "趋势健康",
+            "weight": 5,
+            "stars": "★★★★★",
+            "direction": "反对",
+            "reason": "趋势健康 1/100。"
+          },
+          {
+            "name": "主力评分",
+            "weight": 4,
+            "stars": "★★★★☆",
+            "direction": "反对",
+            "reason": "主力评分 20/100。"
+          },
+          {
+            "name": "资金质量",
+            "weight": 4,
+            "stars": "★★★★☆",
+            "direction": "反对",
+            "reason": "资金质量 29/100。"
+          }
+        ],
+        "raw_refs": {
+          "price": 68408.0,
+          "change_24h": -4.407,
+          "oi": 47050132652.019,
+          "oi_delta": -13.2796,
+          "funding_rate": 0.007517801135,
+          "volume_24h": 2016759338.5374398,
+          "volume_delta": 88.6358,
+          "cvd": -14390.798,
+          "cvd_delta": -14080.611,
+          "long_short_ratio": 3.1051
+        }
+      },
+      "ETH": {
+        "asset": "ETH",
+        "timestamp": "2026-11-14T05:54:48+08:00",
+        "date": "2026-11-14",
+        "phase": "下降趋势",
+        "summary": "杠杆释放，综合评分 39 /100。",
+        "biggest_change": "ETH 成交量变化 77.23%，换手强度出现变化。",
+        "scores": {
+          "valuation": 80,
+          "trend": 0,
+          "whale_behavior": 18,
+          "capital_quality": 27,
+          "leverage_health": 65,
+          "retail_sentiment": 65,
+          "tokenomics": 52,
+          "composite": 39
+        },
+        "score_stars": {
+          "valuation": "★★★★☆",
+          "trend": "★☆☆☆☆",
+          "whale_behavior": "★☆☆☆☆",
           "capital_quality": "★☆☆☆☆",
           "leverage_health": "★★★☆☆",
           "retail_sentiment": "★★★☆☆",
@@ -42,37 +193,40 @@
           "composite": "★★☆☆☆"
         },
         "tags": [
-          "震荡",
-          "成交衰减",
-          "OI平稳",
-          "Funding升高",
-          "散户偏多"
+          "趋势延续",
+          "放量下跌",
+          "OI减少",
+          "OI暴减",
+          "Funding降低",
+          "杠杆释放",
+          "散户偏多",
+          "合约成交放大"
         ],
         "evidence": {
           "trend": [
-            "24h涨跌幅: 0.61%。",
-            "相对上一条快照价格变化: -2.553%。",
-            "行为标签: 震荡。"
+            "24h涨跌幅: -4.398%。",
+            "相对上一条快照价格变化: -18.21%。",
+            "行为标签: 趋势延续。"
           ],
           "whale_behavior": [
-            "OI变化: 0.8644%。",
-            "CVD相对上一条快照变化: 3.78K。",
-            "未触发该组明确行为标签。"
+            "OI变化: -21.85%。",
+            "CVD相对上一条快照变化: -109.90K。",
+            "行为标签: OI减少、OI暴减。"
           ],
           "capital_quality": [
-            "24h成交量: 1.07B。",
-            "成交量相对上一条快照变化: -39.84%。",
-            "现货成交占总成交估算: 9.385%。"
+            "24h成交量: 722.25M。",
+            "成交量相对上一条快照变化: 77.23%。",
+            "现货成交占总成交估算: 6.066%。"
           ],
           "leverage": [
-            "Funding Rate: 0.01%。",
-            "Funding相对上一条快照变化: 0.007295pct。",
+            "Funding Rate: 0.001663%。",
+            "Funding相对上一条快照变化: -0.008337pct。",
             "强平总额缺失。",
-            "合约成交量相对上一条快照变化: -23.03%。",
-            "行为标签: Funding升高。"
+            "合约成交量相对上一条快照变化: 67.73%。",
+            "行为标签: OI减少、Funding降低、杠杆释放。"
           ],
           "retail": [
-            "多空比: 1.933。",
+            "多空比: 3.719。",
             "行为标签: 散户偏多。"
           ],
           "tokenomics": [
@@ -83,288 +237,147 @@
           ]
         },
         "confidence": {
-          "level": "中",
+          "level": "低",
           "support": [
-            "成交量 -39.84%，追杀/换手强度衰减。",
-            "合约成交量 -23.03%，杠杆活跃度下降。",
-            "Funding 0.01%，费率未明显过热。"
+            "OI -21.85%，杠杆仓位明显释放。",
+            "Funding 0.001663%，费率未明显过热。",
+            "行为标签触发：杠杆释放。"
           ],
           "against": [
-            "OI 0.8644%，仓位变化不强。",
-            "多空比 1.933，散户偏多拥挤。",
-            "资金质量评分 28/100，资金流入质量偏弱。"
+            "成交量 77.23%，波动仍有放大迹象。",
+            "合约成交量 67.73%，杠杆活跃度仍高。",
+            "多空比 3.719，散户偏多拥挤。",
+            "主力行为评分 18/100，持续吸筹未确认。",
+            "资金质量评分 27/100，资金流入质量偏弱。"
           ],
-          "conclusion": "等待确认"
+          "conclusion": "证据不足"
         },
         "drivers": [
+          {
+            "name": "成交量变化",
+            "weight": 5,
+            "stars": "★★★★★",
+            "direction": "反对",
+            "reason": "成交量变化 77.23%。"
+          },
+          {
+            "name": "OI变化",
+            "weight": 5,
+            "stars": "★★★★★",
+            "direction": "支持",
+            "reason": "OI变化 -21.85%，当前阶段 下降趋势。"
+          },
+          {
+            "name": "合约活跃度",
+            "weight": 5,
+            "stars": "★★★★★",
+            "direction": "反对",
+            "reason": "合约成交量变化 67.73%。"
+          },
           {
             "name": "多空比",
             "weight": 5,
             "stars": "★★★★★",
             "direction": "反对",
-            "reason": "多空比 1.933。"
+            "reason": "多空比 3.719。"
           },
           {
-            "name": "成交量变化",
+            "name": "趋势健康",
+            "weight": 5,
+            "stars": "★★★★★",
+            "direction": "反对",
+            "reason": "趋势健康 0/100。"
+          },
+          {
+            "name": "主力评分",
             "weight": 4,
             "stars": "★★★★☆",
-            "direction": "支持",
-            "reason": "成交量变化 -39.84%。"
+            "direction": "反对",
+            "reason": "主力评分 18/100。"
           },
           {
             "name": "资金质量",
             "weight": 4,
             "stars": "★★★★☆",
             "direction": "反对",
-            "reason": "资金质量 28/100。"
-          },
-          {
-            "name": "合约活跃度",
-            "weight": 3,
-            "stars": "★★★☆☆",
-            "direction": "支持",
-            "reason": "合约成交量变化 -23.03%。"
-          },
-          {
-            "name": "Funding",
-            "weight": 3,
-            "stars": "★★★☆☆",
-            "direction": "支持",
-            "reason": "Funding 0.01%，较上一条变化 0.007295pct。"
-          },
-          {
-            "name": "杠杆健康",
-            "weight": 3,
-            "stars": "★★★☆☆",
-            "direction": "支持",
-            "reason": "杠杆健康 66/100。"
-          },
-          {
-            "name": "主动买卖盘(CVD)",
-            "weight": 2,
-            "stars": "★★☆☆☆",
-            "direction": "反对",
-            "reason": "CVD -310.2。"
+            "reason": "资金质量 27/100。"
           }
         ],
         "raw_refs": {
-          "price": 81270.67,
-          "change_24h": 0.61,
-          "oi": 54254985291.2747,
-          "oi_delta": 0.8644,
-          "funding_rate": 0.01,
-          "volume_24h": 1069128573.5363629,
-          "volume_delta": -39.8436,
-          "cvd": -310.187,
-          "cvd_delta": 3780.393,
-          "long_short_ratio": 1.9334
-        }
-      },
-      "ETH": {
-        "asset": "ETH",
-        "timestamp": "2026-10-29T04:57:19+08:00",
-        "date": "2026-10-29",
-        "phase": "下降趋势",
-        "summary": "杠杆释放，综合评分 52 /100。",
-        "biggest_change": "ETH 成交量变化 -48.52%，换手强度出现变化。",
-        "scores": {
-          "valuation": 57,
-          "trend": 29,
-          "whale_behavior": 53,
-          "capital_quality": 47,
-          "leverage_health": 72,
-          "retail_sentiment": 65,
-          "tokenomics": 52,
-          "composite": 52
-        },
-        "score_stars": {
-          "valuation": "★★★☆☆",
-          "trend": "★☆☆☆☆",
-          "whale_behavior": "★★★☆☆",
-          "capital_quality": "★★☆☆☆",
-          "leverage_health": "★★★★☆",
-          "retail_sentiment": "★★★☆☆",
-          "tokenomics": "★★★☆☆",
-          "composite": "★★★☆☆"
-        },
-        "tags": [
-          "震荡",
-          "成交衰减",
-          "OI减少",
-          "Funding升高",
-          "杠杆释放",
-          "散户偏多"
-        ],
-        "evidence": {
-          "trend": [
-            "24h涨跌幅: 0.65%。",
-            "相对上一条快照价格变化: -11.88%。",
-            "行为标签: 震荡。"
-          ],
-          "whale_behavior": [
-            "OI变化: -11.08%。",
-            "CVD相对上一条快照变化: 168.95K。",
-            "行为标签: OI减少。"
-          ],
-          "capital_quality": [
-            "24h成交量: 407.51M。",
-            "成交量相对上一条快照变化: -48.52%。",
-            "现货成交占总成交估算: 5.759%。"
-          ],
-          "leverage": [
-            "Funding Rate: 0.01%。",
-            "Funding相对上一条快照变化: 0.002797pct。",
-            "强平总额缺失。",
-            "合约成交量相对上一条快照变化: -32.93%。",
-            "行为标签: OI减少、Funding升高、杠杆释放。"
-          ],
-          "retail": [
-            "多空比: 3.234。",
-            "行为标签: 散户偏多。"
-          ],
-          "tokenomics": [
-            "供应结构数据尚未接入，Tokenomics暂按中性处理。"
-          ],
-          "relative_strength": [
-            "缺少同日BTC/ETH参照或强弱差异不足，暂不输出相对强弱标签。"
-          ]
-        },
-        "confidence": {
-          "level": "高",
-          "support": [
-            "OI -11.08%，杠杆仓位明显释放。",
-            "成交量 -48.52%，追杀/换手强度衰减。",
-            "合约成交量 -32.93%，杠杆活跃度下降。",
-            "Funding 0.01%，费率未明显过热。",
-            "行为标签触发：杠杆释放。"
-          ],
-          "against": [
-            "多空比 3.234，散户偏多拥挤。"
-          ],
-          "conclusion": "下降趋势"
-        },
-        "drivers": [
-          {
-            "name": "成交量变化",
-            "weight": 5,
-            "stars": "★★★★★",
-            "direction": "支持",
-            "reason": "成交量变化 -48.52%。"
-          },
-          {
-            "name": "多空比",
-            "weight": 5,
-            "stars": "★★★★★",
-            "direction": "反对",
-            "reason": "多空比 3.234。"
-          },
-          {
-            "name": "OI变化",
-            "weight": 4,
-            "stars": "★★★★☆",
-            "direction": "支持",
-            "reason": "OI变化 -11.08%，当前阶段 下降趋势。"
-          },
-          {
-            "name": "趋势健康",
-            "weight": 4,
-            "stars": "★★★★☆",
-            "direction": "反对",
-            "reason": "趋势健康 29/100。"
-          },
-          {
-            "name": "杠杆健康",
-            "weight": 4,
-            "stars": "★★★★☆",
-            "direction": "支持",
-            "reason": "杠杆健康 72/100。"
-          },
-          {
-            "name": "合约活跃度",
-            "weight": 3,
-            "stars": "★★★☆☆",
-            "direction": "支持",
-            "reason": "合约成交量变化 -32.93%。"
-          },
-          {
-            "name": "Funding",
-            "weight": 3,
-            "stars": "★★★☆☆",
-            "direction": "支持",
-            "reason": "Funding 0.01%，较上一条变化 0.002797pct。"
-          }
-        ],
-        "raw_refs": {
-          "price": 2359.88,
-          "change_24h": 0.65,
-          "oi": 29877313533.9993,
-          "oi_delta": -11.0838,
-          "funding_rate": 0.01,
-          "volume_24h": 407510777.585318,
-          "volume_delta": -48.5197,
-          "cvd": 25564.525,
-          "cvd_delta": 168951.87099999998,
-          "long_short_ratio": 3.2337
+          "price": 1930.06,
+          "change_24h": -4.398,
+          "oi": 23349528880.7043,
+          "oi_delta": -21.8486,
+          "funding_rate": 0.001662996896,
+          "volume_24h": 722249772.935008,
+          "volume_delta": 77.2345,
+          "cvd": -84330.69,
+          "cvd_delta": -109895.215,
+          "long_short_ratio": 3.7192
         }
       },
       "WLD": {
         "asset": "WLD",
-        "timestamp": "2026-10-29T04:57:23+08:00",
-        "date": "2026-10-29",
-        "phase": "震荡",
-        "summary": "综合评分 52 /100。",
-        "biggest_change": "WLD 成交量变化 -67.53%，换手强度出现变化。",
+        "timestamp": "2026-11-14T05:54:51+08:00",
+        "date": "2026-11-14",
+        "phase": "等待确认",
+        "summary": "杠杆释放、空头衰减，综合评分 39 /100。",
+        "biggest_change": "WLD 成交量变化 -50.89%，换手强度出现变化。",
         "scores": {
-          "valuation": 94,
-          "trend": 39,
-          "whale_behavior": 45,
+          "valuation": 95,
+          "trend": 0,
+          "whale_behavior": 18,
           "capital_quality": 29,
-          "leverage_health": 66,
-          "retail_sentiment": 65,
+          "leverage_health": 54,
+          "retail_sentiment": 71,
           "tokenomics": 44,
-          "composite": 52
+          "composite": 39
         },
         "score_stars": {
           "valuation": "★★★★★",
-          "trend": "★★☆☆☆",
-          "whale_behavior": "★★☆☆☆",
+          "trend": "★☆☆☆☆",
+          "whale_behavior": "★☆☆☆☆",
           "capital_quality": "★☆☆☆☆",
           "leverage_health": "★★★☆☆",
-          "retail_sentiment": "★★★☆☆",
+          "retail_sentiment": "★★★★☆",
           "tokenomics": "★★☆☆☆",
-          "composite": "★★★☆☆"
+          "composite": "★★☆☆☆"
         },
         "tags": [
-          "震荡",
+          "趋势延续",
           "成交衰减",
           "OI减少",
-          "Funding升高"
+          "OI暴减",
+          "Funding降低",
+          "空头拥挤",
+          "杠杆释放",
+          "空头衰减"
         ],
         "evidence": {
           "trend": [
-            "24h涨跌幅: 1.354%。",
-            "相对上一条快照价格变化: -8.363%。",
-            "行为标签: 震荡。"
+            "24h涨跌幅: -3.025%。",
+            "相对上一条快照价格变化: -33.22%。",
+            "行为标签: 趋势延续。"
           ],
           "whale_behavior": [
-            "OI变化: -4.19%。",
-            "CVD相对上一条快照变化: 62.60M。",
-            "行为标签: OI减少。"
+            "OI变化: -38.36%。",
+            "CVD相对上一条快照变化: -6.09M。",
+            "行为标签: OI减少、OI暴减。"
           ],
           "capital_quality": [
-            "24h成交量: 27.01M。",
-            "成交量相对上一条快照变化: -67.53%。",
-            "现货成交占总成交估算: 11.54%。"
+            "24h成交量: 13.27M。",
+            "成交量相对上一条快照变化: -50.89%。",
+            "现货成交占总成交估算: 10.79%。"
           ],
           "leverage": [
-            "Funding Rate: 0.01%。",
-            "Funding相对上一条快照变化: 0.01343pct。",
+            "Funding Rate: -0.01261%。",
+            "Funding相对上一条快照变化: -0.02261pct。",
             "强平总额缺失。",
-            "合约成交量相对上一条快照变化: -55.42%。",
-            "行为标签: OI减少、Funding升高。"
+            "合约成交量相对上一条快照变化: -47.01%。",
+            "行为标签: OI减少、Funding降低、杠杆释放。"
           ],
           "retail": [
-            "多空比: 1.231。",
+            "多空比: 1.387。",
             "未触发该组明确行为标签。"
           ],
           "tokenomics": [
@@ -375,106 +388,96 @@
           ]
         },
         "confidence": {
-          "level": "中",
+          "level": "低",
           "support": [
-            "成交量 -67.53%，追杀/换手强度衰减。",
-            "合约成交量 -55.42%，杠杆活跃度下降。",
-            "Funding 0.01%，费率未明显过热。",
-            "CVD变化 62.60M，主动卖压有缓和迹象。"
+            "OI -38.36%，杠杆仓位明显释放。",
+            "成交量 -50.89%，追杀/换手强度衰减。",
+            "合约成交量 -47.01%，杠杆活跃度下降。",
+            "行为标签触发：空头衰减。",
+            "行为标签触发：杠杆释放。"
           ],
           "against": [
-            "CVD -14.36M，主动卖仍明显。",
+            "Funding -0.01261%，空头拥挤但方向仍激烈。",
+            "CVD -20.45M，主动卖仍明显。",
+            "CVD变化 -6.09M，主动卖压继续增加。",
+            "主力行为评分 18/100，持续吸筹未确认。",
             "资金质量评分 29/100，资金流入质量偏弱。"
           ],
-          "conclusion": "等待确认"
+          "conclusion": "证据不足"
         },
         "drivers": [
           {
-            "name": "CVD变化",
+            "name": "主动买卖盘(CVD)",
             "weight": 5,
             "stars": "★★★★★",
-            "direction": "支持",
-            "reason": "CVD相对上一条快照变化 62.60M。"
+            "direction": "反对",
+            "reason": "CVD -20.45M。"
           },
           {
             "name": "成交量变化",
             "weight": 5,
             "stars": "★★★★★",
             "direction": "支持",
-            "reason": "成交量变化 -67.53%。"
+            "reason": "成交量变化 -50.89%。"
           },
           {
-            "name": "合约活跃度",
+            "name": "OI变化",
             "weight": 5,
             "stars": "★★★★★",
             "direction": "支持",
-            "reason": "合约成交量变化 -55.42%。"
+            "reason": "OI变化 -38.36%，当前阶段 等待确认。"
           },
           {
-            "name": "主动买卖盘(CVD)",
-            "weight": 4,
-            "stars": "★★★★☆",
+            "name": "趋势健康",
+            "weight": 5,
+            "stars": "★★★★★",
             "direction": "反对",
-            "reason": "CVD -14.36M。"
+            "reason": "趋势健康 0/100。"
           },
           {
-            "name": "资金质量",
+            "name": "合约活跃度",
             "weight": 4,
             "stars": "★★★★☆",
-            "direction": "反对",
-            "reason": "资金质量 29/100。"
+            "direction": "支持",
+            "reason": "合约成交量变化 -47.01%。"
           },
           {
             "name": "Funding",
-            "weight": 3,
-            "stars": "★★★☆☆",
-            "direction": "支持",
-            "reason": "Funding 0.01%，较上一条变化 0.01343pct。"
+            "weight": 4,
+            "stars": "★★★★☆",
+            "direction": "反对",
+            "reason": "Funding -0.01261%，较上一条变化 -0.02261pct。"
           },
           {
-            "name": "多空比",
-            "weight": 3,
-            "stars": "★★★☆☆",
+            "name": "主力评分",
+            "weight": 4,
+            "stars": "★★★★☆",
             "direction": "反对",
-            "reason": "多空比 1.231。"
+            "reason": "主力评分 18/100。"
           }
         ],
         "raw_refs": {
-          "price": 0.4416,
-          "change_24h": 1.354,
-          "oi": 445231423.7816,
-          "oi_delta": -4.1904,
-          "funding_rate": 0.01,
-          "volume_24h": 27013757.55788,
-          "volume_delta": -67.5342,
-          "cvd": -14358055.0,
-          "cvd_delta": 62597537.0,
-          "long_short_ratio": 1.2311
+          "price": 0.2949,
+          "change_24h": -3.025,
+          "oi": 274445101.6844,
+          "oi_delta": -38.359,
+          "funding_rate": -0.012613509084,
+          "volume_24h": 13266308.85918,
+          "volume_delta": -50.8905,
+          "cvd": -20448747.0,
+          "cvd_delta": -6090692.0,
+          "long_short_ratio": 1.3866
         }
       }
     },
     "conclusion": {
-      "date": "2026-10-29",
-      "headline": "ETH 成交量变化 -48.52%，换手强度出现变化。",
-      "summary": "BTC：震荡，综合评分 49 /100。；ETH：下降趋势，杠杆释放，综合评分 52 /100。；WLD：震荡，综合评分 52 /100。",
+      "date": "2026-11-14",
+      "headline": "ETH 成交量变化 77.23%，换手强度出现变化。",
+      "summary": "BTC：下降趋势，杠杆释放，综合评分 40 /100。；ETH：下降趋势，杠杆释放，综合评分 39 /100。；WLD：等待确认，杠杆释放、空头衰减，综合评分 39 /100。",
       "focus_asset": "ETH"
     },
     "evolution": {
       "BTC": [
-        {
-          "date": "2026-06-25",
-          "phase": "吸筹观察",
-          "summary": "资金试探、吸筹观察，综合评分 60 /100。",
-          "driver": "成交量变化",
-          "driver_stars": "★★★★☆",
-          "driver_direction": "反对",
-          "new_tags": [
-            "震荡",
-            "放量下跌"
-          ],
-          "changed": false,
-          "composite": 60
-        },
         {
           "date": "2026-07-02",
           "phase": "趋势延续",
@@ -551,23 +554,23 @@
           "new_tags": [],
           "changed": true,
           "composite": 49
+        },
+        {
+          "date": "2026-11-14",
+          "phase": "下降趋势",
+          "summary": "杠杆释放，综合评分 40 /100。",
+          "driver": "成交量变化",
+          "driver_stars": "★★★★★",
+          "driver_direction": "反对",
+          "new_tags": [
+            "OI暴减",
+            "杠杆释放"
+          ],
+          "changed": true,
+          "composite": 40
         }
       ],
       "ETH": [
-        {
-          "date": "2026-06-25",
-          "phase": "震荡",
-          "summary": "综合评分 58 /100。",
-          "driver": "杠杆健康",
-          "driver_stars": "★★★★☆",
-          "driver_direction": "支持",
-          "new_tags": [
-            "震荡",
-            "OI平稳"
-          ],
-          "changed": false,
-          "composite": 58
-        },
         {
           "date": "2026-07-02",
           "phase": "趋势延续",
@@ -653,24 +656,24 @@
           ],
           "changed": true,
           "composite": 52
+        },
+        {
+          "date": "2026-11-14",
+          "phase": "下降趋势",
+          "summary": "杠杆释放，综合评分 39 /100。",
+          "driver": "成交量变化",
+          "driver_stars": "★★★★★",
+          "driver_direction": "反对",
+          "new_tags": [
+            "放量下跌",
+            "OI暴减",
+            "合约成交放大"
+          ],
+          "changed": false,
+          "composite": 39
         }
       ],
       "WLD": [
-        {
-          "date": "2026-06-25",
-          "phase": "等待确认",
-          "summary": "空头衰减，综合评分 54 /100。",
-          "driver": "趋势健康",
-          "driver_stars": "★★★★☆",
-          "driver_direction": "反对",
-          "new_tags": [
-            "震荡",
-            "OI平稳",
-            "空头衰减"
-          ],
-          "changed": true,
-          "composite": 54
-        },
         {
           "date": "2026-07-02",
           "phase": "等待确认",
@@ -741,7 +744,7 @@
         {
           "date": "2026-10-29",
           "phase": "震荡",
-          "summary": "综合评分 52 /100。",
+          "summary": "综合评分 51 /100。",
           "driver": "CVD变化",
           "driver_stars": "★★★★★",
           "driver_direction": "支持",
@@ -749,7 +752,21 @@
             "Funding升高"
           ],
           "changed": true,
-          "composite": 52
+          "composite": 51
+        },
+        {
+          "date": "2026-11-14",
+          "phase": "等待确认",
+          "summary": "杠杆释放、空头衰减，综合评分 39 /100。",
+          "driver": "主动买卖盘(CVD)",
+          "driver_stars": "★★★★★",
+          "driver_direction": "反对",
+          "new_tags": [
+            "趋势延续",
+            "空头拥挤"
+          ],
+          "changed": true,
+          "composite": 39
         }
       ]
     }
@@ -885,20 +902,20 @@
           "timestamp": "2026-06-23T18:24:51+08:00",
           "date": "2026-06-23",
           "phase": "下降趋势",
-          "summary": "趋势转弱、加速下跌、AI板块弱于BTC，综合评分 49 /100。",
+          "summary": "趋势转弱、加速下跌、AI板块弱于BTC，综合评分 48 /100。",
           "biggest_change": "WLD 新行为标签：趋势转弱、加速下跌、AI板块弱于BTC。",
           "scores": {
-            "valuation": 92,
+            "valuation": 90,
             "trend": 0,
             "whale_behavior": 50,
             "capital_quality": 50,
             "leverage_health": 72,
             "retail_sentiment": 55,
             "tokenomics": 44,
-            "composite": 49
+            "composite": 48
           },
           "score_stars": {
-            "valuation": "★★★★★",
+            "valuation": "★★★★☆",
             "trend": "★☆☆☆☆",
             "whale_behavior": "★★☆☆☆",
             "capital_quality": "★★☆☆☆",
@@ -990,7 +1007,7 @@
       "conclusion": {
         "date": "2026-06-23",
         "headline": "BTC OI变化 143.2%，新增仓位状态发生变化。",
-        "summary": "BTC：吸筹观察，空头衰减、资金试探、吸筹观察，综合评分 58 /100。；WLD：下降趋势，趋势转弱、加速下跌、AI板块弱于BTC，综合评分 49 /100。",
+        "summary": "BTC：吸筹观察，空头衰减、资金试探、吸筹观察，综合评分 58 /100。；WLD：下降趋势，趋势转弱、加速下跌、AI板块弱于BTC，综合评分 48 /100。",
         "focus_asset": "BTC"
       },
       "evolution": {
@@ -1016,7 +1033,7 @@
           {
             "date": "2026-06-23",
             "phase": "下降趋势",
-            "summary": "趋势转弱、加速下跌、AI板块弱于BTC，综合评分 49 /100。",
+            "summary": "趋势转弱、加速下跌、AI板块弱于BTC，综合评分 48 /100。",
             "driver": "趋势健康",
             "driver_stars": "★★★★★",
             "driver_direction": "反对",
@@ -1026,7 +1043,7 @@
               "AI板块弱于BTC"
             ],
             "changed": false,
-            "composite": 49
+            "composite": 48
           }
         ]
       }
@@ -1266,7 +1283,7 @@
           "summary": "空头衰减，综合评分 54 /100。",
           "biggest_change": "WLD 成交量变化 -17.43%，换手强度出现变化。",
           "scores": {
-            "valuation": 92,
+            "valuation": 91,
             "trend": 28,
             "whale_behavior": 51,
             "capital_quality": 50,
@@ -1434,7 +1451,7 @@
           {
             "date": "2026-06-23",
             "phase": "下降趋势",
-            "summary": "趋势转弱、加速下跌、AI板块弱于BTC，综合评分 49 /100。",
+            "summary": "趋势转弱、加速下跌、AI板块弱于BTC，综合评分 48 /100。",
             "driver": "趋势健康",
             "driver_stars": "★★★★★",
             "driver_direction": "反对",
@@ -1444,7 +1461,7 @@
               "AI板块弱于BTC"
             ],
             "changed": false,
-            "composite": 49
+            "composite": 48
           },
           {
             "date": "2026-06-25",
@@ -1757,7 +1774,7 @@
           "summary": "空头衰减，但AI板块弱于BTC仍需验证。",
           "biggest_change": "WLD 新行为标签：震荡、OI平稳、空头衰减。",
           "scores": {
-            "valuation": 95,
+            "valuation": 93,
             "trend": 41,
             "whale_behavior": 36,
             "capital_quality": 31,
@@ -1982,7 +1999,7 @@
           {
             "date": "2026-06-23",
             "phase": "下降趋势",
-            "summary": "趋势转弱、加速下跌、AI板块弱于BTC，综合评分 49 /100。",
+            "summary": "趋势转弱、加速下跌、AI板块弱于BTC，综合评分 48 /100。",
             "driver": "趋势健康",
             "driver_stars": "★★★★★",
             "driver_direction": "反对",
@@ -1992,7 +2009,7 @@
               "AI板块弱于BTC"
             ],
             "changed": false,
-            "composite": 49
+            "composite": 48
           },
           {
             "date": "2026-06-25",
@@ -2322,7 +2339,7 @@
           "summary": "趋势转强，综合评分 66 /100。",
           "biggest_change": "WLD CVD变化 40.32M，主动买卖方向需要关注。",
           "scores": {
-            "valuation": 94,
+            "valuation": 93,
             "trend": 100,
             "whale_behavior": 68,
             "capital_quality": 31,
@@ -2578,7 +2595,7 @@
           {
             "date": "2026-06-23",
             "phase": "下降趋势",
-            "summary": "趋势转弱、加速下跌、AI板块弱于BTC，综合评分 49 /100。",
+            "summary": "趋势转弱、加速下跌、AI板块弱于BTC，综合评分 48 /100。",
             "driver": "趋势健康",
             "driver_stars": "★★★★★",
             "driver_direction": "反对",
@@ -2588,7 +2605,7 @@
               "AI板块弱于BTC"
             ],
             "changed": false,
-            "composite": 49
+            "composite": 48
           },
           {
             "date": "2026-06-25",
@@ -2934,7 +2951,7 @@
           "summary": "杠杆释放、空头衰减，综合评分 44 /100。",
           "biggest_change": "WLD 成交量变化 -55.16%，换手强度出现变化。",
           "scores": {
-            "valuation": 95,
+            "valuation": 93,
             "trend": 25,
             "whale_behavior": 18,
             "capital_quality": 29,
@@ -3221,7 +3238,7 @@
           {
             "date": "2026-06-23",
             "phase": "下降趋势",
-            "summary": "趋势转弱、加速下跌、AI板块弱于BTC，综合评分 49 /100。",
+            "summary": "趋势转弱、加速下跌、AI板块弱于BTC，综合评分 48 /100。",
             "driver": "趋势健康",
             "driver_stars": "★★★★★",
             "driver_direction": "反对",
@@ -3231,7 +3248,7 @@
               "AI板块弱于BTC"
             ],
             "changed": false,
-            "composite": 49
+            "composite": 48
           },
           {
             "date": "2026-06-25",
@@ -3590,7 +3607,7 @@
           "summary": "综合评分 52 /100。",
           "biggest_change": "WLD 新行为标签：震荡、OI平稳、Funding降低。",
           "scores": {
-            "valuation": 95,
+            "valuation": 93,
             "trend": 52,
             "whale_behavior": 33,
             "capital_quality": 29,
@@ -3896,7 +3913,7 @@
           {
             "date": "2026-06-23",
             "phase": "下降趋势",
-            "summary": "趋势转弱、加速下跌、AI板块弱于BTC，综合评分 49 /100。",
+            "summary": "趋势转弱、加速下跌、AI板块弱于BTC，综合评分 48 /100。",
             "driver": "趋势健康",
             "driver_stars": "★★★★★",
             "driver_direction": "反对",
@@ -3906,7 +3923,7 @@
               "AI板块弱于BTC"
             ],
             "changed": false,
-            "composite": 49
+            "composite": 48
           },
           {
             "date": "2026-06-25",
@@ -4285,7 +4302,7 @@
           "summary": "资金试探、吸筹观察，但趋势转弱、加速下跌仍需验证。",
           "biggest_change": "WLD 成交量变化 432.4%，换手强度出现变化。",
           "scores": {
-            "valuation": 93,
+            "valuation": 92,
             "trend": 38,
             "whale_behavior": 62,
             "capital_quality": 31,
@@ -4626,7 +4643,7 @@
           {
             "date": "2026-06-23",
             "phase": "下降趋势",
-            "summary": "趋势转弱、加速下跌、AI板块弱于BTC，综合评分 49 /100。",
+            "summary": "趋势转弱、加速下跌、AI板块弱于BTC，综合评分 48 /100。",
             "driver": "趋势健康",
             "driver_stars": "★★★★★",
             "driver_direction": "反对",
@@ -4636,7 +4653,7 @@
               "AI板块弱于BTC"
             ],
             "changed": false,
-            "composite": 49
+            "composite": 48
           },
           {
             "date": "2026-06-25",
@@ -5024,17 +5041,17 @@
           "timestamp": "2026-10-29T04:57:23+08:00",
           "date": "2026-10-29",
           "phase": "震荡",
-          "summary": "综合评分 52 /100。",
+          "summary": "综合评分 51 /100。",
           "biggest_change": "WLD 成交量变化 -67.53%，换手强度出现变化。",
           "scores": {
-            "valuation": 94,
+            "valuation": 92,
             "trend": 39,
             "whale_behavior": 45,
             "capital_quality": 29,
             "leverage_health": 66,
             "retail_sentiment": 65,
             "tokenomics": 44,
-            "composite": 52
+            "composite": 51
           },
           "score_stars": {
             "valuation": "★★★★★",
@@ -5168,7 +5185,7 @@
       "conclusion": {
         "date": "2026-10-29",
         "headline": "ETH 成交量变化 -48.52%，换手强度出现变化。",
-        "summary": "BTC：震荡，综合评分 49 /100。；ETH：下降趋势，杠杆释放，综合评分 52 /100。；WLD：震荡，综合评分 52 /100。",
+        "summary": "BTC：震荡，综合评分 49 /100。；ETH：下降趋势，杠杆释放，综合评分 52 /100。；WLD：震荡，综合评分 51 /100。",
         "focus_asset": "ETH"
       },
       "evolution": {
@@ -5453,7 +5470,7 @@
           {
             "date": "2026-10-29",
             "phase": "震荡",
-            "summary": "综合评分 52 /100。",
+            "summary": "综合评分 51 /100。",
             "driver": "CVD变化",
             "driver_stars": "★★★★★",
             "driver_direction": "支持",
@@ -5461,7 +5478,767 @@
               "Funding升高"
             ],
             "changed": true,
+            "composite": 51
+          }
+        ]
+      }
+    },
+    "2026-11-14": {
+      "date": "2026-11-14",
+      "assets": {
+        "BTC": {
+          "asset": "BTC",
+          "timestamp": "2026-11-14T05:54:44+08:00",
+          "date": "2026-11-14",
+          "phase": "下降趋势",
+          "summary": "杠杆释放，综合评分 40 /100。",
+          "biggest_change": "BTC 成交量变化 88.64%，换手强度出现变化。",
+          "scores": {
+            "valuation": 77,
+            "trend": 1,
+            "whale_behavior": 20,
+            "capital_quality": 29,
+            "leverage_health": 71,
+            "retail_sentiment": 65,
+            "tokenomics": 52,
+            "composite": 40
+          },
+          "score_stars": {
+            "valuation": "★★★★☆",
+            "trend": "★☆☆☆☆",
+            "whale_behavior": "★☆☆☆☆",
+            "capital_quality": "★☆☆☆☆",
+            "leverage_health": "★★★★☆",
+            "retail_sentiment": "★★★☆☆",
+            "tokenomics": "★★★☆☆",
+            "composite": "★★☆☆☆"
+          },
+          "tags": [
+            "趋势延续",
+            "放量下跌",
+            "OI减少",
+            "OI暴减",
+            "Funding降低",
+            "杠杆释放",
+            "散户偏多",
+            "合约成交放大"
+          ],
+          "evidence": {
+            "trend": [
+              "24h涨跌幅: -4.407%。",
+              "相对上一条快照价格变化: -15.83%。",
+              "行为标签: 趋势延续。"
+            ],
+            "whale_behavior": [
+              "OI变化: -13.28%。",
+              "CVD相对上一条快照变化: -14.08K。",
+              "行为标签: OI减少、OI暴减。"
+            ],
+            "capital_quality": [
+              "24h成交量: 2.02B。",
+              "成交量相对上一条快照变化: 88.64%。",
+              "现货成交占总成交估算: 9.485%。"
+            ],
+            "leverage": [
+              "Funding Rate: 0.007518%。",
+              "Funding相对上一条快照变化: -0.002482pct。",
+              "强平总额缺失。",
+              "合约成交量相对上一条快照变化: 86.46%。",
+              "行为标签: OI减少、Funding降低、杠杆释放。"
+            ],
+            "retail": [
+              "多空比: 3.105。",
+              "行为标签: 散户偏多。"
+            ],
+            "tokenomics": [
+              "供应结构数据尚未接入，Tokenomics暂按中性处理。"
+            ],
+            "relative_strength": [
+              "缺少同日BTC/ETH参照或强弱差异不足，暂不输出相对强弱标签。"
+            ]
+          },
+          "confidence": {
+            "level": "低",
+            "support": [
+              "OI -13.28%，杠杆仓位明显释放。",
+              "Funding 0.007518%，费率未明显过热。",
+              "行为标签触发：杠杆释放。"
+            ],
+            "against": [
+              "成交量 88.64%，波动仍有放大迹象。",
+              "合约成交量 86.46%，杠杆活跃度仍高。",
+              "多空比 3.105，散户偏多拥挤。",
+              "主力行为评分 20/100，持续吸筹未确认。",
+              "资金质量评分 29/100，资金流入质量偏弱。"
+            ],
+            "conclusion": "证据不足"
+          },
+          "drivers": [
+            {
+              "name": "成交量变化",
+              "weight": 5,
+              "stars": "★★★★★",
+              "direction": "反对",
+              "reason": "成交量变化 88.64%。"
+            },
+            {
+              "name": "OI变化",
+              "weight": 5,
+              "stars": "★★★★★",
+              "direction": "支持",
+              "reason": "OI变化 -13.28%，当前阶段 下降趋势。"
+            },
+            {
+              "name": "合约活跃度",
+              "weight": 5,
+              "stars": "★★★★★",
+              "direction": "反对",
+              "reason": "合约成交量变化 86.46%。"
+            },
+            {
+              "name": "多空比",
+              "weight": 5,
+              "stars": "★★★★★",
+              "direction": "反对",
+              "reason": "多空比 3.105。"
+            },
+            {
+              "name": "趋势健康",
+              "weight": 5,
+              "stars": "★★★★★",
+              "direction": "反对",
+              "reason": "趋势健康 1/100。"
+            },
+            {
+              "name": "主力评分",
+              "weight": 4,
+              "stars": "★★★★☆",
+              "direction": "反对",
+              "reason": "主力评分 20/100。"
+            },
+            {
+              "name": "资金质量",
+              "weight": 4,
+              "stars": "★★★★☆",
+              "direction": "反对",
+              "reason": "资金质量 29/100。"
+            }
+          ],
+          "raw_refs": {
+            "price": 68408.0,
+            "change_24h": -4.407,
+            "oi": 47050132652.019,
+            "oi_delta": -13.2796,
+            "funding_rate": 0.007517801135,
+            "volume_24h": 2016759338.5374398,
+            "volume_delta": 88.6358,
+            "cvd": -14390.798,
+            "cvd_delta": -14080.611,
+            "long_short_ratio": 3.1051
+          }
+        },
+        "ETH": {
+          "asset": "ETH",
+          "timestamp": "2026-11-14T05:54:48+08:00",
+          "date": "2026-11-14",
+          "phase": "下降趋势",
+          "summary": "杠杆释放，综合评分 39 /100。",
+          "biggest_change": "ETH 成交量变化 77.23%，换手强度出现变化。",
+          "scores": {
+            "valuation": 80,
+            "trend": 0,
+            "whale_behavior": 18,
+            "capital_quality": 27,
+            "leverage_health": 65,
+            "retail_sentiment": 65,
+            "tokenomics": 52,
+            "composite": 39
+          },
+          "score_stars": {
+            "valuation": "★★★★☆",
+            "trend": "★☆☆☆☆",
+            "whale_behavior": "★☆☆☆☆",
+            "capital_quality": "★☆☆☆☆",
+            "leverage_health": "★★★☆☆",
+            "retail_sentiment": "★★★☆☆",
+            "tokenomics": "★★★☆☆",
+            "composite": "★★☆☆☆"
+          },
+          "tags": [
+            "趋势延续",
+            "放量下跌",
+            "OI减少",
+            "OI暴减",
+            "Funding降低",
+            "杠杆释放",
+            "散户偏多",
+            "合约成交放大"
+          ],
+          "evidence": {
+            "trend": [
+              "24h涨跌幅: -4.398%。",
+              "相对上一条快照价格变化: -18.21%。",
+              "行为标签: 趋势延续。"
+            ],
+            "whale_behavior": [
+              "OI变化: -21.85%。",
+              "CVD相对上一条快照变化: -109.90K。",
+              "行为标签: OI减少、OI暴减。"
+            ],
+            "capital_quality": [
+              "24h成交量: 722.25M。",
+              "成交量相对上一条快照变化: 77.23%。",
+              "现货成交占总成交估算: 6.066%。"
+            ],
+            "leverage": [
+              "Funding Rate: 0.001663%。",
+              "Funding相对上一条快照变化: -0.008337pct。",
+              "强平总额缺失。",
+              "合约成交量相对上一条快照变化: 67.73%。",
+              "行为标签: OI减少、Funding降低、杠杆释放。"
+            ],
+            "retail": [
+              "多空比: 3.719。",
+              "行为标签: 散户偏多。"
+            ],
+            "tokenomics": [
+              "供应结构数据尚未接入，Tokenomics暂按中性处理。"
+            ],
+            "relative_strength": [
+              "缺少同日BTC/ETH参照或强弱差异不足，暂不输出相对强弱标签。"
+            ]
+          },
+          "confidence": {
+            "level": "低",
+            "support": [
+              "OI -21.85%，杠杆仓位明显释放。",
+              "Funding 0.001663%，费率未明显过热。",
+              "行为标签触发：杠杆释放。"
+            ],
+            "against": [
+              "成交量 77.23%，波动仍有放大迹象。",
+              "合约成交量 67.73%，杠杆活跃度仍高。",
+              "多空比 3.719，散户偏多拥挤。",
+              "主力行为评分 18/100，持续吸筹未确认。",
+              "资金质量评分 27/100，资金流入质量偏弱。"
+            ],
+            "conclusion": "证据不足"
+          },
+          "drivers": [
+            {
+              "name": "成交量变化",
+              "weight": 5,
+              "stars": "★★★★★",
+              "direction": "反对",
+              "reason": "成交量变化 77.23%。"
+            },
+            {
+              "name": "OI变化",
+              "weight": 5,
+              "stars": "★★★★★",
+              "direction": "支持",
+              "reason": "OI变化 -21.85%，当前阶段 下降趋势。"
+            },
+            {
+              "name": "合约活跃度",
+              "weight": 5,
+              "stars": "★★★★★",
+              "direction": "反对",
+              "reason": "合约成交量变化 67.73%。"
+            },
+            {
+              "name": "多空比",
+              "weight": 5,
+              "stars": "★★★★★",
+              "direction": "反对",
+              "reason": "多空比 3.719。"
+            },
+            {
+              "name": "趋势健康",
+              "weight": 5,
+              "stars": "★★★★★",
+              "direction": "反对",
+              "reason": "趋势健康 0/100。"
+            },
+            {
+              "name": "主力评分",
+              "weight": 4,
+              "stars": "★★★★☆",
+              "direction": "反对",
+              "reason": "主力评分 18/100。"
+            },
+            {
+              "name": "资金质量",
+              "weight": 4,
+              "stars": "★★★★☆",
+              "direction": "反对",
+              "reason": "资金质量 27/100。"
+            }
+          ],
+          "raw_refs": {
+            "price": 1930.06,
+            "change_24h": -4.398,
+            "oi": 23349528880.7043,
+            "oi_delta": -21.8486,
+            "funding_rate": 0.001662996896,
+            "volume_24h": 722249772.935008,
+            "volume_delta": 77.2345,
+            "cvd": -84330.69,
+            "cvd_delta": -109895.215,
+            "long_short_ratio": 3.7192
+          }
+        },
+        "WLD": {
+          "asset": "WLD",
+          "timestamp": "2026-11-14T05:54:51+08:00",
+          "date": "2026-11-14",
+          "phase": "等待确认",
+          "summary": "杠杆释放、空头衰减，综合评分 39 /100。",
+          "biggest_change": "WLD 成交量变化 -50.89%，换手强度出现变化。",
+          "scores": {
+            "valuation": 95,
+            "trend": 0,
+            "whale_behavior": 18,
+            "capital_quality": 29,
+            "leverage_health": 54,
+            "retail_sentiment": 71,
+            "tokenomics": 44,
+            "composite": 39
+          },
+          "score_stars": {
+            "valuation": "★★★★★",
+            "trend": "★☆☆☆☆",
+            "whale_behavior": "★☆☆☆☆",
+            "capital_quality": "★☆☆☆☆",
+            "leverage_health": "★★★☆☆",
+            "retail_sentiment": "★★★★☆",
+            "tokenomics": "★★☆☆☆",
+            "composite": "★★☆☆☆"
+          },
+          "tags": [
+            "趋势延续",
+            "成交衰减",
+            "OI减少",
+            "OI暴减",
+            "Funding降低",
+            "空头拥挤",
+            "杠杆释放",
+            "空头衰减"
+          ],
+          "evidence": {
+            "trend": [
+              "24h涨跌幅: -3.025%。",
+              "相对上一条快照价格变化: -33.22%。",
+              "行为标签: 趋势延续。"
+            ],
+            "whale_behavior": [
+              "OI变化: -38.36%。",
+              "CVD相对上一条快照变化: -6.09M。",
+              "行为标签: OI减少、OI暴减。"
+            ],
+            "capital_quality": [
+              "24h成交量: 13.27M。",
+              "成交量相对上一条快照变化: -50.89%。",
+              "现货成交占总成交估算: 10.79%。"
+            ],
+            "leverage": [
+              "Funding Rate: -0.01261%。",
+              "Funding相对上一条快照变化: -0.02261pct。",
+              "强平总额缺失。",
+              "合约成交量相对上一条快照变化: -47.01%。",
+              "行为标签: OI减少、Funding降低、杠杆释放。"
+            ],
+            "retail": [
+              "多空比: 1.387。",
+              "未触发该组明确行为标签。"
+            ],
+            "tokenomics": [
+              "WLD供应/解锁数据尚未接入，Tokenomics暂按中性偏谨慎处理。"
+            ],
+            "relative_strength": [
+              "缺少同日BTC/ETH参照或强弱差异不足，暂不输出相对强弱标签。"
+            ]
+          },
+          "confidence": {
+            "level": "低",
+            "support": [
+              "OI -38.36%，杠杆仓位明显释放。",
+              "成交量 -50.89%，追杀/换手强度衰减。",
+              "合约成交量 -47.01%，杠杆活跃度下降。",
+              "行为标签触发：空头衰减。",
+              "行为标签触发：杠杆释放。"
+            ],
+            "against": [
+              "Funding -0.01261%，空头拥挤但方向仍激烈。",
+              "CVD -20.45M，主动卖仍明显。",
+              "CVD变化 -6.09M，主动卖压继续增加。",
+              "主力行为评分 18/100，持续吸筹未确认。",
+              "资金质量评分 29/100，资金流入质量偏弱。"
+            ],
+            "conclusion": "证据不足"
+          },
+          "drivers": [
+            {
+              "name": "主动买卖盘(CVD)",
+              "weight": 5,
+              "stars": "★★★★★",
+              "direction": "反对",
+              "reason": "CVD -20.45M。"
+            },
+            {
+              "name": "成交量变化",
+              "weight": 5,
+              "stars": "★★★★★",
+              "direction": "支持",
+              "reason": "成交量变化 -50.89%。"
+            },
+            {
+              "name": "OI变化",
+              "weight": 5,
+              "stars": "★★★★★",
+              "direction": "支持",
+              "reason": "OI变化 -38.36%，当前阶段 等待确认。"
+            },
+            {
+              "name": "趋势健康",
+              "weight": 5,
+              "stars": "★★★★★",
+              "direction": "反对",
+              "reason": "趋势健康 0/100。"
+            },
+            {
+              "name": "合约活跃度",
+              "weight": 4,
+              "stars": "★★★★☆",
+              "direction": "支持",
+              "reason": "合约成交量变化 -47.01%。"
+            },
+            {
+              "name": "Funding",
+              "weight": 4,
+              "stars": "★★★★☆",
+              "direction": "反对",
+              "reason": "Funding -0.01261%，较上一条变化 -0.02261pct。"
+            },
+            {
+              "name": "主力评分",
+              "weight": 4,
+              "stars": "★★★★☆",
+              "direction": "反对",
+              "reason": "主力评分 18/100。"
+            }
+          ],
+          "raw_refs": {
+            "price": 0.2949,
+            "change_24h": -3.025,
+            "oi": 274445101.6844,
+            "oi_delta": -38.359,
+            "funding_rate": -0.012613509084,
+            "volume_24h": 13266308.85918,
+            "volume_delta": -50.8905,
+            "cvd": -20448747.0,
+            "cvd_delta": -6090692.0,
+            "long_short_ratio": 1.3866
+          }
+        }
+      },
+      "conclusion": {
+        "date": "2026-11-14",
+        "headline": "ETH 成交量变化 77.23%，换手强度出现变化。",
+        "summary": "BTC：下降趋势，杠杆释放，综合评分 40 /100。；ETH：下降趋势，杠杆释放，综合评分 39 /100。；WLD：等待确认，杠杆释放、空头衰减，综合评分 39 /100。",
+        "focus_asset": "ETH"
+      },
+      "evolution": {
+        "BTC": [
+          {
+            "date": "2026-07-02",
+            "phase": "趋势延续",
+            "summary": "趋势转强，综合评分 65 /100。",
+            "driver": "多空比",
+            "driver_stars": "★★★★☆",
+            "driver_direction": "反对",
+            "new_tags": [
+              "趋势转强",
+              "OI平稳",
+              "散户偏多"
+            ],
+            "changed": true,
+            "composite": 65
+          },
+          {
+            "date": "2026-07-03",
+            "phase": "震荡",
+            "summary": "综合评分 53 /100。",
+            "driver": "合约活跃度",
+            "driver_stars": "★★★★☆",
+            "driver_direction": "支持",
+            "new_tags": [
+              "OI减少",
+              "Funding升高"
+            ],
+            "changed": true,
+            "composite": 53
+          },
+          {
+            "date": "2026-07-08",
+            "phase": "震荡",
+            "summary": "综合评分 52 /100。",
+            "driver": "多空比",
+            "driver_stars": "★★★★☆",
+            "driver_direction": "反对",
+            "new_tags": [
+              "Funding降低"
+            ],
+            "changed": false,
             "composite": 52
+          },
+          {
+            "date": "2026-07-23",
+            "phase": "等待确认",
+            "summary": "空头衰减，综合评分 58 /100。",
+            "driver": "杠杆健康",
+            "driver_stars": "★★★★☆",
+            "driver_direction": "支持",
+            "new_tags": [],
+            "changed": true,
+            "composite": 58
+          },
+          {
+            "date": "2026-09-29",
+            "phase": "趋势延续",
+            "summary": "资金试探、吸筹观察，综合评分 59 /100。",
+            "driver": "成交量变化",
+            "driver_stars": "★★★★★",
+            "driver_direction": "反对",
+            "new_tags": [
+              "合约成交放大"
+            ],
+            "changed": true,
+            "composite": 59
+          },
+          {
+            "date": "2026-10-29",
+            "phase": "震荡",
+            "summary": "综合评分 49 /100。",
+            "driver": "多空比",
+            "driver_stars": "★★★★★",
+            "driver_direction": "反对",
+            "new_tags": [],
+            "changed": true,
+            "composite": 49
+          },
+          {
+            "date": "2026-11-14",
+            "phase": "下降趋势",
+            "summary": "杠杆释放，综合评分 40 /100。",
+            "driver": "成交量变化",
+            "driver_stars": "★★★★★",
+            "driver_direction": "反对",
+            "new_tags": [
+              "OI暴减",
+              "杠杆释放"
+            ],
+            "changed": true,
+            "composite": 40
+          }
+        ],
+        "ETH": [
+          {
+            "date": "2026-07-02",
+            "phase": "趋势延续",
+            "summary": "趋势转强，综合评分 66 /100。",
+            "driver": "趋势健康",
+            "driver_stars": "★★★★★",
+            "driver_direction": "支持",
+            "new_tags": [
+              "趋势转强",
+              "散户偏多"
+            ],
+            "changed": true,
+            "composite": 66
+          },
+          {
+            "date": "2026-07-03",
+            "phase": "趋势延续",
+            "summary": "趋势转强，综合评分 68 /100。",
+            "driver": "趋势健康",
+            "driver_stars": "★★★★★",
+            "driver_direction": "支持",
+            "new_tags": [
+              "OI增加",
+              "Funding升高",
+              "ETH相对强势"
+            ],
+            "changed": false,
+            "composite": 68
+          },
+          {
+            "date": "2026-07-08",
+            "phase": "等待确认",
+            "summary": "空头衰减，综合评分 50 /100。",
+            "driver": "多空比",
+            "driver_stars": "★★★★★",
+            "driver_direction": "反对",
+            "new_tags": [
+              "趋势延续",
+              "OI减少",
+              "空头衰减"
+            ],
+            "changed": true,
+            "composite": 50
+          },
+          {
+            "date": "2026-07-23",
+            "phase": "等待确认",
+            "summary": "空头衰减，综合评分 58 /100。",
+            "driver": "多空比",
+            "driver_stars": "★★★★☆",
+            "driver_direction": "反对",
+            "new_tags": [
+              "Funding降低"
+            ],
+            "changed": false,
+            "composite": 58
+          },
+          {
+            "date": "2026-09-29",
+            "phase": "趋势延续",
+            "summary": "资金试探、吸筹观察，综合评分 58 /100。",
+            "driver": "成交量变化",
+            "driver_stars": "★★★★★",
+            "driver_direction": "反对",
+            "new_tags": [
+              "换手充分",
+              "OI暴增",
+              "资金试探"
+            ],
+            "changed": true,
+            "composite": 58
+          },
+          {
+            "date": "2026-10-29",
+            "phase": "下降趋势",
+            "summary": "杠杆释放，综合评分 52 /100。",
+            "driver": "成交量变化",
+            "driver_stars": "★★★★★",
+            "driver_direction": "支持",
+            "new_tags": [
+              "成交衰减",
+              "杠杆释放"
+            ],
+            "changed": true,
+            "composite": 52
+          },
+          {
+            "date": "2026-11-14",
+            "phase": "下降趋势",
+            "summary": "杠杆释放，综合评分 39 /100。",
+            "driver": "成交量变化",
+            "driver_stars": "★★★★★",
+            "driver_direction": "反对",
+            "new_tags": [
+              "放量下跌",
+              "OI暴减",
+              "合约成交放大"
+            ],
+            "changed": false,
+            "composite": 39
+          }
+        ],
+        "WLD": [
+          {
+            "date": "2026-07-02",
+            "phase": "等待确认",
+            "summary": "空头衰减，但AI板块弱于BTC仍需验证。",
+            "driver": "主动买卖盘(CVD)",
+            "driver_stars": "★★★★★",
+            "driver_direction": "反对",
+            "new_tags": [],
+            "changed": false,
+            "composite": 50
+          },
+          {
+            "date": "2026-07-03",
+            "phase": "趋势延续",
+            "summary": "趋势转强，综合评分 66 /100。",
+            "driver": "CVD变化",
+            "driver_stars": "★★★★★",
+            "driver_direction": "支持",
+            "new_tags": [
+              "趋势转强",
+              "加速上涨",
+              "OI增加"
+            ],
+            "changed": true,
+            "composite": 66
+          },
+          {
+            "date": "2026-07-08",
+            "phase": "等待确认",
+            "summary": "杠杆释放、空头衰减，综合评分 44 /100。",
+            "driver": "主动买卖盘(CVD)",
+            "driver_stars": "★★★★★",
+            "driver_direction": "反对",
+            "new_tags": [
+              "成交衰减",
+              "OI减少",
+              "OI暴减"
+            ],
+            "changed": true,
+            "composite": 44
+          },
+          {
+            "date": "2026-07-23",
+            "phase": "震荡",
+            "summary": "综合评分 52 /100。",
+            "driver": "资金质量",
+            "driver_stars": "★★★★☆",
+            "driver_direction": "反对",
+            "new_tags": [],
+            "changed": true,
+            "composite": 52
+          },
+          {
+            "date": "2026-09-29",
+            "phase": "下降趋势",
+            "summary": "资金试探、吸筹观察，但趋势转弱、加速下跌仍需验证。",
+            "driver": "主动买卖盘(CVD)",
+            "driver_stars": "★★★★★",
+            "driver_direction": "反对",
+            "new_tags": [
+              "放量下跌",
+              "资金试探",
+              "吸筹观察"
+            ],
+            "changed": true,
+            "composite": 53
+          },
+          {
+            "date": "2026-10-29",
+            "phase": "震荡",
+            "summary": "综合评分 51 /100。",
+            "driver": "CVD变化",
+            "driver_stars": "★★★★★",
+            "driver_direction": "支持",
+            "new_tags": [
+              "Funding升高"
+            ],
+            "changed": true,
+            "composite": 51
+          },
+          {
+            "date": "2026-11-14",
+            "phase": "等待确认",
+            "summary": "杠杆释放、空头衰减，综合评分 39 /100。",
+            "driver": "主动买卖盘(CVD)",
+            "driver_stars": "★★★★★",
+            "driver_direction": "反对",
+            "new_tags": [
+              "趋势延续",
+              "空头拥挤"
+            ],
+            "changed": true,
+            "composite": 39
           }
         ]
       }
@@ -5556,6 +6333,17 @@
         "retail_sentiment": 65,
         "tokenomics": 52,
         "composite": 49
+      },
+      {
+        "date": "2026-11-14",
+        "valuation": 77,
+        "trend": 1,
+        "whale_behavior": 20,
+        "capital_quality": 29,
+        "leverage_health": 71,
+        "retail_sentiment": 65,
+        "tokenomics": 52,
+        "composite": 40
       }
     ],
     "ETH": [
@@ -5635,23 +6423,34 @@
         "retail_sentiment": 65,
         "tokenomics": 52,
         "composite": 52
+      },
+      {
+        "date": "2026-11-14",
+        "valuation": 80,
+        "trend": 0,
+        "whale_behavior": 18,
+        "capital_quality": 27,
+        "leverage_health": 65,
+        "retail_sentiment": 65,
+        "tokenomics": 52,
+        "composite": 39
       }
     ],
     "WLD": [
       {
         "date": "2026-06-23",
-        "valuation": 92,
+        "valuation": 90,
         "trend": 0,
         "whale_behavior": 50,
         "capital_quality": 50,
         "leverage_health": 72,
         "retail_sentiment": 55,
         "tokenomics": 44,
-        "composite": 49
+        "composite": 48
       },
       {
         "date": "2026-06-25",
-        "valuation": 92,
+        "valuation": 91,
         "trend": 28,
         "whale_behavior": 51,
         "capital_quality": 50,
@@ -5662,7 +6461,7 @@
       },
       {
         "date": "2026-07-02",
-        "valuation": 95,
+        "valuation": 93,
         "trend": 41,
         "whale_behavior": 36,
         "capital_quality": 31,
@@ -5673,7 +6472,7 @@
       },
       {
         "date": "2026-07-03",
-        "valuation": 94,
+        "valuation": 93,
         "trend": 100,
         "whale_behavior": 68,
         "capital_quality": 31,
@@ -5684,7 +6483,7 @@
       },
       {
         "date": "2026-07-08",
-        "valuation": 95,
+        "valuation": 93,
         "trend": 25,
         "whale_behavior": 18,
         "capital_quality": 29,
@@ -5695,7 +6494,7 @@
       },
       {
         "date": "2026-07-23",
-        "valuation": 95,
+        "valuation": 93,
         "trend": 52,
         "whale_behavior": 33,
         "capital_quality": 29,
@@ -5706,7 +6505,7 @@
       },
       {
         "date": "2026-09-29",
-        "valuation": 93,
+        "valuation": 92,
         "trend": 38,
         "whale_behavior": 62,
         "capital_quality": 31,
@@ -5717,33 +6516,30 @@
       },
       {
         "date": "2026-10-29",
-        "valuation": 94,
+        "valuation": 92,
         "trend": 39,
         "whale_behavior": 45,
         "capital_quality": 29,
         "leverage_health": 66,
         "retail_sentiment": 65,
         "tokenomics": 44,
-        "composite": 52
+        "composite": 51
+      },
+      {
+        "date": "2026-11-14",
+        "valuation": 95,
+        "trend": 0,
+        "whale_behavior": 18,
+        "capital_quality": 29,
+        "leverage_health": 54,
+        "retail_sentiment": 71,
+        "tokenomics": 44,
+        "composite": 39
       }
     ]
   },
   "evolution": {
     "BTC": [
-      {
-        "date": "2026-06-25",
-        "phase": "吸筹观察",
-        "summary": "资金试探、吸筹观察，综合评分 60 /100。",
-        "driver": "成交量变化",
-        "driver_stars": "★★★★☆",
-        "driver_direction": "反对",
-        "new_tags": [
-          "震荡",
-          "放量下跌"
-        ],
-        "changed": false,
-        "composite": 60
-      },
       {
         "date": "2026-07-02",
         "phase": "趋势延续",
@@ -5820,23 +6616,23 @@
         "new_tags": [],
         "changed": true,
         "composite": 49
+      },
+      {
+        "date": "2026-11-14",
+        "phase": "下降趋势",
+        "summary": "杠杆释放，综合评分 40 /100。",
+        "driver": "成交量变化",
+        "driver_stars": "★★★★★",
+        "driver_direction": "反对",
+        "new_tags": [
+          "OI暴减",
+          "杠杆释放"
+        ],
+        "changed": true,
+        "composite": 40
       }
     ],
     "ETH": [
-      {
-        "date": "2026-06-25",
-        "phase": "震荡",
-        "summary": "综合评分 58 /100。",
-        "driver": "杠杆健康",
-        "driver_stars": "★★★★☆",
-        "driver_direction": "支持",
-        "new_tags": [
-          "震荡",
-          "OI平稳"
-        ],
-        "changed": false,
-        "composite": 58
-      },
       {
         "date": "2026-07-02",
         "phase": "趋势延续",
@@ -5922,24 +6718,24 @@
         ],
         "changed": true,
         "composite": 52
+      },
+      {
+        "date": "2026-11-14",
+        "phase": "下降趋势",
+        "summary": "杠杆释放，综合评分 39 /100。",
+        "driver": "成交量变化",
+        "driver_stars": "★★★★★",
+        "driver_direction": "反对",
+        "new_tags": [
+          "放量下跌",
+          "OI暴减",
+          "合约成交放大"
+        ],
+        "changed": false,
+        "composite": 39
       }
     ],
     "WLD": [
-      {
-        "date": "2026-06-25",
-        "phase": "等待确认",
-        "summary": "空头衰减，综合评分 54 /100。",
-        "driver": "趋势健康",
-        "driver_stars": "★★★★☆",
-        "driver_direction": "反对",
-        "new_tags": [
-          "震荡",
-          "OI平稳",
-          "空头衰减"
-        ],
-        "changed": true,
-        "composite": 54
-      },
       {
         "date": "2026-07-02",
         "phase": "等待确认",
@@ -6010,7 +6806,7 @@
       {
         "date": "2026-10-29",
         "phase": "震荡",
-        "summary": "综合评分 52 /100。",
+        "summary": "综合评分 51 /100。",
         "driver": "CVD变化",
         "driver_stars": "★★★★★",
         "driver_direction": "支持",
@@ -6018,7 +6814,21 @@
           "Funding升高"
         ],
         "changed": true,
-        "composite": 52
+        "composite": 51
+      },
+      {
+        "date": "2026-11-14",
+        "phase": "等待确认",
+        "summary": "杠杆释放、空头衰减，综合评分 39 /100。",
+        "driver": "主动买卖盘(CVD)",
+        "driver_stars": "★★★★★",
+        "driver_direction": "反对",
+        "new_tags": [
+          "趋势延续",
+          "空头拥挤"
+        ],
+        "changed": true,
+        "composite": 39
       }
     ]
   },
